@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    TODO define vocabulary identification
+    PUBLIC ID: -//vendor//vocabulary//EN
+    SYSTEM ID: http://server/path/Coppia.dtd
+
+-->
+
+<!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE root SYSTEM "Coppia.dtd">
+
+    <root>
+    ...
+    </root>
+-->
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT root (Turno|Coppia)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Coppia (victory|master|tipo|id|nome2|nome1)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT nome1 (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT nome2 (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT id (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT tipo (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT master EMPTY>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT victory EMPTY>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Turno (Tavolo|calcolato|id)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT calcolato (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Tavolo (pun2|pun1|id_due|id_uno|id)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT id_uno (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT id_due (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT pun1 (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT pun2 (#PCDATA)>
