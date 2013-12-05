@@ -35,6 +35,12 @@ public class AssignPoints implements Runnable {
       public void run(){
     //Operazione di calcolo del turno
         Turno temp=(Turno) turni.get(numTurno);
+        try{
+            temp.checkCalcolato();
+        }catch(ErroreGiaCalcolato e){
+            System.out.println("Errore Turno gia Calcolato");
+            return;
+        }
         for(int i=0;i<temp.getTavoli().length;i++){//itero per numero di tavoli
             System.out.println("Inserire punteggi Tavolo " + (i+1) + ":");
             System.out.println("Coppia 1 - " + findCoppia(temp.getTavolo(i).getCop1()).toString());
@@ -66,5 +72,7 @@ public class AssignPoints implements Runnable {
         
         return null;
     }
+        
+        
 
 }

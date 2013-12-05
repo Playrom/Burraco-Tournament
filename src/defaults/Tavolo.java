@@ -176,9 +176,15 @@ public class Tavolo {
             return true;
         } else { throw new ErroreNonCoppia();
     }
-    
-    
-    
 }
+    
+    @Override
+    public String toString(){
+            return "Nome Giocatore 1 - Coppia 1 " + this.findCoppia(this.getCop1()).getName1()
+                    + "\nNome Giocatore 2 - Coppia 1 " + this.findCoppia(this.getCop1()).getName2()
+                    + "\nNome Giocatore 1 - Coppia 2 " + this.findCoppia(this.getCop2()).getName1()
+                    + "\nNome Giocatore 2 - Coppia 2 " + this.findCoppia(this.getCop2()).getName2()
+                    + "\n------------";
+    }
     
 }

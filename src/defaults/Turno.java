@@ -152,11 +152,7 @@ public class Turno {
         
         for(int n=0;n<tavoli.length;n++){
             System.out.println("Tavolo " + tavoli[n].getId()  + " - " + tavoli.length + " tavoli in totale");
-            System.out.println("Nome Giocatore 1 - Coppia 1 " + this.tavoli[n].findCoppia(this.tavoli[n].getCop1()).getName1());
-            System.out.println("Nome Giocatore 2 - Coppia 1 " + this.tavoli[n].findCoppia(this.tavoli[n].getCop1()).getName2());
-            System.out.println("Nome Giocatore 1 - Coppia 2 " + this.tavoli[n].findCoppia(this.tavoli[n].getCop2()).getName1());
-            System.out.println("Nome Giocatore 2 - Coppia 2 " + this.tavoli[n].findCoppia(this.tavoli[n].getCop2()).getName2());
-            System.out.println("------------");
+            System.out.println(tavoli[n].toString());
             
         }
     }
@@ -195,5 +191,9 @@ public class Turno {
         } else { throw new ErroreNonCoppia();
     }
     }
+    
+    public void checkCalcolato() throws ErroreGiaCalcolato{
+            if(this.calcolato==true) throw new ErroreGiaCalcolato();
+        }
     
 }

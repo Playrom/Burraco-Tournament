@@ -51,8 +51,7 @@ public class MainClass  {
         
         
         
-        System.out.println("Quanti turni? " );
-        int numTurni=Integer.valueOf(in.nextLine());
+        
         
         
         System.out.println("Digita 1 per caricare da file xml" );
@@ -68,6 +67,8 @@ public class MainClass  {
                 
             } 
             else {
+                System.out.println("Quanti turni? " );
+                int numTurni=Integer.valueOf(in.nextLine());
                 System.out.println("Quante coppie partecipano? " );
                 int numCoppie=Integer.valueOf(in.nextLine());
 
