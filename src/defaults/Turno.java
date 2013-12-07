@@ -21,19 +21,21 @@ public class Turno {
     ArrayList copfisse,copmobili,all;//elenco tutte le coppie fisse e mobili.
     Urna fisse,mobili;
     Boolean calcolato;
+    int id,numTavoli;
     
-    public Turno(ArrayList data ){
+    public Turno(ArrayList data ,int id){
         
                 
         copfisse=new ArrayList(data.size()/2); //meta coppie sono fisse 
         copmobili=new ArrayList(data.size()/2); //meta coppie sono mobili
         this.tavoli=new Tavolo[(data.size())/2]; //esistono tavoli per meta delle coppie
-        
+        this.numTavoli=tavoli.length;
         this.fisse=new Urna(data.size()/2);
         this.mobili=new Urna(data.size()/2);
         this.fisse.createCasualArray();
         this.mobili.createCasualArray();
         this.calcolato=false;
+        this.id=id;
         all=data;
        
         int k=0,j=0;
@@ -63,13 +65,11 @@ public class Turno {
             
             System.out.println(i);
             try{
-                Coppia tempfisse=(Coppia) copfisse.get(fisse.movingNext());
-                Coppia tempmobili=(Coppia) copmobili.get(mobili.movingNext());
+                Coppia tempfisse=(Coppia) copfisse.get(fisse.movingNext());//prendo l'elemento con id contenuto nell'array dell'urna fisse
+                Coppia tempmobili=(Coppia) copmobili.get(mobili.movingNext());//ugualmente per l'urna mobile
                 if(checkCoppia(tempfisse));
                 if(checkCoppia(tempmobili));
-                tavoli[i]=new Tavolo(tempfisse.getId() , tempmobili.getId() , i ,all);/*
-                 * costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
-                 */
+                tavoli[i]=new Tavolo(tempfisse.getId() , tempmobili.getId() , i ,all);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
             }catch (ErroreNonCoppia e){
                 System.out.println("Errore Non Coppia");
             }
@@ -83,14 +83,16 @@ public class Turno {
     
     
     
-    public Turno(ArrayList data , Tavolo[] tavoli){
+    public Turno(ArrayList data , Tavolo[] tavoli,int id){//Creo un turno avendo tavoli e coppie
         
                 
         copfisse=new ArrayList(data.size()/2); //meta coppie sono fisse 
         copmobili=new ArrayList(data.size()/2); //meta coppie sono mobili
         this.tavoli=tavoli; //esistono tavoli per meta delle coppie
         this.calcolato=false;
+        this.id=id;
         all=data;
+        this.numTavoli=tavoli.length;
         
         
        
@@ -122,33 +124,14 @@ public class Turno {
         
     }
     
+    public Turno(ArrayList data , Tavolo[] tavoli,int id,Boolean calcolato){
+        this(data,tavoli,id);
+        this.calcolato=calcolato;
+    }
     
     
     
-    /*public void calcolaTurno() throws IOException {
-        //Operazione di calcolo del turno
-        for(int i=0;i<tavoli.length;i++){//itero per numero di tavoli
-            System.out.print("Inserire punteggi Tavolo " + (i+1) + ":");
-                    System.out.println("Coppia 1 " );
-                    int pun1=Integer.valueOf(in.nextLine());//inserisco punteggio coppia 1
-                    System.out.println("Coppia 2 " );
-                    int pun2=Integer.valueOf(in.nextLine());//inserisco punteggio coppia 2
-                    
-                    tavoli[i].assegnaPunteggi(pun1, pun2); //asegno i punteggi
-
-
-        }
-        
-        this.calcolato=true;
-        
-        
-        
-    }*/
-    
-    
-    
-    
-    public void displayTables(){
+    public void displayTables(){//stampo le info di ogni tavolo di questo turno
         
         for(int n=0;n<tavoli.length;n++){
             System.out.println("Tavolo " + tavoli[n].getId()  + " - " + tavoli.length + " tavoli in totale");
@@ -182,6 +165,10 @@ public class Turno {
         else return " Da Calcolare ";
     }
     
+    public int getNumTavoli(){
+        return this.numTavoli;
+    }
+    
     
 
     
@@ -192,8 +179,18 @@ public class Turno {
     }
     }
     
-    public void checkCalcolato() throws ErroreGiaCalcolato{
+    public void checkCalcolato() throws ErroreGiaCalcolato{ //check se questo turno è gia stato calcolato 
             if(this.calcolato==true) throw new ErroreGiaCalcolato();
         }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
 }

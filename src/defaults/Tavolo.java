@@ -33,6 +33,7 @@ public class Tavolo {
         cop2=due;
         this.id=id;
         this.coppie=coppie;
+        pun1=pun2=0;
         
     }
     
@@ -80,7 +81,7 @@ public class Tavolo {
     
     
     
-    public void assegnaPunteggi(int pun1 , int pun2){
+    public void assegnaPunteggi(int pun1 , int pun2){ //assegno punteggio alle due coppie
         
         this.setPun1(pun1);
         this.setPun2(pun2);
@@ -171,7 +172,7 @@ public class Tavolo {
         this.cop2 = cop2;
     }
     
-    public static boolean checkCoppia (Object e) throws ErroreNonCoppia{
+    public static boolean checkCoppia (Object e) throws ErroreNonCoppia{ 
         if((e instanceof Coppia)){
             return true;
         } else { throw new ErroreNonCoppia();
@@ -180,10 +181,12 @@ public class Tavolo {
     
     @Override
     public String toString(){
-            return "Nome Giocatore 1 - Coppia 1 " + this.findCoppia(this.getCop1()).getName1()
-                    + "\nNome Giocatore 2 - Coppia 1 " + this.findCoppia(this.getCop1()).getName2()
-                    + "\nNome Giocatore 1 - Coppia 2 " + this.findCoppia(this.getCop2()).getName1()
-                    + "\nNome Giocatore 2 - Coppia 2 " + this.findCoppia(this.getCop2()).getName2()
+            return    "Coppia 1: " + this.findCoppia(this.getCop1()).getName1()
+                    + " - " + this.findCoppia(this.getCop1()).getName2()
+                    + " --> " + this.getPun1()
+                    + "\nCoppia 2: " + this.findCoppia(this.getCop2()).getName1()
+                    + " - " + this.findCoppia(this.getCop2()).getName2()
+                    + " --> " + this.getPun2()
                     + "\n------------";
     }
     

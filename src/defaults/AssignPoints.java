@@ -36,7 +36,7 @@ public class AssignPoints implements Runnable {
     //Operazione di calcolo del turno
         Turno temp=(Turno) turni.get(numTurno);
         try{
-            temp.checkCalcolato();
+            temp.checkCalcolato(); //turno già calcolato?
         }catch(ErroreGiaCalcolato e){
             System.out.println("Errore Turno gia Calcolato");
             return;
@@ -52,12 +52,12 @@ public class AssignPoints implements Runnable {
 
         }
         
-        temp.setCalcolato(true);
+        temp.setCalcolato(true);// ora indico che il turno è stato calcolato
         
         
 }
       
-        public Coppia findCoppia(int id){
+        public Coppia findCoppia(int id){ //trovo coppia
         for(int i=0;i<coppie.size();i++){
             Coppia temp=(Coppia) coppie.get(i);
             try{

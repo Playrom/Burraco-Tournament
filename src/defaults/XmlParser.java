@@ -150,6 +150,8 @@ public class XmlParser implements Runnable{
      Element elemento = (Element) node;
      int idTurno=Integer.valueOf(elemento.getElementsByTagName("id").item(0).getTextContent());  
      int numTavoli=Integer.valueOf(elemento.getElementsByTagName("numtavoli").item(0).getTextContent());
+     boolean calcolato=Boolean.valueOf(elemento.getElementsByTagName("calcolato").item(0).getTextContent());
+
      Tavolo[] tavoli=new Tavolo[numTavoli];
      
      NodeList tav = elemento.getElementsByTagName("Tavolo");
@@ -203,7 +205,7 @@ public class XmlParser implements Runnable{
             
      }
   
-     turni.add(new Turno(coppie,tavoli));
+     turni.add(new Turno(coppie,tavoli,idTurno,calcolato));
     }
    }
    

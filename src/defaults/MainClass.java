@@ -32,43 +32,29 @@ public class MainClass  {
         
         Torneo torneo;
         
-        ArrayList coppie,turni;
+        ArrayList coppie,turni=null;
         ArrayList[] all;
+        int numTurni=0;
         
         
         String filename="src/defaults/coppia.xml";
-        
-        
-        
-           
- 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        String filename2="src/defaults/coppia.xml";
         
         System.out.println("Digita 1 per caricare da file xml" );
         System.out.println("Digita 2 inserire coppie" );
-
+        Boolean loaded;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
             if(Integer.valueOf(in.nextLine()) == 1){
                 XmlParser parser=new XmlParser(filename);
                 parser.run();
                 all=parser.load();
                 coppie=all[0];
                 turni=all[1];
-                torneo=new Torneo(coppie,turni);
+                loaded=true;
                 
             } 
             else {
                 System.out.println("Quanti turni? " );
-                int numTurni=Integer.valueOf(in.nextLine());
+                numTurni=Integer.valueOf(in.nextLine());
                 System.out.println("Quante coppie partecipano? " );
                 int numCoppie=Integer.valueOf(in.nextLine());
 
@@ -76,9 +62,16 @@ public class MainClass  {
                 th1.run();
 
                 coppie=th1.getCoppie();
-                torneo=new Torneo(coppie,numTurni);
+                loaded=false;
 
-            } 
+            }
+            
+            
+            if(loaded){
+                torneo=new Torneo(coppie,turni);
+            }else {
+                torneo=new Torneo(coppie,numTurni);
+            }
         
         
         
@@ -98,13 +91,14 @@ public class MainClass  {
 
 
 
-            System.out.println("Digita 1 per continuare con un altro turno" );
+            System.out.println("Digita 1 per ottenere la classifica" );
             System.out.println("Digita 2 per stampare il torneo" );
             System.out.println("Digita 3 per aggiungere punti turno" );
             System.out.println("Digita 4 per stampare status coppie" );  
+            System.out.println("Digita 5 per scrivere su xml" ); 
             int temp=Integer.valueOf(in.nextLine());
             if( temp == 1){
-                torneo.displayTorneo();
+                torneo.displayClassifica();
             }
             
             if(temp == 2){
@@ -120,6 +114,11 @@ public class MainClass  {
             
             if(temp == 4){
                 torneo.displayStatus();
+            }
+            
+            if(temp == 5){
+                XmlWriter write=new XmlWriter(filename2,coppie,torneo.getTurni());
+                write.run();
             }
 
             //Arrays.sort((Object[])torneo.coppie);
