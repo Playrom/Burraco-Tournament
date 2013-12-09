@@ -20,11 +20,26 @@ public class XmlWriter implements Runnable {
     
     String filename;
     ArrayList coppie,turni;
+    Torneo torneo;
+    String nome;
+    int numTurni;
+    boolean started;
     
-    public XmlWriter(String filename,ArrayList coppie,ArrayList turni){
+    public XmlWriter(String filename,ArrayList coppie,Torneo torneo){
         this.filename=filename;
         this.coppie=coppie;
-        this.turni=turni;
+        this.torneo=torneo;
+        this.turni=torneo.getTurni();
+        started=true;
+        this.numTurni=torneo.getNumTurni();
+    }
+    
+    public XmlWriter(String filename,ArrayList coppie,String nome,int numTurni){
+        this.filename=filename;
+        this.coppie=coppie;
+        this.nome=nome;
+        this.numTurni=numTurni;
+        started=false;
     }
  
     @Override
@@ -82,54 +97,79 @@ public class XmlWriter implements Runnable {
                 
                 
                 
-                for(int i=0;i<turni.size();i++){
+                Element torneoNode=doc.createElement("Torneo");
+                rootElement.appendChild(torneoNode);
 
-                    // staff elements
-                    Element turno = doc.createElement("Turno");
-                    Turno temp=(Turno) turni.get(i);
-                    rootElement.appendChild(turno);
+                if(started){ nome=torneo.getNome(); }
 
-                    Element id = doc.createElement("id");
-                    id.appendChild(doc.createTextNode(String.valueOf(temp.getId())));
-                    turno.appendChild(id);
+                Element nomeTorneo= doc.createElement("nome");
+                nomeTorneo.appendChild(doc.createTextNode(nome));
+                torneoNode.appendChild(nomeTorneo);
 
-                    Element tipo = doc.createElement("calcolato");
-                    tipo.appendChild(doc.createTextNode(String.valueOf(temp.getCalcolato())));
-                    turno.appendChild(tipo);
 
-                    Element numTavoli = doc.createElement("numtavoli");
-                    numTavoli.appendChild(doc.createTextNode(String.valueOf(temp.getNumTavoli())));
-                    turno.appendChild(numTavoli);
-                    
-                    for(int k=0;k<temp.getTavoli().length;k++){
-                        
-                        Element tavolo = doc.createElement("Tavolo");
-                    
-                        Element idTavolo = doc.createElement("id");
-                        idTavolo.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getId())));
-                        tavolo.appendChild(idTavolo);
-                        
-                        Element id_uno = doc.createElement("id_uno");
-                        id_uno.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop1())));
-                        tavolo.appendChild(id_uno);
-                        
-                        Element id_due = doc.createElement("id_due");
-                        id_due.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop2())));
-                        tavolo.appendChild(id_due);
-                        
-                        Element pun1 = doc.createElement("pun1");
-                        pun1.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun1())));
-                        tavolo.appendChild(pun1);
-                        
-                        Element pun2 = doc.createElement("pun2");
-                        pun2.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun2())));
-                        tavolo.appendChild(pun2);
-                        
-                        turno.appendChild(tavolo);
+                Element startedElement = doc.createElement("started");
+                startedElement.appendChild(doc.createTextNode(String.valueOf(started)));
+                torneoNode.appendChild(startedElement);
+                
+                
+                Element numTurniElement = doc.createElement("numturni");
+                numTurniElement.appendChild(doc.createTextNode(String.valueOf(numTurni)));
+                torneoNode.appendChild(numTurniElement);
+
+                if(started){
+                    for(int i=0;i<turni.size();i++){
+
+                        // staff elements
+                        Element turno = doc.createElement("Turno");
+                        Turno temp=(Turno) turni.get(i);
+                        rootElement.appendChild(turno);
+
+                        Element id = doc.createElement("id");
+                        id.appendChild(doc.createTextNode(String.valueOf(temp.getId())));
+                        turno.appendChild(id);
+
+                        Element tipo = doc.createElement("calcolato");
+                        tipo.appendChild(doc.createTextNode(String.valueOf(temp.getCalcolato())));
+                        turno.appendChild(tipo);
+
+                        Element numTavoli = doc.createElement("numtavoli");
+                        numTavoli.appendChild(doc.createTextNode(String.valueOf(temp.getNumTavoli())));
+                        turno.appendChild(numTavoli);
+
+                        for(int k=0;k<temp.getTavoli().length;k++){
+
+                            Element tavolo = doc.createElement("Tavolo");
+
+                            Element idTavolo = doc.createElement("id");
+                            idTavolo.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getId())));
+                            tavolo.appendChild(idTavolo);
+
+                            Element id_uno = doc.createElement("id_uno");
+                            id_uno.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop1())));
+                            tavolo.appendChild(id_uno);
+
+                            Element id_due = doc.createElement("id_due");
+                            id_due.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop2())));
+                            tavolo.appendChild(id_due);
+
+                            Element pun1 = doc.createElement("pun1");
+                            pun1.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun1())));
+                            tavolo.appendChild(pun1);
+
+                            Element pun2 = doc.createElement("pun2");
+                            pun2.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun2())));
+                            tavolo.appendChild(pun2);
+
+                            turno.appendChild(tavolo);
+                        }
+
+                        torneoNode.appendChild(turno);
+
+
                     }
-                    
-
                 }
+                    
+                
                 
                 
                 

@@ -24,11 +24,11 @@ import org.xml.sax.SAXException;
 
 public class XmlParser implements Runnable{
 
-    ArrayList passing[];
+    Object passing[];
     String filename;
     
     XmlParser(String name){
-        passing=new ArrayList[2];
+        passing=new Object[2];
         filename=name;
     }
   
@@ -88,7 +88,7 @@ public class XmlParser implements Runnable{
  
  
  
- public ArrayList[] load() {  
+ public Object[] load() {  
   try {  
   
    File xmlFile = new File(this.filename);  
@@ -102,7 +102,7 @@ public class XmlParser implements Runnable{
    NodeList nodeList = doc.getElementsByTagName("Coppia");  
    
    passing[0]=new ArrayList(nodeList.getLength());
-   ArrayList coppie=passing[0];
+   ArrayList coppie=(ArrayList) passing[0];
   
   
    for (int temp = 0; temp < nodeList.getLength(); temp++) {  
@@ -136,9 +136,18 @@ public class XmlParser implements Runnable{
     }  
    }
    
-    NodeList nodeTurni = doc.getElementsByTagName("Turno");  
-    passing[1]=new ArrayList(nodeTurni.getLength());
-    ArrayList turni=passing[1];
+    NodeList nodeTorneo = doc.getElementsByTagName("Torneo");
+    
+    Element elementTorneo=(Element) nodeTorneo.item(0);
+    
+    String nomeTorneo=elementTorneo.getElementsByTagName("nome").item(0).getTextContent();
+    boolean started=Boolean.valueOf(elementTorneo.getElementsByTagName("started").item(0).getTextContent());
+    int numTurni=Integer.valueOf(elementTorneo.getElementsByTagName("numturni").item(0).getTextContent());
+    
+    NodeList nodeTurni=elementTorneo.getElementsByTagName("Turno");
+    
+    
+    ArrayList turni=new ArrayList(nodeTurni.getLength());
    
    for (int temp = 0; temp < nodeTurni.getLength(); temp++) {  
     Node node = nodeTurni.item(temp);  
@@ -206,14 +215,18 @@ public class XmlParser implements Runnable{
      }
   
      turni.add(new Turno(coppie,tavoli,idTurno,calcolato));
+     
+
     }
    }
+     passing[1]=new Torneo(coppie,turni,started,nomeTorneo,numTurni);
    
    
    
   } catch (Exception e) {  
    e.printStackTrace();  
   }
+  
   
   return passing;
 

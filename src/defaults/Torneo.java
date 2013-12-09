@@ -21,11 +21,27 @@ public class Torneo {
     protected ArrayList turni,coppie,copfisse,copmobili;
     private Urna fisse,mobili;
     private int numTurni;
+    private boolean started;
+    private String nome;
    
     
      public  Torneo(ArrayList coppie,ArrayList turni){ // costruttore con liste premade
         this.coppie=coppie;
         this.turni=turni;
+        numTurni=turni.size();
+        
+    }
+     
+     public  Torneo(ArrayList coppie,ArrayList turni,boolean started,String nome){ // costruttore con liste premade
+        this(coppie,turni);
+        this.started=started;
+        this.nome=nome;
+        
+    }
+     
+     public  Torneo(ArrayList coppie,ArrayList turni,boolean started,String nome,int numTurni){ // costruttore con liste premade
+        this(coppie,turni,started,nome);
+        this.numTurni=numTurni;
         
     }
     
@@ -64,6 +80,13 @@ public class Torneo {
         
         this.turni=th2.getTurni();
     }
+    
+    public  Torneo(ArrayList coppie,int numTurni,boolean started,String nome){
+        this(coppie,numTurni);
+        this.started=started;
+        this.nome=nome;
+    }
+    
     
     public void displayTorneo(){ //display del torneo , tutti i tavoli di tutti i turni , e indica se il turno stato calcolato
         System.out.println("TUTTI I TAVOLI DEL TORNEO\n");
@@ -112,6 +135,13 @@ public class Torneo {
        
     }
     
+    public void annullaTurno(int turno) throws IOException {//Operazione di calcolo del turno
+        
+        CancelPoints th3=new CancelPoints(this.turni,coppie,turno);
+        th3.run();
+       
+    }
+    
     public static boolean checkCoppia (Object e) throws ErroreNonCoppia{//check se l'elemento è una coppia
         if((e instanceof Coppia)){
             return true;
@@ -126,6 +156,30 @@ public class Torneo {
 
     public void setTurni(ArrayList turni) {
         this.turni = turni;
+    }
+
+    public int getNumTurni() {
+        return numTurni;
+    }
+
+    public void setNumTurni(int numTurni) {
+        this.numTurni = numTurni;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
     

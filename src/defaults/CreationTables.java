@@ -30,7 +30,7 @@ public class CreationTables implements Runnable{
     @Override
     public void run(){
         turni.add(new Turno(coppie,0));
-        for(int i=1;i<turni.size();i++) turni.add(new Turno(coppie , creaTavoliTurno(i),i));
+        for(int i=1;i<numTurni;i++) turni.add(new Turno(coppie , creaTavoliTurno(i),i));
         
     }
     

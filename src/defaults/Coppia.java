@@ -78,7 +78,7 @@ public class Coppia implements Comparable{
     }
     
     public void setVictPoints(int punti){
-        victory=victory+punti;
+        victory=punti;
     }
 
     public int getId() {
@@ -94,7 +94,7 @@ public class Coppia implements Comparable{
     
     
     public void setMastPoints(int punti){
-        master=master+punti;
+        master=punti;
     }
 
     @Override

@@ -88,18 +88,38 @@ public class Tavolo {
         
         int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
-            findCoppia(cop1).setVictPoints(max);//coppia 1 prende max victory points
-            findCoppia(cop2).setVictPoints(20-max); //coppia 2 prende 20-max victory points
+            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+max);//coppia 1 prende max victory points
+            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+20-max); //coppia 2 prende 20-max victory points
         }
         
         if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
-            findCoppia(cop1).setVictPoints(20-max);//coppia 1 prende 20-max victory points
-            findCoppia(cop2).setVictPoints(max);//coppia 2 prende max victory points
+            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+20-max);//coppia 1 prende 20-max victory points
+            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+max);//coppia 2 prende max victory points
         }
         
-        findCoppia(cop1).setMastPoints(pun1); //assegno mastpoints1
-        findCoppia(cop2).setMastPoints(pun2); //assegno mastpoints2
+        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()+pun1); //assegno mastpoints1
+        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()+pun2); //assegno mastpoints2
         
+    }
+    
+    public void annullaPunteggi(){
+        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
+        
+        if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
+            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-max);//coppia 1 prende max victory points
+            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-(20-max)); //coppia 2 prende 20-max victory points
+        }
+        
+        if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
+            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-(20-max));//coppia 1 prende 20-max victory points
+            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-max);//coppia 2 prende max victory points
+        }
+        
+        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()-pun1); //assegno mastpoints1
+        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()-pun2); //assegno mastpoints2
+        
+        this.setPun1(0);
+        this.setPun2(0);
     }
     
     public int differenza(int pun1 , int pun2){
