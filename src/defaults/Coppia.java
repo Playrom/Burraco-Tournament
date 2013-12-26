@@ -14,7 +14,7 @@ public class Coppia implements Comparable{
     private String nome1; //Nome primo giocatore
     private String nome2; //Nome secondo giocatore
     private int id; //ID della coppia
-    private boolean tipo; //0 Coppia Fissa - 1 Coppia Mobile
+    private boolean mobile; //0 Coppia Fissa - 1 Coppia Mobile
     protected int victory; //Victory Points della coppia
     protected int master; //Somma dei punti delle partite totali
     
@@ -22,7 +22,7 @@ public class Coppia implements Comparable{
         this.nome1=nome1;
         this.nome2=nome2;
         this.id=id;
-        this.tipo=tipo;
+        this.mobile=tipo;
         victory=0;
         master=0;
     }
@@ -50,7 +50,7 @@ public class Coppia implements Comparable{
     
     public boolean getType(){
         if(this instanceof Coppia){
-            return tipo;
+            return mobile;
         } else {
             return false;
         }
@@ -74,7 +74,7 @@ public class Coppia implements Comparable{
     }
     
     public void setType(boolean type){
-        tipo=type;
+        mobile=type;
     }
     
     public void setVictPoints(int punti){

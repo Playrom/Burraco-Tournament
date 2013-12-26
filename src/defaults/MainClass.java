@@ -15,56 +15,86 @@ import java.util.*;
  *
  * @author Giorgio
  */
-public class MainClass  {
+public class MainClass  implements Runnable{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws IOException, ClassCastException {
-        
-        Scanner in = new Scanner(System.in); //Inizializzo lettore di linea
-        
+    
+    private Torneo torneo;
+    Scanner in = new Scanner(System.in); //Inizializzo lettore di linea
+    private ArrayList coppie,turni=null;
+    private Object[] all;
+    private int numTurni=0;
+    private String nomeTorneo;
+    private boolean loaded,started;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
+
+
+    String filename="src/defaults/coppia.xml";
+    String filename2="src/defaults/coppia.xml";
+
+    
+    
+    public MainClass(){
         Torneo torneo=null;
-        
-        ArrayList coppie,turni=null;
-        Object[] all;
-        int numTurni=0;
-        String nomeTorneo;
-        
-        
-        String filename="src/defaults/coppia.xml";
-        String filename2="src/defaults/coppia.xml";
-        
-        System.out.println("Digita 1 per caricare da file xml" );
-        System.out.println("Digita 2 inserire coppie" );
-        boolean loaded,started;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
-            if(Integer.valueOf(in.nextLine()) == 1){
-                XmlParser parser=new XmlParser(filename);
-                parser.run();
-                all=parser.load();
-                coppie=(ArrayList) all[0];
-                torneo=(Torneo) all[1];
-                loaded=true;
-                started=torneo.isStarted();
-                numTurni=torneo.getNumTurni();
-                nomeTorneo=torneo.getNome();
-                
-            } 
-            else {
-                System.out.println("Nome del torneo: " );
-                nomeTorneo=in.nextLine();
-                System.out.println("Quanti turni? " );
-                numTurni=Integer.valueOf(in.nextLine());
-                System.out.println("Quante coppie partecipano? " );
-                int numCoppie=Integer.valueOf(in.nextLine());
+    }
+    
+    public void loadXml(String filename){
+        XmlParser parser=new XmlParser(filename);
+        parser.run();
+        all=parser.load();
+        coppie=(ArrayList) all[0];
+        torneo=(Torneo) all[1];
+        loaded=true;
+        started=torneo.isStarted();
+        numTurni=torneo.getNumTurni();
+        nomeTorneo=torneo.getNome();
+    }
+            
+    public void createTournamentZero(String nomeTorneo,int numTurni,int numCoppie){
+        CreationCoppie th1=new CreationCoppie(numCoppie);
+        th1.run();
 
-                CreationCoppie th1=new CreationCoppie(numCoppie);
-                th1.run();
+        coppie=th1.getCoppie();
+        loaded=false;
+        started=false;
+    }
+    
+    public void addCouplesPreTournament(int numCoppie){
+        CreationCoppie th1=new CreationCoppie(numCoppie);
+        th1.run();
 
-                coppie=th1.getCoppie();
-                loaded=false;
-                started=false;
+        ArrayList newCoppie=th1.getCoppie();
+        for (Object x : newCoppie){
+            if (!coppie.contains(x)){
+            Coppia t=(Coppia) x;
+            t.setId(coppie.size());
+            coppie.add(x);
             }
+
+        }
+    }
+    
+    public void saveCouplesPreTournament(String filename){
+        XmlWriter write=new XmlWriter(filename,coppie,nomeTorneo,numTurni);
+        write.run();
+    }
+    
+    public void startTournament(){
+        torneo=new Torneo(coppie,numTurni,true,nomeTorneo);
+    }
+    
+    public void addCoppia(String uno,String due,boolean tipo){
+        coppie.add(new Coppia(uno,due,coppie.size(),tipo));
+    }
+    
+    public ArrayList getCoppie(){
+        return coppie;
+    }
+    
+    @Override
+    public  void run() {
+        
+       
+      /*  
+       
             
         
                 
@@ -95,31 +125,19 @@ public class MainClass  {
                         if( temp == 2){
                            System.out.println("Quante coppie vuoi aggiungere? " );
                            int numCoppie=Integer.valueOf(in.nextLine());
-                           CreationCoppie th1=new CreationCoppie(numCoppie);
-                           th1.run();
-
-                           ArrayList newCoppie=th1.getCoppie();
-                           for (Object x : newCoppie){
-                               if (!coppie.contains(x)){
-                               Coppia t=(Coppia) x;
-                               t.setId(coppie.size());
-                               coppie.add(x);
-                               }
-
-                           }
+                           
                         }
                         
                         if( temp == 3){
                             break;
                         }
                         if( temp == 4){
-                            XmlWriter write=new XmlWriter(filename2,coppie,nomeTorneo,numTurni);
-                            write.run();
+                            
                             System.exit(0);
                         }
                         
                     }
-                  torneo=new Torneo(coppie,numTurni,true,nomeTorneo);
+                  
                 }
               
             
@@ -174,10 +192,28 @@ public class MainClass  {
 
             //Arrays.sort((Object[])torneo.coppie);
     
-        }
+        }*/
     
-           
+          
     }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+    
+    
 
 
     
