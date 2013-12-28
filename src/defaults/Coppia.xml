@@ -9,7 +9,7 @@
         <victory>0</victory>
     </Coppia>
     <Coppia>
-        <nome1>Clelia Manganaro</nome1>
+        <nome1>Clelia Manganaro Mod</nome1>
         <nome2>Roberto Romano</nome2>
         <id>1</id>
         <tipo>true</tipo>
@@ -50,7 +50,7 @@
     </Coppia>
     <Torneo>
         <nome>Temporaneo</nome>
-        <started>false</started>
+        <started>true</started>
         <numturni>2</numturni>
     </Torneo>
 </root>

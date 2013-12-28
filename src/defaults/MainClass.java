@@ -47,6 +47,12 @@ public class MainClass  implements Runnable{
         numTurni=torneo.getNumTurni();
         nomeTorneo=torneo.getNome();
     }
+    
+    
+    public void writeXml(String filename){
+        XmlWriter parser=new XmlWriter(filename,coppie,torneo);
+        parser.run();
+    }
             
     public void createTournamentZero(String nomeTorneo,int numTurni,int numCoppie){
         CreationCoppie th1=new CreationCoppie(numCoppie);

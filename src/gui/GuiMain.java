@@ -347,7 +347,7 @@ public class GuiMain extends javax.swing.JFrame {
     }//GEN-LAST:event_addCoppieButtonLoadedActionPerformed
 
     private void showCouplesLoadedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCouplesLoadedActionPerformed
-                CoupleDialogList temp=new CoupleDialogList(main.getCoppie());
+                CoupleDialogList temp=new CoupleDialogList(main.getCoppie(),false);
                 temp.setVisible(true);
                 
     }//GEN-LAST:event_showCouplesLoadedActionPerformed
