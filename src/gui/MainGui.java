@@ -38,7 +38,7 @@ public class MainGui extends javax.swing.JFrame {
     
     
     public void initComponents(){
-        panelNotStarted=new NotStartedPanel(main.getCoppie());
+        panelNotStarted=new NotStartedPanel(main);
         
         this.add(panelNotStarted);
         
@@ -131,6 +131,11 @@ public class MainGui extends javax.swing.JFrame {
         saveAsMenuItem.setMnemonic('a');
         saveAsMenuItem.setText("Save As ...");
         saveAsMenuItem.setDisplayedMnemonicIndex(5);
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveAsMenuItem);
 
         exitMenuItem.setMnemonic('x');
@@ -191,7 +196,11 @@ public class MainGui extends javax.swing.JFrame {
         if(filenameSave==null){
             saveAsMenuItemActionPerformed(evt);
         } else {
-            main.writeXml(filenameSave);
+            if(main.isStarted()){
+                main.writeXml(filenameSave);
+            } else {
+                main.saveCouplesPreTournament(filenameSave);
+            }
         }
     }                              
 
@@ -201,7 +210,11 @@ public class MainGui extends javax.swing.JFrame {
             File file=fc.getSelectedFile();
             filenameSave=file.getAbsolutePath();   
             
-            main.writeXml(filenameSave);
+            if(main.isStarted()){
+                main.writeXml(filenameSave);
+            } else {
+                main.saveCouplesPreTournament(filenameSave);
+            }
             
     }                                            
 
@@ -213,7 +226,11 @@ public class MainGui extends javax.swing.JFrame {
             main.loadXml(filenameOpen);
             panelNotStarted.setVisible(true);
             
-    }         
+    }    
+    
+    public void reload(){
+        panelNotStarted.setVisible(false);
+    }
     
     
     

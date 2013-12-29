@@ -141,7 +141,7 @@ public class CoupleDialogList extends JDialog {
        
        JButton termina=new JButton("Termina");
        termina.addActionListener(terminaListener);
-       this.add(termina);
+       this.add(termina,"span 3");
        
        this.setResizable(false);
        

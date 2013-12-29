@@ -6,8 +6,13 @@
 
 package gui;
 
+import defaults.*;
+import java.awt.Component;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -15,18 +20,42 @@ import javax.swing.*;
  */
 public class NotStartedPanel extends JPanel {
     JDialog addCoupleDialog,listCoppie;
-    JButton addCoppieButton,showCoppie,showClassifica;
+    JButton addCoppieButton,showCoppie,showClassifica,editNomeTorneo,editTurni;
+    JLabel cop,fisse,mobili,turni,nomeTorneo;
+    InfoDialogEdit editInfo;
     ArrayList coppie;
+    MainClass main;
+    boolean editing=false;
     
-    public NotStartedPanel(ArrayList data){
-        coppie=data;
+    public NotStartedPanel(MainClass main){
+        this.main=main;
+        coppie=main.getCoppie();
+        
+        
+        setLayout(new MigLayout("fillx"));
         addCoppieButton=new JButton("Aggiungi Coppie");
         showCoppie=new JButton("List Coppie");
         showClassifica=new JButton("Classifica");
+        editNomeTorneo=new JButton("Modifica Nome");
+       
+        cop=new JLabel("Coppie: " + String.valueOf(coppie.size()));
+        turni=new JLabel("Turni: " + String.valueOf(main.getNumTurni()));
+        nomeTorneo=new JLabel(main.getNomeTorneo());
         
-        this.add(addCoppieButton , "span 2");
-        this.add(showCoppie,"span 2,wrap");
-        this.add(showClassifica,"span 2");
+        editTurni=new JButton("Modifica");
+        
+        
+        this.add(nomeTorneo,"align center");
+        this.add(editNomeTorneo,"align center,wrap");
+        
+        this.add(addCoppieButton);
+        this.add(showCoppie);
+        this.add(showClassifica,"wrap");
+        
+        this.add(cop,"wrap");
+        
+        this.add(turni);
+        this.add(editTurni,"wrap");
         
         addCoppieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -46,11 +75,26 @@ public class NotStartedPanel extends JPanel {
             }
         });
         
+        editNomeTorneo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editNomeTorneoActionPerformed(evt);
+            }
+        });
+        
+        editTurni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editTurniActionPerformed(evt);
+            }
+        });
+        
+        
+        
     }
     
     private void addCoppieButtonActionPerformed(java.awt.event.ActionEvent evt) {                                        
         addCoupleDialog=new CoupleDialogAdd(coppie);
         addCoupleDialog.setVisible(true);
+        addCoupleDialog.addWindowListener(listener());
     }
     
     private void showCoppieActionPerformed(java.awt.event.ActionEvent evt) {                                        
@@ -63,6 +107,70 @@ public class NotStartedPanel extends JPanel {
         listCoppie.setVisible(true);
     } 
     
+    private void editNomeTorneoActionPerformed(java.awt.event.ActionEvent evt) {
+        editInfo=new InfoDialogEdit(main,1);
+        editInfo.addWindowListener(listener());
+    }
+    
+     private void editTurniActionPerformed(java.awt.event.ActionEvent evt) {
+        editInfo=new InfoDialogEdit(main,0);
+        editInfo.addWindowListener(listener());
+    }
+    
+    
+    
+    
+    public void reload(){
+        nomeTorneo.setText(main.getNomeTorneo());
+        turni.setText("Turni: " + String.valueOf(main.getNumTurni()));
+        cop.setText("Coppie: " + String.valueOf(coppie.size()));
+    }
+    
+    public WindowListener listener()  {
+
+            WindowListener temp=new WindowListener(){
+            @Override
+            public void windowOpened(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                reload();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                reload();
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+            };
+            
+                    
+            return temp;
+            
+            
+    }
     
     
 }

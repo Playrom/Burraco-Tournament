@@ -49,8 +49,8 @@
         <victory>0</victory>
     </Coppia>
     <Torneo>
-        <nome>Temporaneo</nome>
-        <started>true</started>
-        <numturni>2</numturni>
+        <nome>Testina</nome>
+        <started>false</started>
+        <numturni>3</numturni>
     </Torneo>
 </root>

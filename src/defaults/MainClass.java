@@ -79,7 +79,7 @@ public class MainClass  implements Runnable{
     }
     
     public void saveCouplesPreTournament(String filename){
-        XmlWriter write=new XmlWriter(filename,coppie,nomeTorneo,numTurni);
+        XmlWriter write=new XmlWriter(filename,coppie,torneo.getNome(),torneo.getNumTurni());
         write.run();
     }
     
@@ -217,6 +217,22 @@ public class MainClass  implements Runnable{
 
     public void setStarted(boolean started) {
         this.started = started;
+    }
+    
+    public int getNumTurni(){
+        return this.torneo.getNumTurni();
+    }
+    
+    public String getNomeTorneo(){
+        return this.torneo.getNome();
+    }
+    
+    public void setNomeTorneo(String nome){
+        torneo.setNome(nome);
+    }
+    
+    public void setNumTurni(int t){
+        this.torneo.setNumTurni(t);
     }
     
     
