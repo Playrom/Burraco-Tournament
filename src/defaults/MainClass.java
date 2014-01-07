@@ -10,7 +10,7 @@ import java.util.*;
  * and open the template in the editor.
  */
 
-//TODO!!!  
+//TODO!!!   NON COPPIE MA SINGOLI , VICTORY POINTS PER 4 MANI , caricare impostazioni da file xml,
 /**
  *
  * @author Giorgio
@@ -27,10 +27,7 @@ public class MainClass  implements Runnable{
     private boolean loaded,started;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
 
 
-    String filename="src/defaults/coppia.xml";
-    String filename2="src/defaults/coppia.xml";
-
-    
+  
     
     public MainClass(){
         Torneo torneo=null;
@@ -83,8 +80,12 @@ public class MainClass  implements Runnable{
         write.run();
     }
     
-    public void startTournament(){
+    public void startTournamentAndCreate(){
         torneo=new Torneo(coppie,numTurni,true,nomeTorneo);
+    }
+    
+    public void startTournament(){
+        torneo.creaTurni();
     }
     
     public void addCoppia(String uno,String due,boolean tipo){
@@ -93,6 +94,10 @@ public class MainClass  implements Runnable{
     
     public ArrayList getCoppie(){
         return coppie;
+    }
+    
+    public Torneo getTorneo(){
+        return torneo;
     }
     
     @Override
@@ -212,11 +217,11 @@ public class MainClass  implements Runnable{
     }
 
     public boolean isStarted() {
-        return started;
+        return torneo.isStarted();
     }
 
     public void setStarted(boolean started) {
-        this.started = started;
+        this.torneo.setStarted(started);
     }
     
     public int getNumTurni(){

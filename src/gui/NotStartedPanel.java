@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class NotStartedPanel extends JPanel {
     JDialog addCoupleDialog,listCoppie;
-    JButton addCoppieButton,showCoppie,showClassifica,editNomeTorneo,editTurni;
+    JButton addCoppieButton,showCoppie,editNomeTorneo,editTurni,avviaTorneo;
     JLabel cop,fisse,mobili,turni,nomeTorneo;
     InfoDialogEdit editInfo;
     ArrayList coppie;
@@ -35,8 +35,8 @@ public class NotStartedPanel extends JPanel {
         setLayout(new MigLayout("fillx"));
         addCoppieButton=new JButton("Aggiungi Coppie");
         showCoppie=new JButton("List Coppie");
-        showClassifica=new JButton("Classifica");
         editNomeTorneo=new JButton("Modifica Nome");
+        avviaTorneo=new JButton("Avvia Torneo");
        
         cop=new JLabel("Coppie: " + String.valueOf(coppie.size()));
         turni=new JLabel("Turni: " + String.valueOf(main.getNumTurni()));
@@ -49,13 +49,14 @@ public class NotStartedPanel extends JPanel {
         this.add(editNomeTorneo,"align center,wrap");
         
         this.add(addCoppieButton);
-        this.add(showCoppie);
-        this.add(showClassifica,"wrap");
+        this.add(showCoppie,"wrap");
         
         this.add(cop,"wrap");
         
         this.add(turni);
         this.add(editTurni,"wrap");
+        
+        this.add(avviaTorneo);
         
         addCoppieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,11 +70,7 @@ public class NotStartedPanel extends JPanel {
             }
         });
         
-        showClassifica.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showClassificaActionPerformed(evt);
-            }
-        });
+       
         
         editNomeTorneo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +81,12 @@ public class NotStartedPanel extends JPanel {
         editTurni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editTurniActionPerformed(evt);
+            }
+        });
+        
+        avviaTorneo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avviaTorneoActionPerformed(evt);
             }
         });
         
@@ -102,10 +105,6 @@ public class NotStartedPanel extends JPanel {
         listCoppie.setVisible(true);
     }  
     
-    private void showClassificaActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        listCoppie=new CoupleDialogList(coppie,true);
-        listCoppie.setVisible(true);
-    } 
     
     private void editNomeTorneoActionPerformed(java.awt.event.ActionEvent evt) {
         editInfo=new InfoDialogEdit(main,1);
@@ -115,6 +114,11 @@ public class NotStartedPanel extends JPanel {
      private void editTurniActionPerformed(java.awt.event.ActionEvent evt) {
         editInfo=new InfoDialogEdit(main,0);
         editInfo.addWindowListener(listener());
+    }
+     
+    private void avviaTorneoActionPerformed(java.awt.event.ActionEvent evt) {
+        main.startTournament();
+        this.setVisible(false);
     }
     
     

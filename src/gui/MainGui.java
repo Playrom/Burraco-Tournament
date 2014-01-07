@@ -7,8 +7,12 @@
 package gui;
 
 import defaults.MainClass;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
+import java.io.FileFilter;
 import javax.swing.*;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -18,7 +22,9 @@ public class MainGui extends javax.swing.JFrame {
     
     JButton addCoppieButtonLoaded,showCouplesLoaded;
     NotStartedPanel panelNotStarted;
+    StartedPanel panelStarted;
     JDialog addCoupleDialog,listCoppie;
+    JPanel start;
     MainClass main;
     
     JMenuItem aboutMenuItem, contentsMenuItem, copyMenuItem, cutMenuItem, deleteMenuItem,exitMenuItem,openMenuItem,pasteMenuItem,saveAsMenuItem,saveMenuItem;
@@ -28,19 +34,40 @@ public class MainGui extends javax.swing.JFrame {
     String filenameSave,filenameOpen;
     
     
+    
     public MainGui(){
         main=new MainClass();
+        
+        this.setLayout(new MigLayout());
+        
         main.loadXml("src/defaults/Coppia.xml");
+        
+        initStart();
+        
+        this.add(start);
+        
+        
         initComponents();
+        
+        
         
         
     }
     
     
     public void initComponents(){
-        panelNotStarted=new NotStartedPanel(main);
         
-        this.add(panelNotStarted);
+        
+        
+        
+        /*panelNotStarted=new NotStartedPanel(main);
+        panelStarted=new StartedPanel(main);
+        
+        panelStarted.setVisible(false);
+
+        panelNotStarted.addComponentListener(compListener());
+        
+        this.add(panelNotStarted);*/
         
         initMenu();
         
@@ -52,6 +79,23 @@ public class MainGui extends javax.swing.JFrame {
         
         this.pack();
         
+    }
+    
+    public void initStart(){
+        start=new JPanel();
+        start.setLayout(new MigLayout());
+        JButton carica,nuovo;
+        carica=new JButton("Carica Torneo");
+        nuovo=new JButton("Nuovo Torneo");
+        
+        start.add(carica);
+        start.add(nuovo,"wrap");
+        
+        carica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
     }
     
     
@@ -206,7 +250,9 @@ public class MainGui extends javax.swing.JFrame {
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
             final JFileChooser fc = new JFileChooser("src");            // TODO add your handling code here:
-            fc.showDialog(panelNotStarted, null);
+            fc.showSaveDialog(panelNotStarted);
+            
+            
             File file=fc.getSelectedFile();
             filenameSave=file.getAbsolutePath();   
             
@@ -219,12 +265,15 @@ public class MainGui extends javax.swing.JFrame {
     }                                            
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
+            
             final JFileChooser fc = new JFileChooser("src");            // TODO add your handling code here:
             fc.showDialog(panelNotStarted, null);
             File file=fc.getSelectedFile();
             filenameOpen=file.getAbsolutePath();
             main.loadXml(filenameOpen);
-            panelNotStarted.setVisible(true);
+            
+            
+            load();
             
     }    
     
@@ -232,6 +281,57 @@ public class MainGui extends javax.swing.JFrame {
         panelNotStarted.setVisible(false);
     }
     
+    public void startPan(){
+        this.add(panelStarted);
+        panelStarted.setVisible(true);
+        this.pack();
+    }
     
+    public void load(){
+        if(main.isStarted()){
+            repaint();
+            panelStarted=new StartedPanel(main);
+            this.add(panelStarted);
+            panelStarted.setVisible(true);
+            this.pack();
+            
+        } else {
+            repaint();
+            panelNotStarted=new NotStartedPanel(main);
+            panelNotStarted.setVisible(true);
+            this.add(panelNotStarted);
+            this.pack();
+        }
+    }
+    
+    @Override
+    public void repaint(){
+        if(panelNotStarted!=null) this.remove(panelNotStarted);
+        
+        if(panelStarted!=null) this.remove(panelStarted);
+        
+        if(start!=null) this.remove(start);
+        
+    }
+   
+    
+    
+    ComponentAdapter compListener() {
+        
+        ComponentAdapter temp=new ComponentAdapter(){
+            
+            public void componentHidden(ComponentEvent e) {
+                startPan();
+                System.out.print("ciaoprovaosds");
+                
+            }
+            
+            public void componentShown(ComponentEvent e) {
+                
+            }
+        };
+        
+        return temp;
+    }
     
 }

@@ -48,6 +48,16 @@ public class Torneo {
     public  Torneo(ArrayList coppie,int numTurni){ // costruttore con liste premade , devo creare i turni
         this.coppie=coppie;
         this.numTurni=numTurni;
+        creaTurni();
+    }
+    
+    public  Torneo(ArrayList coppie,int numTurni,boolean started,String nome){
+        this(coppie,numTurni);
+        this.started=started;
+        this.nome=nome;
+    }
+    
+    public void creaTurni(){
         this.turni=new ArrayList(numTurni);
         
         copfisse=new ArrayList(this.coppie.size()/2); //meta coppie sono fisse 
@@ -75,16 +85,12 @@ public class Torneo {
             
         }
         
+        this.started=true;
+        
         CreationTables th2=new CreationTables(coppie,numTurni); // creo thread per creazione tavoli e turni
         th2.run();
         
         this.turni=th2.getTurni();
-    }
-    
-    public  Torneo(ArrayList coppie,int numTurni,boolean started,String nome){
-        this(coppie,numTurni);
-        this.started=started;
-        this.nome=nome;
     }
     
     

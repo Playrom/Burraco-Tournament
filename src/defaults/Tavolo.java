@@ -122,7 +122,7 @@ public class Tavolo {
         this.setPun2(0);
     }
     
-    public int differenza(int pun1 , int pun2){
+    static public int differenza(int pun1 , int pun2){
         
         int differenza=Math.abs(pun1 - pun2); //valore assoluto della differenza
         

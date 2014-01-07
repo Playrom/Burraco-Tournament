@@ -30,7 +30,7 @@ public class XmlWriter implements Runnable {
         this.coppie=coppie;
         this.torneo=torneo;
         this.turni=torneo.getTurni();
-        started=true;
+        this.started=torneo.isStarted();
         this.numTurni=torneo.getNumTurni();
     }
     
