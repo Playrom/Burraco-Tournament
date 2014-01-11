@@ -6,6 +6,7 @@
 
 package gui;
 
+import exception.ErroreGiaCalcolato;
 import javax.swing.*;
 import defaults.*;
 import java.awt.event.ActionEvent;
@@ -64,7 +65,6 @@ public class PanelTurno extends JPanel {
             int uno,due;
             final JLabel tavolo,coppia1,coppia2,vic1,vic2,vs;
             String nomeUno,nomeDue,victory1,victory2;
-            Coppia tempC1,tempC2;
             
             
             Properties props = new Properties();
@@ -72,12 +72,9 @@ public class PanelTurno extends JPanel {
             props.setProperty("applied", "false");
             
 
-            uno=temp.getCop1();
-            due=temp.getCop2();
-            tempC1=(Coppia) main.getCoppie().get(uno);
-            tempC2=(Coppia) main.getCoppie().get(due);
-            nomeUno=tempC1.toString();
-            nomeDue=tempC2.toString();
+            
+            nomeUno=temp.toStringCop1();
+            nomeDue=temp.toStringCop2();
             
             final int i=temp.getId();
             

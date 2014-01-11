@@ -21,16 +21,18 @@ public class MainClass  implements Runnable{
     private Torneo torneo;
     Scanner in = new Scanner(System.in); //Inizializzo lettore di linea
     private ArrayList coppie,turni=null;
+    private SingleList singles;
     private Object[] all;
     private int numTurni=0;
     private String nomeTorneo;
-    private boolean loaded,started;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
+    private boolean loaded,started,alone;//se 0 vuol dire che sto creando i turni, se 1 li sto caricando da xml
 
 
   
     
     public MainClass(){
         Torneo torneo=null;
+        alone=false;
     }
     
     public void loadXml(String filename){
@@ -39,6 +41,7 @@ public class MainClass  implements Runnable{
         all=parser.load();
         coppie=(ArrayList) all[0];
         torneo=(Torneo) all[1];
+        singles=(SingleList) (ArrayList) all[2];
         loaded=true;
         started=torneo.isStarted();
         numTurni=torneo.getNumTurni();
@@ -47,15 +50,15 @@ public class MainClass  implements Runnable{
     
     
     public void writeXml(String filename){
-        XmlWriter parser=new XmlWriter(filename,coppie,torneo);
+        XmlWriter parser=new XmlWriter(filename,coppie,singles,torneo);
         parser.run();
     }
             
-    public void createTournamentZero(String nomeTorneo,int numTurni,int numCoppie){
+    /*public void createTournamentZero(String nomeTorneo,int numTurni,int numCoppie){
         CreationCoppie th1=new CreationCoppie(numCoppie);
         th1.run();
 
-        coppie=th1.getCoppie();
+        data=th1.getCoppie();
         loaded=false;
         started=false;
     }
@@ -73,23 +76,43 @@ public class MainClass  implements Runnable{
             }
 
         }
-    }
+    }*/
     
     public void saveCouplesPreTournament(String filename){
-        XmlWriter write=new XmlWriter(filename,coppie,torneo.getNome(),torneo.getNumTurni());
-        write.run();
+        
+        if(alone){
+            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone);
+            write.run();
+        }else{
+            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone);
+            write.run();
+        }
+        
+
     }
     
     public void startTournamentAndCreate(){
-        torneo=new Torneo(coppie,numTurni,true,nomeTorneo);
+        if(alone){
+            torneo=new Torneo(singles,numTurni,true,nomeTorneo);
+        }else{
+            torneo=new Torneo(coppie,singles,numTurni,true,nomeTorneo);
+        }
     }
     
     public void startTournament(){
         torneo.creaTurni();
     }
     
+    public void addSingle(String nome){
+        singles.add(new Single(singles.size(),nome,torneo.isAlone()));
+    }
+    
     public void addCoppia(String uno,String due,boolean tipo){
-        coppie.add(new Coppia(uno,due,coppie.size(),tipo));
+        singles.add(new Single(singles.size(),uno,torneo.isAlone()));
+        singles.add(new Single(singles.size(),due,torneo.isAlone()));
+        
+        coppie.add(new Coppia( singles.size()-1,singles.size(),coppie.size(),tipo,singles));
+        
     }
     
     public ArrayList getCoppie(){
@@ -239,6 +262,16 @@ public class MainClass  implements Runnable{
     public void setNumTurni(int t){
         this.torneo.setNumTurni(t);
     }
+
+    public ArrayList getSingles() {
+        return singles;
+    }
+
+    public void setSingles(SingleList singles) {
+        this.singles = singles;
+    }
+    
+    
     
     
 

@@ -1,7 +1,10 @@
-package defaults;
+package old;
 
 
-import static defaults.Tavolo.checkCoppia;
+import defaults.Coppia;
+import exception.ErroreGiaCalcolato;
+import exception.ErroreNonCoppia;
+import defaults.Turno;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,7 +17,7 @@ import java.util.Scanner;
  *
  * @author Giorgio
  */
-public class AssignPoints implements Runnable {
+public abstract class AssignPoints implements Runnable {
     
       Scanner in = new Scanner(System.in); //Inizializzo lettore di linea
       
@@ -31,7 +34,7 @@ public class AssignPoints implements Runnable {
     }
 
 
-      @Override
+      /*@Override
       public void run(){
     //Operazione di calcolo del turno
         Turno temp=(Turno) turni.get(numTurno);
@@ -73,6 +76,6 @@ public class AssignPoints implements Runnable {
         return null;
     }
         
-        
+        */
 
 }

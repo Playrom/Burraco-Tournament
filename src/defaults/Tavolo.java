@@ -11,47 +11,26 @@ import java.util.ArrayList;
  *
  * @author Giorgio
  */
-public class Tavolo {
+public abstract class Tavolo implements Tables{
     
-    private int cop1,cop2; //coppie a questo tavolo
-    private int pun1,pun2;
-    private int id; //id del tavolo
-    private ArrayList coppie;
+    protected int pun1,pun2;
+    protected int id; //id del tavolo
     
-    public Tavolo(int uno, int due , int id,int pun1,int pun2 , ArrayList coppie ){
-        cop1=uno;
-        cop2=due;
+    public Tavolo(int id,int pun1,int pun2){
+        
         this.id=id;
         this.pun1=pun1;
         this.pun2=pun2;
-        this.coppie=coppie;
         
     }
     
-    public Tavolo(int uno, int due , int id , ArrayList coppie){
-        cop1=uno;
-        cop2=due;
+    public Tavolo(int id ){
         this.id=id;
-        this.coppie=coppie;
         pun1=pun2=0;
         
     }
     
-    public Coppia findCoppia(int id){
-        for(int i=0;i<coppie.size();i++){
-            Coppia temp=(Coppia) coppie.get(i);
-            try{
-                checkCoppia(temp);
-                if(temp.getId()==id){
-                    return temp;
-                }
-            }catch(ErroreNonCoppia e){
-                System.out.println("Errore non coppia");
-            }
-        }
-        
-        return null;
-    }
+   
 
     public int getId() {
         return id;
@@ -81,46 +60,7 @@ public class Tavolo {
     
     
     
-    public void assegnaPunteggi(int pun1 , int pun2){ //assegno punteggio alle due coppie
-        
-        this.setPun1(pun1);
-        this.setPun2(pun2);
-        
-        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
-        if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+max);//coppia 1 prende max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+20-max); //coppia 2 prende 20-max victory points
-        }
-        
-        if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+20-max);//coppia 1 prende 20-max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+max);//coppia 2 prende max victory points
-        }
-        
-        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()+pun1); //assegno mastpoints1
-        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()+pun2); //assegno mastpoints2
-        
-    }
     
-    public void annullaPunteggi(){
-        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
-        
-        if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-max);//coppia 1 prende max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-(20-max)); //coppia 2 prende 20-max victory points
-        }
-        
-        if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-(20-max));//coppia 1 prende 20-max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-max);//coppia 2 prende max victory points
-        }
-        
-        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()-pun1); //assegno mastpoints1
-        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()-pun2); //assegno mastpoints2
-        
-        this.setPun1(0);
-        this.setPun2(0);
-    }
     
     static public int differenza(int pun1 , int pun2){
         
@@ -175,39 +115,17 @@ public class Tavolo {
         return somma;
         
     }
-
-    public int getCop1() {
-        return cop1;
-    }
-
-    public void setCop1(int cop1) {
-        this.cop1 = cop1;
-    }
-
-    public int getCop2() {
-        return cop2;
-    }
-
-    public void setCop2(int cop2) {
-        this.cop2 = cop2;
-    }
     
-    public static boolean checkCoppia (Object e) throws ErroreNonCoppia{ 
-        if((e instanceof Coppia)){
-            return true;
-        } else { throw new ErroreNonCoppia();
-    }
-}
     
-    @Override
-    public String toString(){
-            return    "Coppia 1: " + this.findCoppia(this.getCop1()).getName1()
-                    + " - " + this.findCoppia(this.getCop1()).getName2()
-                    + " --> " + this.getPun1()
-                    + "\nCoppia 2: " + this.findCoppia(this.getCop2()).getName1()
-                    + " - " + this.findCoppia(this.getCop2()).getName2()
-                    + " --> " + this.getPun2()
-                    + "\n------------";
-    }
+    abstract public String toStringCop1();
+    abstract public String toStringCop2();
+    
+    
+
+   
+    
+   
+    
+   
     
 }

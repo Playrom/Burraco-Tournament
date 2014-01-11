@@ -65,6 +65,11 @@ public class TurnoDialog extends JDialog {
                     end();
                 }
             });
+            if(i-1==0) {
+                Turno temp=(Turno) turni.get(i-1);
+                if(temp.getCalcolato()) tab.setEnabledAt(i, true);
+
+            }
             
         }
         

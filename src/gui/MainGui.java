@@ -40,7 +40,6 @@ public class MainGui extends javax.swing.JFrame {
         
         this.setLayout(new MigLayout());
         
-        main.loadXml("src/defaults/Coppia.xml");
         
         initStart();
         
@@ -114,13 +113,13 @@ public class MainGui extends javax.swing.JFrame {
             UIManager.setLookAndFeel(
             UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -282,24 +281,33 @@ public class MainGui extends javax.swing.JFrame {
     }
     
     public void startPan(){
+        repaint();
         this.add(panelStarted);
         panelStarted.setVisible(true);
         this.pack();
     }
     
     public void load(){
+        repaint();
+        panelStarted=new StartedPanel(main);
+        panelNotStarted=new NotStartedPanel(main);
+        panelStarted.setVisible(false);
+        panelNotStarted.setVisible(false);
+
+        
         if(main.isStarted()){
             repaint();
-            panelStarted=new StartedPanel(main);
             this.add(panelStarted);
             panelStarted.setVisible(true);
             this.pack();
             
         } else {
             repaint();
-            panelNotStarted=new NotStartedPanel(main);
             panelNotStarted.setVisible(true);
+            
+            
             this.add(panelNotStarted);
+            panelNotStarted.addComponentListener(compListener());
             this.pack();
         }
     }

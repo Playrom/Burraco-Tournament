@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    
+    
+    <Single>
+        <nome>A</nome>
+        <id>0</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>B</nome>
+        <id>1</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>C</nome>
+        <id>2</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>D</nome>
+        <id>3</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>E</nome>
+        <id>4</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>F</nome>
+        <id>5</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>G</nome>
+        <id>6</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Single>
+        <nome>H</nome>
+        <id>7</id>
+        <master>0</master>
+        <victory>0</victory>
+        <alone>false</alone>
+    </Single>
+    
+    <Torneo>
+        <nome>aaaa</nome>
+        <started>false</started>
+        <numturni>3</numturni>
+        <alone>true</alone>
+    </Torneo>
+</root>

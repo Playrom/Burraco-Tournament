@@ -19,11 +19,11 @@ import org.w3c.dom.Element;
 public class XmlWriter implements Runnable {
     
     String filename;
-    ArrayList coppie,turni;
+    ArrayList coppie,turni,singles;
     Torneo torneo;
     String nome;
     int numTurni;
-    boolean started;
+    boolean started,aloneVar;
     
     public XmlWriter(String filename,ArrayList coppie,Torneo torneo){
         this.filename=filename;
@@ -32,15 +32,28 @@ public class XmlWriter implements Runnable {
         this.turni=torneo.getTurni();
         this.started=torneo.isStarted();
         this.numTurni=torneo.getNumTurni();
+        this.aloneVar=torneo.isAlone();
     }
     
-    public XmlWriter(String filename,ArrayList coppie,String nome,int numTurni){
+    public XmlWriter(String filename,ArrayList coppie,String nome,int numTurni,boolean alone){
         this.filename=filename;
         this.coppie=coppie;
         this.nome=nome;
         this.numTurni=numTurni;
         started=false;
+        this.aloneVar=alone;
     }
+    
+    public XmlWriter(String filename,ArrayList coppie,ArrayList singles,String nome,int numTurni,boolean alone){
+        this(filename,coppie,nome,numTurni,alone);
+        this.singles=singles;
+    }
+    
+    public XmlWriter(String filename,ArrayList coppie,ArrayList singles,Torneo torneo){
+        this(filename,coppie,torneo);
+        this.singles=singles;
+    }
+
  
     @Override
     public void run(){
@@ -54,6 +67,48 @@ public class XmlWriter implements Runnable {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("root");
 		doc.appendChild(rootElement);
+                
+                
+                
+                ArrayList tempElementSingles=new SingleList(singles.size());
+                
+                for(int i=0;i<singles.size();i++){
+
+                    // staff elements
+                    Element single = doc.createElement("Single");
+                    Single temp=(Single) singles.get(i);
+                    rootElement.appendChild(single);
+
+                    // shorten way
+                    // staff.setAttribute("id", "1");
+
+                    // firstname elements
+                    Element nome = doc.createElement("nome");
+                    nome.appendChild(doc.createTextNode(temp.getName()));
+                    single.appendChild(nome);
+
+                    Element id = doc.createElement("id");
+                    id.appendChild(doc.createTextNode(String.valueOf(temp.getId())));
+                    single.appendChild(id);
+
+                    Element tipo = doc.createElement("alone");
+                    tipo.appendChild(doc.createTextNode(String.valueOf(temp.isAlone())));
+                    single.appendChild(tipo);
+
+                    Element master = doc.createElement("master");
+                    master.appendChild(doc.createTextNode(String.valueOf(temp.getMaster())));
+                    single.appendChild(master);
+
+                    Element victory = doc.createElement("victory");
+                    victory.appendChild(doc.createTextNode(String.valueOf(temp.getVictory())));
+                    single.appendChild(victory);
+                    
+
+                }
+                
+                
+                
+                
                 ArrayList tempElementCoppie=new ArrayList();
                 
                 for(int i=0;i<coppie.size();i++){
@@ -68,11 +123,11 @@ public class XmlWriter implements Runnable {
 
                     // firstname elements
                     Element nome1 = doc.createElement("nome1");
-                    nome1.appendChild(doc.createTextNode(temp.getName1()));
+                    nome1.appendChild(doc.createTextNode(String.valueOf(temp.getUno())));
                     coppia.appendChild(nome1);
 
                     Element nome2 = doc.createElement("nome2");
-                    nome2.appendChild(doc.createTextNode(temp.getName2()));
+                    nome2.appendChild(doc.createTextNode(String.valueOf(temp.getDue())));
                     coppia.appendChild(nome2);
 
                     Element id = doc.createElement("id");
@@ -100,11 +155,15 @@ public class XmlWriter implements Runnable {
                 Element torneoNode=doc.createElement("Torneo");
                 rootElement.appendChild(torneoNode);
 
-                if(started){ nome=torneo.getNome(); }
+                if(started){ nome=torneo.getNome(); aloneVar=torneo.isAlone(); }
 
                 Element nomeTorneo= doc.createElement("nome");
                 nomeTorneo.appendChild(doc.createTextNode(nome));
                 torneoNode.appendChild(nomeTorneo);
+                
+                Element aloneTorneo= doc.createElement("alone");
+                aloneTorneo.appendChild(doc.createTextNode(String.valueOf(aloneVar)));
+                torneoNode.appendChild(aloneTorneo);
 
 
                 Element startedElement = doc.createElement("started");
@@ -136,31 +195,10 @@ public class XmlWriter implements Runnable {
                         numTavoli.appendChild(doc.createTextNode(String.valueOf(temp.getNumTavoli())));
                         turno.appendChild(numTavoli);
 
-                        for(int k=0;k<temp.getTavoli().length;k++){
-
-                            Element tavolo = doc.createElement("Tavolo");
-
-                            Element idTavolo = doc.createElement("id");
-                            idTavolo.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getId())));
-                            tavolo.appendChild(idTavolo);
-
-                            Element id_uno = doc.createElement("id_uno");
-                            id_uno.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop1())));
-                            tavolo.appendChild(id_uno);
-
-                            Element id_due = doc.createElement("id_due");
-                            id_due.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getCop2())));
-                            tavolo.appendChild(id_due);
-
-                            Element pun1 = doc.createElement("pun1");
-                            pun1.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun1())));
-                            tavolo.appendChild(pun1);
-
-                            Element pun2 = doc.createElement("pun2");
-                            pun2.appendChild(doc.createTextNode(String.valueOf(temp.getTavolo(k).getPun2())));
-                            tavolo.appendChild(pun2);
-
-                            turno.appendChild(tavolo);
+                        if(torneo.isAlone()){
+                            createTavoliSingle(temp,doc,turno);
+                        } else {
+                            createTavoliCoppie(temp,doc,turno);
                         }
 
                         torneoNode.appendChild(turno);
@@ -197,4 +235,77 @@ public class XmlWriter implements Runnable {
 		tfe.printStackTrace();
 	  }
 	}
+    
+    
+    
+    public void createTavoliCoppie(Turno temp,Document doc,Element turno){
+        for(int k=0;k<temp.getTavoli().length;k++){
+            
+            TavoloCoppie tempTavolo=(TavoloCoppie) temp.getTavolo(k);
+
+            Element tavolo = doc.createElement("Tavolo");
+
+            Element idTavolo = doc.createElement("id");
+            idTavolo.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getId())));
+            tavolo.appendChild(idTavolo);
+
+            Element id_uno = doc.createElement("id_uno");
+            id_uno.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getCop1())));
+            tavolo.appendChild(id_uno);
+
+            Element id_due = doc.createElement("id_due");
+            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getCop2())));
+            tavolo.appendChild(id_due);
+
+            Element pun1 = doc.createElement("pun1");
+            pun1.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPun1())));
+            tavolo.appendChild(pun1);
+
+            Element pun2 = doc.createElement("pun2");
+            pun2.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPun2())));
+            tavolo.appendChild(pun2);
+
+            turno.appendChild(tavolo);
+        }
+    }
+    
+    
+    public void createTavoliSingle(Turno temp,Document doc,Element turno){
+        for(int k=0;k<temp.getTavoli().length;k++){
+            
+            TavoloSingoli tempTavolo=(TavoloSingoli) temp.getTavolo(k);
+
+            Element tavolo = doc.createElement("Tavolo");
+
+            Element idTavolo = doc.createElement("id");
+            idTavolo.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getId())));
+            tavolo.appendChild(idTavolo);
+
+            Element id_uno = doc.createElement("id_uno");
+            id_uno.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla1())));
+            tavolo.appendChild(id_uno);
+
+            Element id_due = doc.createElement("id_due");
+            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla2())));
+            tavolo.appendChild(id_due);
+            
+            Element id_tre = doc.createElement("id_tre");
+            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla3())));
+            tavolo.appendChild(id_due);
+            
+            Element id_quattro = doc.createElement("id_quattro");
+            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla4())));
+            tavolo.appendChild(id_due);
+
+            Element pun1 = doc.createElement("pun1");
+            pun1.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPun1())));
+            tavolo.appendChild(pun1);
+
+            Element pun2 = doc.createElement("pun2");
+            pun2.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPun2())));
+            tavolo.appendChild(pun2);
+
+            turno.appendChild(tavolo);
+        }
+    }
 }

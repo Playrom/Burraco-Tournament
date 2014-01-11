@@ -28,7 +28,7 @@ public class XmlParser implements Runnable{
     String filename;
     
     XmlParser(String name){
-        passing=new Object[2];
+        passing=new Object[3];
         filename=name;
     }
   
@@ -99,6 +99,51 @@ public class XmlParser implements Runnable{
    Document doc = documentBuilder.parse(xmlFile);  
   
    doc.getDocumentElement().normalize();  
+   
+   
+   
+   NodeList nodeSingle = doc.getElementsByTagName("Single");  
+   
+   passing[2]=new SingleList(nodeSingle.getLength());
+   SingleList singles=(SingleList) passing[2];
+  
+  
+   for (int temp = 0; temp < nodeSingle.getLength(); temp++) {  
+    Node node = nodeSingle.item(temp);  
+  
+  
+    if (node.getNodeType() == Node.ELEMENT_NODE) {  
+  
+     Element elemento = (Element) node;
+  
+     int id=Integer.valueOf(elemento.getElementsByTagName("id").item(0).getTextContent());  
+     String nome=elemento.getElementsByTagName("nome").item(0).getTextContent();  
+     int master,victory;
+     boolean alone=Boolean.valueOf(elemento.getElementsByTagName("alone").item(0).getTextContent());
+     try{
+         master=Integer.valueOf(elemento.getElementsByTagName("master").item(0).getTextContent());
+     }catch(java.lang.NumberFormatException e){
+         master=0;
+     }
+     
+     
+     try{
+        victory=Integer.valueOf(elemento.getElementsByTagName("victory").item(0).getTextContent());  
+     }catch(java.lang.NumberFormatException e){
+        victory=0;
+     }
+     
+     singles.add(new Single(id,nome,master,victory,alone));
+  
+    }  
+   }
+   
+   
+   
+   
+   
+   
+   
    NodeList nodeList = doc.getElementsByTagName("Coppia");  
    
    passing[0]=new ArrayList(nodeList.getLength());
@@ -114,8 +159,8 @@ public class XmlParser implements Runnable{
      Element elemento = (Element) node;
   
      int id=Integer.valueOf(elemento.getElementsByTagName("id").item(0).getTextContent());  
-     String nome1=elemento.getElementsByTagName("nome1").item(0).getTextContent();  
-     String nome2=elemento.getElementsByTagName("nome2").item(0).getTextContent();  
+     int nome1=Integer.valueOf(elemento.getElementsByTagName("nome1").item(0).getTextContent());  
+     int nome2=Integer.valueOf(elemento.getElementsByTagName("nome2").item(0).getTextContent());  
      boolean tipo=Boolean.valueOf(elemento.getElementsByTagName("tipo").item(0).getTextContent());
      int master,victory;
      try{
@@ -131,7 +176,7 @@ public class XmlParser implements Runnable{
         victory=0;
      }
      
-     coppie.add(new Coppia(nome1,nome2,id,tipo,master,victory));
+     coppie.add(new Coppia(nome1,nome2,id,tipo,master,victory,singles));
   
     }  
    }
@@ -143,6 +188,7 @@ public class XmlParser implements Runnable{
     String nomeTorneo=elementTorneo.getElementsByTagName("nome").item(0).getTextContent();
     boolean started=Boolean.valueOf(elementTorneo.getElementsByTagName("started").item(0).getTextContent());
     int numTurni=Integer.valueOf(elementTorneo.getElementsByTagName("numturni").item(0).getTextContent());
+    boolean alone=Boolean.valueOf(elementTorneo.getElementsByTagName("alone").item(0).getTextContent());
     
     NodeList nodeTurni=elementTorneo.getElementsByTagName("Turno");
     
@@ -165,7 +211,63 @@ public class XmlParser implements Runnable{
      
      NodeList tav = elemento.getElementsByTagName("Tavolo");
      
+     if (alone) {
+         getTavoliSingle(tav,tavoli);
+     } else {
+         getTavoliCoppie(tav,tavoli);
+     }
      
+     
+  
+     turni.add(new Turno(coppie,singles,tavoli,idTurno,calcolato,alone));
+     
+
+    }
+   }
+   
+   if (alone) {
+        passing[1]=new Torneo(singles,turni,started,nomeTorneo,numTurni);
+     } else {
+        passing[1]=new Torneo(coppie,singles,turni,started,nomeTorneo,numTurni);
+     }
+   
+   
+   
+  } catch (Exception e) {  
+   e.printStackTrace();  
+  }
+  
+  
+  return passing;
+
+ } 
+ 
+
+ 
+ 
+ public void run(){
+     
+     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+ 
+             try {
+                    DocumentBuilder builder = dbf.newDocumentBuilder();
+                    File xmlFile = new File(filename);
+                    Document document = builder.parse(xmlFile);
+                    this.readXML();
+             } catch (SAXException sxe) {
+                    Exception  x = sxe;
+                    if (sxe.getException() != null)  x = sxe.getException();
+                    x.printStackTrace();
+             } catch (ParserConfigurationException pce) {
+                    pce.printStackTrace();
+             } catch (IOException ioe) {
+                    ioe.printStackTrace();
+             }
+     
+ }
+ 
+ 
+ public void getTavoliCoppie(NodeList tav,Tavolo[] tavoli){
      for (int temp2 = 0; temp2 < tav.getLength(); temp2++) {  
         Node nodeTav = tav.item(temp2);  
   
@@ -207,53 +309,75 @@ public class XmlParser implements Runnable{
                        pun2=0;
                     }
 
-                    tavoli[temp2]=new Tavolo(id_uno,id_due,id,pun1,pun2,coppie);
+                    tavoli[temp2]=new TavoloCoppie(id_uno,id_due,id,pun1,pun2, (ArrayList) passing[0], (ArrayList) passing[2]);
 
                     System.out.println("test");
                 }
             
      }
-  
-     turni.add(new Turno(coppie,tavoli,idTurno,calcolato));
-     
-
-    }
-   }
-     passing[1]=new Torneo(coppie,turni,started,nomeTorneo,numTurni);
-   
-   
-   
-  } catch (Exception e) {  
-   e.printStackTrace();  
-  }
+ }
+ 
+ 
+ public void getTavoliSingle(NodeList tav,Tavolo[] tavoli){
+     for (int temp2 = 0; temp2 < tav.getLength(); temp2++) {  
+        Node nodeTav = tav.item(temp2);  
   
   
-  return passing;
-
- } 
- 
-
- 
- 
- public void run(){
+            if (nodeTav.getNodeType() == Node.ELEMENT_NODE) {  
+  
+                 Element elem = (Element) nodeTav;
      
-     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
- 
-             try {
-                    DocumentBuilder builder = dbf.newDocumentBuilder();
-                    File xmlFile = new File(filename);
-                    Document document = builder.parse(xmlFile);
-                    this.readXML();
-             } catch (SAXException sxe) {
-                    Exception  x = sxe;
-                    if (sxe.getException() != null)  x = sxe.getException();
-                    x.printStackTrace();
-             } catch (ParserConfigurationException pce) {
-                    pce.printStackTrace();
-             } catch (IOException ioe) {
-                    ioe.printStackTrace();
-             }
      
+                    int id,id_uno,id_due,id_tre,id_quattro,pun1,pun2;
+
+                    try{ 
+                        id=Integer.valueOf(elem.getElementsByTagName("id").item(0).getTextContent());
+                    }catch(java.lang.NumberFormatException e){
+                        id=0;
+                    }
+
+                    try{ 
+                       id_uno=Integer.valueOf(elem.getElementsByTagName("id_uno").item(0).getTextContent()); 
+                    }catch(java.lang.NumberFormatException e){
+                       id_uno=0;
+                    }
+
+                    try{
+                       id_due=Integer.valueOf(elem.getElementsByTagName("id_due").item(0).getTextContent()); 
+                    }catch(java.lang.NumberFormatException e){
+                       id_due=0;
+                    }
+                    
+                    try{ 
+                        id_tre=Integer.valueOf(elem.getElementsByTagName("id_tre").item(0).getTextContent());
+                    }catch(java.lang.NumberFormatException e){
+                        id_tre=0;
+                    }
+                    
+                    try{ 
+                        id_quattro=Integer.valueOf(elem.getElementsByTagName("id_quattro").item(0).getTextContent());
+                    }catch(java.lang.NumberFormatException e){
+                        id_quattro=0;
+                    }
+
+                    try{
+                      pun1=Integer.valueOf(elem.getElementsByTagName("pun1").item(0).getTextContent());  
+                    }catch(java.lang.NumberFormatException e){
+                      pun1=0;
+                    }
+
+                    try{
+                      pun2=Integer.valueOf(elem.getElementsByTagName("pun2").item(0).getTextContent());  
+                    }catch(java.lang.NumberFormatException e){
+                       pun2=0;
+                    }
+
+                    tavoli[temp2]=new TavoloSingoli(id_uno,id_due,id_tre,id_quattro,id,pun1,pun2, (ArrayList) passing[2]);
+
+                    System.out.println("test");
+                }
+            
+     }
  }
 
     

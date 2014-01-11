@@ -1,4 +1,4 @@
-package defaults;
+package exception;
 
 /*
  * To change this template, choose Tools | Templates
@@ -9,9 +9,9 @@ package defaults;
  *
  * @author Giorgio
  */
-public class ErroreNonCoppia extends Exception{
+public class ErroreGiaCalcolato extends Exception{
     
-  public  ErroreNonCoppia(){
+  public  ErroreGiaCalcolato(){
     super("Attenzione, non è coppia");
   }
     

@@ -1,61 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
+    <Single>
+        <nome>A</nome>
+        <id>0</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>B</nome>
+        <id>1</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>C</nome>
+        <id>2</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>D</nome>
+        <id>3</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>E</nome>
+        <id>4</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>F</nome>
+        <id>5</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>G</nome>
+        <id>6</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
+    <Single>
+        <nome>H</nome>
+        <id>7</id>
+        <alone>false</alone>
+        <master>0</master>
+        <victory>0</victory>
+    </Single>
     <Coppia>
-        <nome1>Giorgio Romano</nome1>
-        <nome2>Marco Romano</nome2>
+        <nome1>0</nome1>
+        <nome2>1</nome2>
         <id>0</id>
         <tipo>true</tipo>
         <master>0</master>
         <victory>0</victory>
     </Coppia>
     <Coppia>
-        <nome1>Clelia Manganaro Mod</nome1>
-        <nome2>Roberto Romano</nome2>
+        <nome1>2</nome1>
+        <nome2>3</nome2>
         <id>1</id>
         <tipo>true</tipo>
         <master>0</master>
         <victory>0</victory>
     </Coppia>
     <Coppia>
-        <nome1>Giorgio Lo Giudice</nome1>
-        <nome2>Cecilia Moraci</nome2>
+        <nome1>4</nome1>
+        <nome2>5</nome2>
         <id>2</id>
         <tipo>false</tipo>
         <master>0</master>
         <victory>0</victory>
     </Coppia>
     <Coppia>
-        <nome1>Nino Pallino</nome1>
-        <nome2>Stocazzo Faranesimo</nome2>
+        <nome1>6</nome1>
+        <nome2>7</nome2>
         <id>3</id>
-        <tipo>false</tipo>
-        <master>0</master>
-        <victory>0</victory>
-    </Coppia>
-    <Coppia>
-        <nome1>aaa</nome1>
-        <nome2>bbb</nome2>
-        <id>4</id>
-        <tipo>true</tipo>
-        <master>0</master>
-        <victory>0</victory>
-    </Coppia>
-    <Coppia>
-        <nome1>ccc</nome1>
-        <nome2>ddd</nome2>
-        <id>5</id>
         <tipo>false</tipo>
         <master>0</master>
         <victory>0</victory>
     </Coppia>
     <Torneo>
         <nome>aaaa</nome>
+        <alone>false</alone>
         <started>true</started>
         <numturni>3</numturni>
         <Turno>
             <id>0</id>
             <calcolato>false</calcolato>
-            <numtavoli>3</numtavoli>
+            <numtavoli>2</numtavoli>
             <Tavolo>
                 <id>0</id>
                 <id_uno>2</id_uno>
@@ -67,13 +108,6 @@
                 <id>1</id>
                 <id_uno>3</id_uno>
                 <id_due>1</id_due>
-                <pun1>0</pun1>
-                <pun2>0</pun2>
-            </Tavolo>
-            <Tavolo>
-                <id>2</id>
-                <id_uno>5</id_uno>
-                <id_due>4</id_due>
                 <pun1>0</pun1>
                 <pun2>0</pun2>
             </Tavolo>
@@ -81,11 +115,11 @@
         <Turno>
             <id>1</id>
             <calcolato>false</calcolato>
-            <numtavoli>3</numtavoli>
+            <numtavoli>2</numtavoli>
             <Tavolo>
                 <id>0</id>
                 <id_uno>2</id_uno>
-                <id_due>4</id_due>
+                <id_due>1</id_due>
                 <pun1>0</pun1>
                 <pun2>0</pun2>
             </Tavolo>
@@ -93,13 +127,6 @@
                 <id>1</id>
                 <id_uno>3</id_uno>
                 <id_due>0</id_due>
-                <pun1>0</pun1>
-                <pun2>0</pun2>
-            </Tavolo>
-            <Tavolo>
-                <id>2</id>
-                <id_uno>5</id_uno>
-                <id_due>1</id_due>
                 <pun1>0</pun1>
                 <pun2>0</pun2>
             </Tavolo>
@@ -107,25 +134,18 @@
         <Turno>
             <id>2</id>
             <calcolato>false</calcolato>
-            <numtavoli>3</numtavoli>
+            <numtavoli>2</numtavoli>
             <Tavolo>
                 <id>0</id>
                 <id_uno>2</id_uno>
-                <id_due>1</id_due>
+                <id_due>0</id_due>
                 <pun1>0</pun1>
                 <pun2>0</pun2>
             </Tavolo>
             <Tavolo>
                 <id>1</id>
                 <id_uno>3</id_uno>
-                <id_due>4</id_due>
-                <pun1>0</pun1>
-                <pun2>0</pun2>
-            </Tavolo>
-            <Tavolo>
-                <id>2</id>
-                <id_uno>5</id_uno>
-                <id_due>0</id_due>
+                <id_due>1</id_due>
                 <pun1>0</pun1>
                 <pun2>0</pun2>
             </Tavolo>

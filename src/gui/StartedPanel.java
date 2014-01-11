@@ -39,12 +39,16 @@ public class StartedPanel extends JPanel{
             }
         });
         
-        final ArrayList coppie=main.getCoppie();
         
         classifica.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CoupleDialogList classi=new CoupleDialogList(coppie,true);
+                if(main.getTorneo().isAlone()){
+                    CoupleDialogList classi=new CoupleDialogList(main.getSingles(),true);
+                }else{
+                    CoupleDialogList classi=new CoupleDialogList(main.getCoppie(),main.getSingles(),true);
+                }
+                
             }
         });
         

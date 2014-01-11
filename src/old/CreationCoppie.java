@@ -1,4 +1,4 @@
-package defaults;
+package old;
 
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class CreationCoppie implements Runnable {
      
      
     
-        for(int i=0;i<this.numcoppie;i=i+1){
+       /* for(int i=0;i<this.numcoppie;i=i+1){
             
                 
             
@@ -49,7 +49,7 @@ public class CreationCoppie implements Runnable {
             
           
          
-        }
+        }*/
         
         
 }

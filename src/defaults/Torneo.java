@@ -1,6 +1,7 @@
 package defaults;
 
 
+import exception.ErroreNonCoppia;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,41 +19,80 @@ import java.util.Collections;
 public class Torneo {
     
     
-    protected ArrayList turni,coppie,copfisse,copmobili;
+    protected ArrayList turni,coppie,copfisse,copmobili,singles;
     private Urna fisse,mobili;
     private int numTurni;
-    private boolean started;
+    private boolean started,alone;
     private String nome;
    
     
-     public  Torneo(ArrayList coppie,ArrayList turni){ // costruttore con liste premade
+     public  Torneo(ArrayList coppie,ArrayList singles,ArrayList turni){ // costruttore con liste premade
         this.coppie=coppie;
+        this.singles=singles;
         this.turni=turni;
         numTurni=turni.size();
+        this.alone=false;
         
     }
      
-     public  Torneo(ArrayList coppie,ArrayList turni,boolean started,String nome){ // costruttore con liste premade
-        this(coppie,turni);
+      public  Torneo(ArrayList singles,ArrayList turni){ // costruttore con liste premade
+        this.singles=singles;
+        this.turni=turni;
+        numTurni=turni.size();
+        this.alone=true;
+        
+    }
+     
+     public  Torneo(ArrayList coppie,ArrayList singles,ArrayList turni,boolean started,String nome){ // costruttore con liste premade
+        this(coppie,singles,turni);
         this.started=started;
         this.nome=nome;
         
     }
      
-     public  Torneo(ArrayList coppie,ArrayList turni,boolean started,String nome,int numTurni){ // costruttore con liste premade
-        this(coppie,turni,started,nome);
+     public  Torneo(ArrayList singles,ArrayList turni,boolean started,String nome){ // costruttore con liste premade
+        this(singles,turni);
+        this.started=started;
+        this.nome=nome;
+        
+    }
+     
+     public  Torneo(ArrayList coppie,ArrayList singles,ArrayList turni,boolean started,String nome,int numTurni){ // costruttore con liste premade
+        this(coppie,singles,turni,started,nome);
+        this.numTurni=numTurni;
+        
+    }
+     
+     public  Torneo(ArrayList singles,ArrayList turni,boolean started,String nome,int numTurni){ // costruttore con liste premade
+        this(singles,turni,started,nome);
         this.numTurni=numTurni;
         
     }
     
-    public  Torneo(ArrayList coppie,int numTurni){ // costruttore con liste premade , devo creare i turni
+    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni){ // costruttore con liste premade , devo creare i turni
         this.coppie=coppie;
+        this.singles=singles;
         this.numTurni=numTurni;
+        this.alone=alone;
         creaTurni();
     }
     
-    public  Torneo(ArrayList coppie,int numTurni,boolean started,String nome){
-        this(coppie,numTurni);
+    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni,boolean started,String nome){
+        this(coppie,singles,numTurni);
+        this.started=started;
+        this.nome=nome;
+    }
+    
+    
+    public  Torneo(ArrayList singles,int numTurni){ // costruttore con liste premade , devo creare i turni
+        this.singles=singles;
+        this.numTurni=numTurni;
+        this.alone=true;
+        creaTurni();
+    }
+    
+    public  Torneo(ArrayList singles,int numTurni,boolean started,String nome){
+        this(singles,numTurni);
         this.started=started;
         this.nome=nome;
     }
@@ -60,34 +100,16 @@ public class Torneo {
     public void creaTurni(){
         this.turni=new ArrayList(numTurni);
         
-        copfisse=new ArrayList(this.coppie.size()/2); //meta coppie sono fisse 
-        copmobili=new ArrayList(this.coppie.size()/2); //meta coppie sono mobili
-       
-        int k=0,j=0;
-        for(int i=0 ; i<this.coppie.size() ; i++){
-           try{
-            Coppia temp=(Coppia) coppie.get(i);
-            if(temp.getType() && this.checkCoppia(temp)){ //se data[i] coppia mobile , 1 indica coppia mobile
-              copmobili.add(temp); //inserisco nell'array di coppie mobili
-              k++;
-            } else {
-                copfisse.add(temp);//senno inserisco in array coppie fisse
-                j++;
-            }
-           } catch(ErroreNonCoppia e) {
-               System.out.println("Errore - Non è coppia");
-               
-           }
-
-            
         
-            
-            
-        }
         
         this.started=true;
         
-        CreationTables th2=new CreationTables(coppie,numTurni); // creo thread per creazione tavoli e turni
+        CreationTables th2;
+        if(alone){
+            th2=new CreationTablesSingle(singles,numTurni);
+        } else {
+            th2=new CreationTablesCoppie(coppie,numTurni,singles);
+        }
         th2.run();
         
         this.turni=th2.getTurni();
@@ -106,7 +128,7 @@ public class Torneo {
     
     }
     
-    public void displayStatus() { //display tutte le coppie e la loro situazione
+    /*public void displayStatus() { //display tutte le coppie e la loro situazione
         System.out.println("NOTIZIE SULLE COPPIE DEL TORNEO\n");
         int i=0;
         System.out.println( "|\tNome1\t\t\tNome2\t\t\tVictory\t\t\tMaster");
@@ -132,7 +154,7 @@ public class Torneo {
             System.out.println(temp.toAllString());
             
         } 
-    }
+    }2
     
     public void calcolaTurno(int turno) throws IOException {//Operazione di calcolo del turno
         
@@ -146,7 +168,7 @@ public class Torneo {
         CancelPoints th3=new CancelPoints(this.turni,coppie,turno);
         th3.run();
        
-    }
+    }*/
     
     public static boolean checkCoppia (Object e) throws ErroreNonCoppia{//check se l'elemento è una coppia
         if((e instanceof Coppia)){
@@ -155,6 +177,16 @@ public class Torneo {
     }
     
     }
+
+    public boolean isAlone() {
+        return alone;
+    }
+
+    public void setAlone(boolean alone) {
+        this.alone = alone;
+    }
+    
+    
 
     public ArrayList getTurni() {
         return turni;

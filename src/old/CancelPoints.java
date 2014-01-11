@@ -1,7 +1,10 @@
-package defaults;
+package old;
 
 
-import static defaults.Tavolo.checkCoppia;
+import defaults.Coppia;
+import exception.ErroreGiaCalcolato;
+import exception.ErroreNonCoppia;
+import defaults.Turno;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -51,7 +54,7 @@ public class CancelPoints implements Runnable {
         
 }
       
-        public Coppia findCoppia(int id){ //trovo coppia
+       /* public Coppia findCoppia(int id){ //trovo coppia
         for(int i=0;i<coppie.size();i++){
             Coppia temp=(Coppia) coppie.get(i);
             try{
@@ -65,7 +68,7 @@ public class CancelPoints implements Runnable {
         }
         
         return null;
-    }
+    }*/
         
         
 

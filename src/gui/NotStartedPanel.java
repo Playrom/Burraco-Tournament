@@ -95,13 +95,17 @@ public class NotStartedPanel extends JPanel {
     }
     
     private void addCoppieButtonActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        addCoupleDialog=new CoupleDialogAdd(coppie);
+        if(main.getTorneo().isAlone()) addCoupleDialog=new SingleDialogAdd(main.getSingles());
+        else addCoupleDialog=new CoupleDialogAdd(main.getSingles(),main.getCoppie());
+        
         addCoupleDialog.setVisible(true);
         addCoupleDialog.addWindowListener(listener());
     }
     
     private void showCoppieActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        listCoppie=new CoupleDialogList(coppie,false);
+        if(main.getTorneo().isAlone()) listCoppie=new CoupleDialogList(main.getSingles(),false);
+        else listCoppie=new CoupleDialogList(main.getCoppie(),main.getSingles(),false);
+        
         listCoppie.setVisible(true);
     }  
     

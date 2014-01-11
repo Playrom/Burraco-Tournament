@@ -15,33 +15,29 @@ import java.awt.event.WindowListener;
  *
  * @author playrom
  */
-public class CoupleDialogEdit extends DialogEdit  {
+public class SingleDialogEdit extends DialogEdit {
     
-    ArrayList coppie;
     
-    public CoupleDialogEdit(SingleList singles,ArrayList coppie,int id){
+    public SingleDialogEdit(SingleList singles,int id){
         super(singles,id);
-        this.coppie=coppie;
         
         this.addWindowListener(this);
         
         
         
         
-        idCouple.setText("Modifica Coppia " + (id + 1) );
+        idCouple.setText("Modifica Giocatore " + (id + 1) );
         
-        Coppia temp=(Coppia) coppie.get(id);
+        Single temp=(Single) singles.get(id);
         
-        oneLabel.setText("Giocatore 1");
-        twoLabel.setText("Giocatore 2");
+        oneLabel.setText("Giocatore ");
         
-        namePlayer1.setText(temp.getName1());
-        namePlayer2.setText(temp.getName2());
+        namePlayer1.setText(temp.getName());
         
        
-        boolean tipo=temp.getType();
-        if(tipo==true) { mobile.setSelectedIndex(1); } else { mobile.setSelectedIndex(0); }
-        
+       this.remove(mobile);
+       this.remove(twoLabel);
+       this.remove(namePlayer2);
         
         
         editCouple.addActionListener(new java.awt.event.ActionListener() {
@@ -62,18 +58,15 @@ public class CoupleDialogEdit extends DialogEdit  {
     
     
     private void editCoupleActionPerformed(java.awt.event.ActionEvent evt){
-        boolean tipo=true;
-        String temp=mobile.getSelectedItem().toString();
-        if(temp.equals("Fissa")) tipo=false;
         
-        Coppia toModify=(Coppia) coppie.get(id);
         
-        toModify.setName1(namePlayer1.getText());
-        toModify.setName2(namePlayer2.getText());
-        toModify.setType(tipo);
+        Single toModify=(Single) singles.get(id);
+        
+        toModify.setName(namePlayer1.getText());
         
         int t=0;
         firePropertyChange("modificato",false,true);
+
         this.dispose();
     }
     

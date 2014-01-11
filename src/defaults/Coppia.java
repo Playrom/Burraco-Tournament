@@ -1,5 +1,7 @@
 package defaults;
 
+import java.util.ArrayList;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -11,18 +13,20 @@ package defaults;
  */
 public class Coppia implements Comparable{
     
-    private String nome1; //Nome primo giocatore
-    private String nome2; //Nome secondo giocatore
+    private int uno; //Nome primo giocatore
+    private int due; //Nome secondo giocatore
     private int id; //ID della coppia
     private boolean mobile; //0 Coppia Fissa - 1 Coppia Mobile
     protected int victory; //Victory Points della coppia
     protected int master; //Somma dei punti delle partite totali
+    SingleList singles;
     
-    public Coppia(String nome1 , String nome2 , int id , boolean tipo ){
-        this.nome1=nome1;
-        this.nome2=nome2;
+    public Coppia(int uno, int due , int id , boolean tipo , ArrayList singles  ){
+        this.uno=uno;
+        this.due=due;
         this.id=id;
         this.mobile=tipo;
+        this.singles=(SingleList) singles;
         victory=0;
         master=0;
     }
@@ -31,19 +35,19 @@ public class Coppia implements Comparable{
     
  
     
-    public Coppia(String nome1 , String nome2 , int id , boolean tipo , int master,int victory){
-        this(nome1,nome2,id,tipo);
+    public Coppia(int uno, int due , int id , boolean tipo , int master,int victory,ArrayList singles){
+        this(uno,due,id,tipo,singles);
         this.master=master;
         this.victory=victory;
     }
     
     
     public String getName1 (){
-        return nome1;
+        return singles.findSingle(uno).getName();
     }
    
     public String getName2 (){
-        return nome2;
+        return singles.findSingle(due).getName();
     }
     
    
@@ -66,11 +70,11 @@ public class Coppia implements Comparable{
     }
     
     public void setName1(String name ){
-        nome1=nome1.replaceAll(nome1, name);
+        singles.findSingle(uno).setName(name);
     }
     
     public void setName2(String name ){
-        nome2=nome2.replaceAll(nome2, name);
+        singles.findSingle(due).setName(name);
     }
     
     public void setType(boolean type){
@@ -88,6 +92,23 @@ public class Coppia implements Comparable{
     public void setId(int id) {
         this.id = id;
     }
+
+    public int getUno() {
+        return uno;
+    }
+
+    public void setUno(int uno) {
+        this.uno = uno;
+    }
+
+    public int getDue() {
+        return due;
+    }
+
+    public void setDue(int due) {
+        this.due = due;
+    }
+    
     
     
     
@@ -99,11 +120,11 @@ public class Coppia implements Comparable{
 
     @Override
     public String toString() {
-        return   nome1 + " - " + nome2;
+        return   singles.findSingle(uno).getName() + " - " + singles.findSingle(due).getName();
     }
     
     public String toAllString(){
-        return "|\t" + nome1 + "\t\t\t" + nome2 +"\t\t\t"+victory+"\t\t\t" + master;
+        return "|\t" + singles.findSingle(uno).getName()  + "\t\t\t" + singles.findSingle(due).getName()  +"\t\t\t"+victory+"\t\t\t" + master;
     }
     
     
