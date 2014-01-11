@@ -6,5 +6,12 @@ A Java App for Windows, created to help users to create and office a Burraco Tou
 TODO
 ==============
 
-- SCRIVI SU XML
-- togliere creazione torneo dal caricamento di xml , per poter far partire il torneo anche dopo aver modificato le coppie e i tavoli
+- Creazione da zero del torneo
+- Implementazione numero 4 smazzate
+- Stampa dei fogli
+- interfacciamento con database di singoli utenti con tracking dei tornei giocati
+- thread save automatico
+- interfacciamento con cartella utente windows/mac/linux con save delle impostazioni
+- sync with dropbox
+- applicazione lato server per interfaccia php per aggiornamenti in tempo reale
+- implementazione counter minuti per turno
