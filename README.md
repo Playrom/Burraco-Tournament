@@ -6,7 +6,6 @@ A Java App for Windows, created to help users to create and office a Burraco Tou
 TODO
 ==============
 
-- Creazione da zero del torneo
 - Implementazione numero 4 smazzate
 - Stampa dei fogli
 - interfacciamento con database di singoli utenti con tracking dei tornei giocati
