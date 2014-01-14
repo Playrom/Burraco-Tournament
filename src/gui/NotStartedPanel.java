@@ -23,22 +23,28 @@ public class NotStartedPanel extends JPanel {
     JButton addCoppieButton,showCoppie,editNomeTorneo,editTurni,avviaTorneo;
     JLabel cop,fisse,mobili,turni,nomeTorneo;
     InfoDialogEdit editInfo;
-    ArrayList coppie;
+    ArrayList coppie,singles;
     MainClass main;
     boolean editing=false;
     
     public NotStartedPanel(MainClass main){
         this.main=main;
         coppie=main.getCoppie();
+        singles=main.getSingles();
         
         
         setLayout(new MigLayout("fillx"));
-        addCoppieButton=new JButton("Aggiungi Coppie");
+        
+        if(main.getTorneo().isAlone()) addCoppieButton=new JButton("Aggiungi Giocatori");
+        else addCoppieButton=new JButton("Aggiungi Coppie");
+            
         showCoppie=new JButton("List Coppie");
         editNomeTorneo=new JButton("Modifica Nome");
         avviaTorneo=new JButton("Avvia Torneo");
        
-        cop=new JLabel("Coppie: " + String.valueOf(coppie.size()));
+        if(!main.isAlone()) cop=new JLabel("Coppie: " + String.valueOf(coppie.size()));
+        else cop=new JLabel("Giocatori: " + String.valueOf(singles.size()));
+        
         turni=new JLabel("Turni: " + String.valueOf(main.getNumTurni()));
         nomeTorneo=new JLabel(main.getNomeTorneo());
         
@@ -131,7 +137,8 @@ public class NotStartedPanel extends JPanel {
     public void reload(){
         nomeTorneo.setText(main.getNomeTorneo());
         turni.setText("Turni: " + String.valueOf(main.getNumTurni()));
-        cop.setText("Coppie: " + String.valueOf(coppie.size()));
+        if(main.getTorneo().isAlone()) cop.setText("Giocatori: " + String.valueOf(singles.size()));
+        else cop.setText("Coppie: " + String.valueOf(coppie.size()));
     }
     
     public WindowListener listener()  {

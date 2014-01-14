@@ -7,6 +7,7 @@
 package gui;
 
 import defaults.MainClass;
+import defaults.SingleList;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
@@ -23,13 +24,19 @@ public class MainGui extends javax.swing.JFrame {
     JButton addCoppieButtonLoaded,showCouplesLoaded;
     NotStartedPanel panelNotStarted;
     StartedPanel panelStarted;
-    JDialog addCoupleDialog,listCoppie;
+    JDialog addCoupleDialog,listCoppie,selectType,selectAdvanced;
     JPanel start;
     MainClass main;
+    
     
     JMenuItem aboutMenuItem, contentsMenuItem, copyMenuItem, cutMenuItem, deleteMenuItem,exitMenuItem,openMenuItem,pasteMenuItem,saveAsMenuItem,saveMenuItem;
     JMenu editMenu,fileMenu,helpMenu;
     JMenuBar menuBar;
+    
+    JLabel numeroTurni,numeroSmazzate,nomeTorneo;
+    JButton avanti;
+    JTextField  nomeTorneoField,numeroTurniField;
+    JComboBox numeroSmazzateCombo;
     
     String filenameSave,filenameOpen;
     
@@ -93,6 +100,12 @@ public class MainGui extends javax.swing.JFrame {
         carica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openMenuItemActionPerformed(evt);
+            }
+        });
+        
+        nuovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setAdvancedActionPerformed(evt);
             }
         });
     }
@@ -274,7 +287,107 @@ public class MainGui extends javax.swing.JFrame {
             
             load();
             
-    }    
+    }   
+    
+    private void newTorneoActionPerformed(java.awt.event.ActionEvent evt){
+        selectType=new JDialog();
+        JLabel text=new JLabel("Il Torneo è composto da coppie o singoli?");
+        selectType.setLayout(new MigLayout());
+        JButton selectSingle,selectCoppie;
+        selectSingle=new JButton("Singoli");
+        selectCoppie=new JButton("Coppie");
+        
+        selectType.add(selectSingle);
+        selectType.add(selectCoppie);
+        
+        selectSingle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTorneoSingleActionPerformed(evt);
+            }
+        });
+        
+        selectCoppie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTorneoCoppieActionPerformed(evt);
+            }
+        });
+        
+        selectType.setAlwaysOnTop(true);
+        selectType.pack();
+        selectType.setVisible(true);
+        
+    }
+    
+    private void newTorneoSingleActionPerformed(java.awt.event.ActionEvent evt){
+        main=new MainClass();
+        main.initSingles();
+        main.setStart(nomeTorneoField.getText(),false,true,Integer.valueOf(numeroTurniField.getText()),Integer.valueOf((String)numeroSmazzateCombo.getSelectedItem()));
+        main.startTournamentAndCreate();
+        selectType.dispose();
+        load();
+    }
+
+    
+    private void newTorneoCoppieActionPerformed(java.awt.event.ActionEvent evt){
+        main=new MainClass();
+        main.initCoppie();
+        main.initSingles();
+        main.setStart(nomeTorneoField.getText(),false,false,Integer.valueOf(numeroTurniField.getText()),Integer.valueOf((String)numeroSmazzateCombo.getSelectedItem()));
+        main.startTournamentAndCreate();
+        selectType.dispose();
+        load();
+    }
+    
+    private void setAdvancedActionPerformed(java.awt.event.ActionEvent evt){
+        selectAdvanced=new JDialog();
+        
+        JLabel text=new JLabel("Inserisci ulteriori informazioni");
+        selectAdvanced.setLayout(new MigLayout());
+        
+        
+        
+        numeroTurni=new JLabel("Numero Turni: ");
+        numeroSmazzate=new JLabel("Numero Smazzate: ");
+        nomeTorneo=new JLabel("Nome Torneo: ");
+        
+        numeroTurniField=new JTextField();
+        numeroTurniField.setColumns(1);
+        
+        nomeTorneoField=new JTextField();
+        nomeTorneoField.setColumns(15);
+        
+        numeroSmazzateCombo=new JComboBox();
+        numeroSmazzateCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "3", "4" }));
+        numeroSmazzateCombo.setSelectedIndex(0);
+        
+        avanti=new JButton("Avanti");
+        
+        selectAdvanced.setAlwaysOnTop(true);
+
+        
+        selectAdvanced.add(text,"wrap,align center");
+        selectAdvanced.add(nomeTorneo);
+        selectAdvanced.add(nomeTorneoField,"wrap");
+        selectAdvanced.add(numeroTurni);
+        selectAdvanced.add(numeroTurniField,"wrap");
+        selectAdvanced.add(numeroSmazzate);
+        selectAdvanced.add(numeroSmazzateCombo,"wrap");
+        selectAdvanced.add(avanti,"skip");
+        
+        selectAdvanced.pack();
+        
+        selectAdvanced.setVisible(true);
+        
+        avanti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTorneoActionPerformed(evt);
+                selectAdvanced.dispose();
+            }
+        });
+        
+    }
+    
+    
     
     public void reload(){
         panelNotStarted.setVisible(false);

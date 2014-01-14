@@ -221,6 +221,7 @@ public class Turno {
         this.numTavoli=tavoli.length;
         
         this.fisse=new Urna(singles.size());
+        fisse.createCasualArray();
 
 
          for(int i=0;i<tavoli.length;i++){

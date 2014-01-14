@@ -33,7 +33,6 @@ public class Urna  {
     public void createCasualArray(){
         
          //creazione array casuale con tripla randomizzazione
-        Random r=new Random((int) (Math.random())*100000);
         
         
         
@@ -111,7 +110,7 @@ public class Urna  {
     }
     
     public int movingNext(){
-        int ritornare=this.next;
+        int ritornare=this.getNum(next);
         this.setNext(this.getNext()+1);
         return ritornare;
     }

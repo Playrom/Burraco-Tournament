@@ -16,6 +16,10 @@ import java.util.ArrayList;
  */
 public class SingleList extends ArrayList{
     
+    public SingleList(){
+        super();
+    }
+    
     public SingleList(int dimensione){
         super(dimensione);
     }

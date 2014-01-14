@@ -185,6 +185,38 @@ public class TavoloSingoli extends Tavolo{
     public String toStringCop2() {
         return findSingle(pla3).toString() + " - " + findSingle(pla4).toString();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean temp=true;
+        if (obj == null) {
+            return true;
+        }
+        if (getClass() != obj.getClass()) {
+            return true;
+        }
+        final TavoloSingoli other = (TavoloSingoli) obj;
+        if (this.pla1 != other.pla1  && this.pla1 != other.pla2 && this.pla1 != other.pla3 && this.pla1 != other.pla4) {
+            temp=false;
+        }
+        if (this.pla2 != other.pla1  && this.pla2 != other.pla2 && this.pla2 != other.pla3 && this.pla2 != other.pla4) {
+            temp=false;
+        }
+        if (this.pla3 != other.pla1  && this.pla3 != other.pla2 && this.pla4 != other.pla3 && this.pla4 != other.pla4) {
+            temp=false;
+        }
+        if (this.pla4 != other.pla1  && this.pla4 != other.pla2 && this.pla4 != other.pla3 && this.pla4 != other.pla4) {
+            temp=false;
+        }
+        return temp;
+    }
+    
     
     
     
