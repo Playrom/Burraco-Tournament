@@ -9,7 +9,6 @@ package gui;
 import java.awt.FlowLayout;
 import java.awt.*;
 import javax.swing.*;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 import defaults.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,7 +59,7 @@ public class CoupleDialogList extends JDialog {
     
     public void init(){
         
-      
+        this.setName("Lista Partecipanti");
        int i=0;
        JLabel names,ids,masters,victorys,types;
        names=new JLabel("Giocatori");
@@ -72,8 +71,9 @@ public class CoupleDialogList extends JDialog {
        this.add(ids);
        this.add(types);
        this.add(names);
-       this.add(masters);
-       this.add(victorys,"wrap");
+       
+       this.add(victorys);
+       this.add(masters,"wrap");
        
        if(classifica){
            ordinate=new ArrayList(data);
@@ -203,8 +203,8 @@ public class CoupleDialogList extends JDialog {
                 this.add(id);
                 this.add(type);
                 this.add(label);
-                this.add(victory);
                 this.add(master);
+                this.add(victory);
                 this.add(edit, "wrap");
 
                 

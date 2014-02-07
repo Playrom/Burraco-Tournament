@@ -26,6 +26,7 @@ public class XmlParser implements Runnable{
 
     Object passing[];
     String filename;
+    int smazzate;
     
     XmlParser(String name){
         passing=new Object[3];
@@ -133,7 +134,7 @@ public class XmlParser implements Runnable{
         victory=0;
      }
      
-     singles.add(new Single(id,nome,master,victory,alone));
+     singles.add(new Single(id,nome,victory,master,alone));
   
     }  
    }
@@ -162,7 +163,7 @@ public class XmlParser implements Runnable{
      int nome1=Integer.valueOf(elemento.getElementsByTagName("nome1").item(0).getTextContent());  
      int nome2=Integer.valueOf(elemento.getElementsByTagName("nome2").item(0).getTextContent());  
      boolean tipo=Boolean.valueOf(elemento.getElementsByTagName("tipo").item(0).getTextContent());
-     int master,victory;
+     int master,victory,id_database;
      try{
          master=Integer.valueOf(elemento.getElementsByTagName("master").item(0).getTextContent());
      }catch(java.lang.NumberFormatException e){
@@ -175,6 +176,13 @@ public class XmlParser implements Runnable{
      }catch(java.lang.NumberFormatException e){
         victory=0;
      }
+     
+     try{
+        id_database=Integer.valueOf(elemento.getElementsByTagName("id_database").item(0).getTextContent());  
+     }catch(java.lang.NumberFormatException e){
+        id_database=-1;
+     }
+     
      
      coppie.add(new Coppia(nome1,nome2,id,tipo,master,victory,singles));
   
@@ -189,6 +197,7 @@ public class XmlParser implements Runnable{
     boolean started=Boolean.valueOf(elementTorneo.getElementsByTagName("started").item(0).getTextContent());
     int numTurni=Integer.valueOf(elementTorneo.getElementsByTagName("numturni").item(0).getTextContent());
     boolean alone=Boolean.valueOf(elementTorneo.getElementsByTagName("alone").item(0).getTextContent());
+    smazzate=Integer.valueOf(elementTorneo.getElementsByTagName("smazzate").item(0).getTextContent());
     
     NodeList nodeTurni=elementTorneo.getElementsByTagName("Turno");
     
@@ -219,16 +228,16 @@ public class XmlParser implements Runnable{
      
      
   
-     turni.add(new Turno(coppie,singles,tavoli,idTurno,calcolato,alone));
+     turni.add(new Turno(coppie,singles,tavoli,idTurno,calcolato,alone,smazzate));
      
 
     }
    }
    
    if (alone) {
-        passing[1]=new Torneo(singles,turni,started,nomeTorneo,numTurni);
+        passing[1]=new Torneo(singles,turni,started,nomeTorneo,numTurni,smazzate);
      } else {
-        passing[1]=new Torneo(coppie,singles,turni,started,nomeTorneo,numTurni);
+        passing[1]=new Torneo(coppie,singles,turni,started,nomeTorneo,numTurni,smazzate);
      }
    
    
@@ -309,7 +318,7 @@ public class XmlParser implements Runnable{
                        pun2=0;
                     }
 
-                    tavoli[temp2]=new TavoloCoppie(id_uno,id_due,id,pun1,pun2, (ArrayList) passing[0], (ArrayList) passing[2]);
+                    tavoli[temp2]=new TavoloCoppie(id_uno,id_due,id,pun1,pun2,smazzate, (ArrayList) passing[0], (ArrayList) passing[2]);
 
                     System.out.println("test");
                 }
@@ -372,7 +381,7 @@ public class XmlParser implements Runnable{
                        pun2=0;
                     }
 
-                    tavoli[temp2]=new TavoloSingoli(id_uno,id_due,id_tre,id_quattro,id,pun1,pun2, (ArrayList) passing[2]);
+                    tavoli[temp2]=new TavoloSingoli(id_uno,id_due,id_tre,id_quattro,id,pun1,pun2,smazzate, (ArrayList) passing[2]);
 
                     System.out.println("test");
                 }

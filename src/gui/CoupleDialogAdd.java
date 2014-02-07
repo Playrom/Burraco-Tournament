@@ -55,11 +55,11 @@ public class CoupleDialogAdd extends DialogAdd {
         String temp=mobile.getSelectedItem().toString();
         if(temp.equals("Fissa")) tipo=false;
         
-        Single tempUno=new Single(singles.size(),namePlayer.getText(),false);
+        Single tempUno=new Single(singles.size(),data1,namePlayer.getText(),false);
         int idUno=tempUno.getId();
         singles.add(tempUno);
         
-        Single tempDue=new Single(singles.size() + 1,namePlayer.getText(),false);
+        Single tempDue=new Single(singles.size() + 1,data2,namePlayer.getText(),false);
         int idDue=tempDue.getId();
         singles.add(tempDue);
         

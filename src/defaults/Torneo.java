@@ -21,7 +21,7 @@ public class Torneo {
     
     protected ArrayList turni,coppie,copfisse,copmobili,singles;
     private Urna fisse,mobili;
-    private int numTurni;
+    private int numTurni,smazzate;
     private boolean started,alone;
     private String nome;
    
@@ -63,36 +63,50 @@ public class Torneo {
         
     }
      
-     public  Torneo(ArrayList singles,ArrayList turni,boolean started,String nome,int numTurni){ // costruttore con liste premade
+      public  Torneo(ArrayList coppie,ArrayList singles,ArrayList turni,boolean started,String nome,int numTurni,int smazzate){ // costruttore con liste premade
+        this(coppie,singles,turni,started,nome,smazzate);
+        this.numTurni=numTurni;
+        
+    }
+     
+     public  Torneo(ArrayList singles,ArrayList turni,boolean started,String nome,int smazzate){ // costruttore con liste premade
         this(singles,turni,started,nome);
+        this.smazzate=smazzate;
+        
+    }
+     
+     public  Torneo(ArrayList singles,ArrayList turni,boolean started,String nome,int numTurni,int smazzate){ // costruttore con liste premade
+        this(singles,turni,started,nome,smazzate);
         this.numTurni=numTurni;
         
     }
     
-    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni){ // costruttore con liste premade , devo creare i turni
+    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni,int smazzate){ // costruttore con liste premade , devo creare i turni
         this.coppie=coppie;
         this.singles=singles;
         this.numTurni=numTurni;
         this.alone=alone;
+        this.smazzate=smazzate;
         creaTurni();
     }
     
-    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni,boolean started,String nome){
-        this(coppie,singles,numTurni);
+    public  Torneo(ArrayList coppie,ArrayList singles,int numTurni,boolean started,String nome,int smazzate){
+        this(coppie,singles,numTurni,smazzate);
         this.started=started;
         this.nome=nome;
     }
     
     
-    public  Torneo(ArrayList singles,int numTurni){ // costruttore con liste premade , devo creare i turni
+    public  Torneo(ArrayList singles,int numTurni,int smazzate){ // costruttore con liste premade , devo creare i turni
         this.singles=singles;
         this.numTurni=numTurni;
         this.alone=true;
+        this.smazzate=smazzate;
         creaTurni();
     }
     
-    public  Torneo(ArrayList singles,int numTurni,boolean started,String nome){
-        this(singles,numTurni);
+    public  Torneo(ArrayList singles,int numTurni,boolean started,String nome,int smazzate){
+        this(singles,numTurni,smazzate);
         this.started=started;
         this.nome=nome;
     }
@@ -106,9 +120,9 @@ public class Torneo {
         
         CreationTables th2;
         if(alone){
-            th2=new CreationTablesSingle(singles,numTurni);
+            th2=new CreationTablesSingle(singles,numTurni,smazzate);
         } else {
-            th2=new CreationTablesCoppie(coppie,numTurni,singles);
+            th2=new CreationTablesCoppie(coppie,numTurni,singles,smazzate);
         }
         th2.run();
         
@@ -218,6 +232,14 @@ public class Torneo {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getSmazzate() {
+        return smazzate;
+    }
+
+    public void setSmazzate(int smazzate) {
+        this.smazzate = smazzate;
     }
     
     

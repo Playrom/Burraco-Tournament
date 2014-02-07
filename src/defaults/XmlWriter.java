@@ -22,7 +22,7 @@ public class XmlWriter implements Runnable {
     ArrayList coppie,turni,singles;
     Torneo torneo;
     String nome;
-    int numTurni;
+    int numTurni,smazzate;
     boolean started,aloneVar;
     
     public XmlWriter(String filename,ArrayList coppie,Torneo torneo){
@@ -33,19 +33,21 @@ public class XmlWriter implements Runnable {
         this.started=torneo.isStarted();
         this.numTurni=torneo.getNumTurni();
         this.aloneVar=torneo.isAlone();
+        this.smazzate=torneo.getSmazzate();
     }
     
-    public XmlWriter(String filename,ArrayList coppie,String nome,int numTurni,boolean alone){
+    public XmlWriter(String filename,ArrayList coppie,String nome,int numTurni,boolean alone,int smazzate){
         this.filename=filename;
         this.coppie=coppie;
         this.nome=nome;
         this.numTurni=numTurni;
         started=false;
         this.aloneVar=alone;
+        this.smazzate=smazzate;
     }
     
-    public XmlWriter(String filename,ArrayList coppie,ArrayList singles,String nome,int numTurni,boolean alone){
-        this(filename,coppie,nome,numTurni,alone);
+    public XmlWriter(String filename,ArrayList coppie,ArrayList singles,String nome,int numTurni,boolean alone,int smazzate){
+        this(filename,coppie,nome,numTurni,alone,smazzate);
         this.singles=singles;
     }
     
@@ -102,6 +104,11 @@ public class XmlWriter implements Runnable {
                     Element victory = doc.createElement("victory");
                     victory.appendChild(doc.createTextNode(String.valueOf(temp.getVictory())));
                     single.appendChild(victory);
+                    
+                    Element id_database = doc.createElement("id_database");
+                    id_database.appendChild(doc.createTextNode(String.valueOf(temp.getId_database())));
+                    single.appendChild(id_database);
+                    
                     
 
                 }
@@ -174,6 +181,10 @@ public class XmlWriter implements Runnable {
                 Element numTurniElement = doc.createElement("numturni");
                 numTurniElement.appendChild(doc.createTextNode(String.valueOf(numTurni)));
                 torneoNode.appendChild(numTurniElement);
+                
+                Element smazzateElement = doc.createElement("smazzate");
+                smazzateElement.appendChild(doc.createTextNode(String.valueOf(smazzate)));
+                torneoNode.appendChild(smazzateElement);
 
                 if(started){
                     for(int i=0;i<turni.size();i++){
@@ -290,12 +301,12 @@ public class XmlWriter implements Runnable {
             tavolo.appendChild(id_due);
             
             Element id_tre = doc.createElement("id_tre");
-            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla3())));
-            tavolo.appendChild(id_due);
+            id_tre.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla3())));
+            tavolo.appendChild(id_tre);
             
             Element id_quattro = doc.createElement("id_quattro");
-            id_due.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla4())));
-            tavolo.appendChild(id_due);
+            id_quattro.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPla4())));
+            tavolo.appendChild(id_quattro);
 
             Element pun1 = doc.createElement("pun1");
             pun1.appendChild(doc.createTextNode(String.valueOf(tempTavolo.getPun1())));

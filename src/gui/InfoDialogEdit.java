@@ -18,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
 public class InfoDialogEdit extends JDialog {
     JLabel info;
     JTextField field;
+    JComboBox box;
     JButton conferma,annulla;
     MainClass main;
     int modificatore; //0 - nome torneo , 1 - numero turni
@@ -68,7 +69,32 @@ public class InfoDialogEdit extends JDialog {
             this.add(annulla);
             this.add(conferma);
             
+         } else if (modificatore==2){
+            
+            info=new JLabel("Modifica Numero Smazzate");
+            box=new JComboBox();
+            box.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "3", "4" }));
+            
+            int selected=1;
+            if(main.getSmazzate()==3) selected=0; 
+            
+            box.setSelectedIndex(selected);
+                    
+            
+            conferma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confermaBoxActionPerformed(evt);
+            }
+        });
+            
+            this.add(info);
+            this.add(box,"wrap");
+            this.add(annulla);
+            this.add(conferma);
+            
         }
+        
+        
         
         annulla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,6 +114,11 @@ public class InfoDialogEdit extends JDialog {
     
     private void confermaNomeActionPerformed(java.awt.event.ActionEvent evt) {                                        
         main.setNomeTorneo(field.getText());
+        this.dispose();
+    }
+    
+    private void confermaBoxActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        main.setSmazzate(Integer.valueOf((String)box.getSelectedItem()));
         this.dispose();
     }
     

@@ -47,15 +47,13 @@ public class TurnoDialog extends JDialog {
             
             pannelli[i]=new PanelTurno(main,i);
             tab.addTab("Turno " + (i+1) , pannelli[i]);
-            pannelli[i].setEnabled(false);
             this.add(tab);
-            tab.setEnabledAt(i, false);
             final int m=i+1;
             
             pannelli[i].addPropertyChangeListener("calcolato", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    tab.setEnabledAt(m, true);
+                    
                 }
             });
             
@@ -65,11 +63,7 @@ public class TurnoDialog extends JDialog {
                     end();
                 }
             });
-            if(i-1==0) {
-                Turno temp=(Turno) turni.get(i-1);
-                if(temp.getCalcolato()) tab.setEnabledAt(i, true);
-
-            }
+            
             
         }
         

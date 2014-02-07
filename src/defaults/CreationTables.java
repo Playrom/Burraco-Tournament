@@ -14,11 +14,12 @@ import java.util.ArrayList;
  */
 public abstract class CreationTables implements Runnable{
     protected ArrayList turni;
-    protected int numTurni;
+    protected int numTurni,smazzate;
     
-    public CreationTables(int numTurni){
+    public CreationTables(int numTurni,int smazzate){
         
         this.numTurni=numTurni;
+        this.smazzate=smazzate;
         turni=new ArrayList(numTurni);
     }
     

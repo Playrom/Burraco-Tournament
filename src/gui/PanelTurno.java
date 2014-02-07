@@ -10,6 +10,7 @@ import exception.ErroreGiaCalcolato;
 import javax.swing.*;
 import defaults.*;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.NumberFormat;
@@ -25,7 +26,7 @@ public class PanelTurno extends JPanel {
     
     MainClass main;
     Turno turno;
-    JButton modifica,annulla;
+    JButton modifica,annulla,cancella;
     final JFormattedTextField pun1[],pun2[];
     int idTurno;
     boolean applied=false;
@@ -44,7 +45,7 @@ public class PanelTurno extends JPanel {
         
         modifica=new JButton("Modifica");
         annulla=new JButton("Annulla");
-        
+        cancella=new JButton("Cancella Calcolo");
         
         this.add(idTavoli,"align center");
         this.add(vsLabel,"span 3,align center");
@@ -60,7 +61,7 @@ public class PanelTurno extends JPanel {
         
         
         for(Object temp2 : turno.getTavoli()){
-            Tavolo temp=(Tavolo) temp2;
+            final Tavolo temp=(Tavolo) temp2;
             
             int uno,due;
             final JLabel tavolo,coppia1,coppia2,vic1,vic2,vs;
@@ -101,7 +102,7 @@ public class PanelTurno extends JPanel {
             int punte1=Integer.valueOf(pun1[i].getText());
             int punte2=Integer.valueOf(pun2[i].getText());
 
-            int diff=Tavolo.differenza(punte1,punte2);
+            int diff=temp.differenza(punte1,punte2);
 
             if(punte1>punte2){
                 vic1.setText(String.valueOf(diff));
@@ -109,6 +110,11 @@ public class PanelTurno extends JPanel {
             } else {
                 vic1.setText(String.valueOf(20-diff));
                 vic2.setText(String.valueOf(diff));
+            }
+            
+            if(turno.getCalcolato()) {
+                pun1[i].setEditable(false);
+                pun2[i].setEditable(false);
             }
 
             
@@ -124,7 +130,108 @@ public class PanelTurno extends JPanel {
             this.add(pun2[i]);
             this.add(vic2,"wrap");
             
-            pun1[i].getDocument().addDocumentListener(new DocumentListener() {
+            pun1[i].addPropertyChangeListener(new PropertyChangeListener(){
+                public void propertyChange(PropertyChangeEvent e) {
+                    
+                    update();
+                    
+                    }
+                
+                public void update(){
+                    
+                    //pun1[i].setValue(Integer.valueOf(toFive(Integer.valueOf(pun1[i].getText()))));
+                    //pun2[i].setValue(Integer.valueOf(toFive(Integer.valueOf(pun2[i].getText()))));
+                    
+                    int punteggi1,punteggi2;
+                    String temp1,temp2;
+                    
+                    try{
+                        temp1=pun1[i].getText();
+                        temp2=pun2[i].getText();
+                        punteggi1=Integer.valueOf(pun1[i].getText());
+                        punteggi2=Integer.valueOf(pun2[i].getText());
+                    }catch(NumberFormatException e){
+                        
+                        
+                    }finally{
+                        temp1=pun1[i].getText();
+                        temp2=pun2[i].getText();
+                        temp1.replaceAll("[^\\d.]", "");
+                        temp2.replaceAll("[^\\d.]", "");
+                        punteggi1=Integer.valueOf(temp1);
+                        punteggi2=Integer.valueOf(temp2);
+                        pun1[i].setText(String.valueOf(punteggi1));
+                        pun2[i].setText(String.valueOf(punteggi2));
+                    }
+                    
+                    int differenza=temp.differenza(punteggi1,punteggi2);
+
+                    if(punteggi1>punteggi2){
+                        vic1.setText(String.valueOf(differenza));
+                        vic2.setText(String.valueOf(20-differenza));
+                    } else {
+                        vic1.setText(String.valueOf(20-differenza));
+                        vic2.setText(String.valueOf(differenza));
+                    }
+                }
+                
+                public int toFive(int numero){
+                    return (int) (Math.round(numero / 5.0) * 5);
+                }
+
+            });
+            
+            pun2[i].addPropertyChangeListener(new PropertyChangeListener(){
+                public void propertyChange(PropertyChangeEvent e) {
+                    
+                    update();
+                    
+                    }
+                
+                public void update(){
+                    
+                    //pun1[i].setValue(Integer.valueOf(toFive(Integer.valueOf(pun1[i].getText()))));
+                    //pun2[i].setValue(Integer.valueOf(toFive(Integer.valueOf(pun2[i].getText()))));
+                    int punteggi1,punteggi2;
+                    String temp1,temp2;
+                    
+                    try{
+                        temp1=pun1[i].getText();
+                        temp2=pun2[i].getText();
+                        punteggi1=Integer.valueOf(pun1[i].getText());
+                        punteggi2=Integer.valueOf(pun2[i].getText());
+                    }catch(NumberFormatException e){
+                        
+                        
+                    }finally{
+                        temp1=pun1[i].getText();
+                        temp2=pun2[i].getText();
+                        temp1.replaceAll("[^\\d]", "" );
+                        temp2.replaceAll("[^\\d]", "" );
+                        punteggi1=Integer.valueOf(temp1);
+                        punteggi2=Integer.valueOf(temp2);
+                        pun1[i].setText(String.valueOf(punteggi1));
+                        pun2[i].setText(String.valueOf(punteggi2));
+                    }
+                    
+                    int differenza=temp.differenza(punteggi1,punteggi2);
+
+                    if(punteggi1>punteggi2){
+                        vic1.setText(String.valueOf(differenza));
+                        vic2.setText(String.valueOf(20-differenza));
+                    } else {
+                        vic1.setText(String.valueOf(20-differenza));
+                        vic2.setText(String.valueOf(differenza));
+                    }
+                }
+                
+                public int toFive(int numero){
+                    return (int) (Math.round(numero / 5.0) * 5);
+                }
+
+            });
+            
+            /*pun1[i].getDocument().addDocumentListener(new DocumentListener() {
                 public void changedUpdate(DocumentEvent e) {
                     update();
                 }
@@ -137,20 +244,7 @@ public class PanelTurno extends JPanel {
                 }   
                 
                 
-                public void update(){
-                    int punteggi1=Integer.valueOf(pun1[i].getText());
-                    int punteggi2=Integer.valueOf(pun2[i].getText());
-
-                    int differenza=Tavolo.differenza(punteggi1,punteggi2);
-
-                    if(punteggi1>punteggi2){
-                        vic1.setText(String.valueOf(differenza));
-                        vic2.setText(String.valueOf(20-differenza));
-                    } else {
-                        vic1.setText(String.valueOf(20-differenza));
-                        vic2.setText(String.valueOf(differenza));
-                    }
-                }
+                
         });
             
             pun2[i].getDocument().addDocumentListener(new DocumentListener() {
@@ -169,7 +263,7 @@ public class PanelTurno extends JPanel {
                     int punteggi1=Integer.valueOf(pun1[i].getText().replaceAll(",", ""));
                     int punteggi2=Integer.valueOf(pun2[i].getText().replaceAll(",", ""));
 
-                    int differenza=Tavolo.differenza(punteggi1,punteggi2);
+                    int differenza=temp.differenza(punteggi1,punteggi2);
 
                     if(punteggi1>punteggi2){
                         vic1.setText(String.valueOf(differenza));
@@ -179,7 +273,7 @@ public class PanelTurno extends JPanel {
                         vic2.setText(String.valueOf(differenza));
                     }
                 }
-        });
+        });*/
             
             
             
@@ -197,7 +291,14 @@ public class PanelTurno extends JPanel {
             }
         });
         
+        cancella.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancellaActionPerformed(evt);
+            }
+        });
+        
         this.add(annulla,"skip 5");
+        this.add(cancella);
         this.add(modifica);
         
     }
@@ -205,6 +306,17 @@ public class PanelTurno extends JPanel {
     
     public void annullaActionPerformed(ActionEvent e){
             firePropertyChange("annulla",false,true);
+    }
+    
+    public void cancellaActionPerformed(ActionEvent e){
+        for(int k=0;k<turno.getTavoli().length;k++){
+                turno.getTavolo(k).annullaPunteggi();
+                //this.dispose();
+                pun1[k].setEditable(true);
+                pun2[k].setEditable(true);
+            }
+            turno.setCalcolato(false);
+            firePropertyChange("calcolato",true,false);
     }
     
     public void modificaActionPerformed(ActionEvent e){

@@ -27,7 +27,7 @@ public class SingleDialogAdd extends DialogAdd{
         
         this.remove(mobile);
         this.remove(namePlayer2);
-        
+        this.remove(twoButt);
         
         
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +49,7 @@ public class SingleDialogAdd extends DialogAdd{
         boolean tipo=true;
         
         
-        Single temp=new Single(singles.size(),namePlayer.getText(),true);
+        Single temp=new Single(singles.size(),data1,namePlayer.getText(),true);
         int idSing=temp.getId();
         singles.add(temp);
         

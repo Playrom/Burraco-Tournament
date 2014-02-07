@@ -20,8 +20,8 @@ public class TavoloSingoli extends Tavolo{
     private int pla1,pla2,pla3,pla4; //1-2 Coppia Uno , 3-4 Coppia 4
     private ArrayList singles;
     
-    public TavoloSingoli(int uno,int due,int tre,int quattro,int id,int pun1, int pun2,ArrayList singles){
-        super(id,pun1,pun2);
+    public TavoloSingoli(int uno,int due,int tre,int quattro,int id,int pun1, int pun2,int smazzate,ArrayList singles){
+        super(id,pun1,pun2,smazzate);
         this.pla1=uno;
         this.pla2=due;
         this.pla3=tre;
@@ -30,8 +30,8 @@ public class TavoloSingoli extends Tavolo{
         this.singles=singles;
     }
 
-    public TavoloSingoli(int pla1, int pla2, int pla3, int pla4, int id, ArrayList singles) {
-        super(id);
+    public TavoloSingoli(int pla1, int pla2, int pla3, int pla4, int id,int smazzate, ArrayList singles) {
+        super(id,smazzate);
         this.pla1 = pla1;
         this.pla2 = pla2;
         this.pla3 = pla3;
@@ -47,7 +47,7 @@ public class TavoloSingoli extends Tavolo{
         this.setPun1(pun1);
         this.setPun2(pun2);
         
-        int max=Tavolo.differenza(pun1, pun2); //calcolo massimo differenza
+        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
             findSingle(pla1).setVictory(findSingle(pla1).getVictory()+max);//coppia 1 prende max victory points
             findSingle(pla2).setVictory(findSingle(pla2).getVictory()+max);//coppia 1 prende max victory points
@@ -70,7 +70,7 @@ public class TavoloSingoli extends Tavolo{
 
     @Override
     public void annullaPunteggi() {
-        int max=Tavolo.differenza(pun1, pun2); //calcolo massimo differenza
+        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
 
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
             findSingle(pla1).setVictory(findSingle(pla1).getVictory()-max);//coppia 1 prende max victory points

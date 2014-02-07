@@ -16,8 +16,8 @@ public class CreationTablesCoppie extends CreationTables implements Runnable{
     private Urna fisse,mobili;
     private ArrayList coppie,singles;
     
-    public CreationTablesCoppie(ArrayList coppie,int numTurni,ArrayList singles){
-        super(numTurni);
+    public CreationTablesCoppie(ArrayList coppie,int numTurni,ArrayList singles,int smazzate){
+        super(numTurni,smazzate);
         this.coppie=coppie;
         this.singles=singles;
         this.fisse=new Urna(coppie.size()/2);
@@ -28,8 +28,8 @@ public class CreationTablesCoppie extends CreationTables implements Runnable{
     
     @Override
     public void run(){
-        turni.add(new Turno(coppie,0,false,singles));
-        for(int i=1;i<numTurni;i++) turni.add(new Turno(coppie , singles,creaTavoliTurno(i),i,false));
+        turni.add(new Turno(coppie,0,false,singles,smazzate));
+        for(int i=1;i<numTurni;i++) turni.add(new Turno(coppie , singles,creaTavoliTurno(i),i,false,smazzate));
         
     }
     
@@ -42,10 +42,10 @@ public class CreationTablesCoppie extends CreationTables implements Runnable{
                 TavoloCoppie tempTav=(TavoloCoppie)turnoPrec.getTavolo(k);
                 if(k==0){
                     TavoloCoppie mob=(TavoloCoppie)turnoPrec.getTavolo(tavArr.length-1);
-                    tavArr[k]=new TavoloCoppie(tempTav.getCop1(),mob.getCop2(),k,coppie,singles);
+                    tavArr[k]=new TavoloCoppie(tempTav.getCop1(),mob.getCop2(),k,smazzate,coppie,singles);
                 }else{
                     TavoloCoppie mob=(TavoloCoppie)turnoPrec.getTavolo(k-1);
-                    tavArr[k]=new TavoloCoppie(tempTav.getCop1(),mob.getCop2(),k,coppie,singles);
+                    tavArr[k]=new TavoloCoppie(tempTav.getCop1(),mob.getCop2(),k,smazzate,coppie,singles);
                 }
             }
             

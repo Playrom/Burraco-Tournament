@@ -16,7 +16,7 @@ import net.miginfocom.swing.MigLayout;
  * @author playrom
  */
 public class StartedPanel extends JPanel{
-    JButton turni,classifica;
+    JButton turni,classifica,termina;
     MainClass main;
     
     public StartedPanel(MainClass main2){
@@ -26,9 +26,11 @@ public class StartedPanel extends JPanel{
         
         turni=new JButton("Assegna Punteggi");
         classifica=new JButton("Classifica");
+        termina=new JButton("Termina Torneo");
         
         this.add(turni);
         this.add(classifica);
+        this.add(termina);
        
         
         turni.addActionListener(new java.awt.event.ActionListener() {
@@ -51,6 +53,15 @@ public class StartedPanel extends JPanel{
                 
             }
         });
+        
+        termina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnectDatabase database=new ConnectDatabase("all","aicon07");
+                database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
+                
+            }
+        });
+        
         
     }
 }

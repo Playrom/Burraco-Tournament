@@ -117,5 +117,6 @@
         <alone>true</alone>
         <started>false</started>
         <numturni>3</numturni>
+        <smazzate>3</smazzate>
     </Torneo>
 </root>

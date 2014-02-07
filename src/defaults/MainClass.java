@@ -47,6 +47,7 @@ public class MainClass  implements Runnable{
         started=torneo.isStarted();
         numTurni=torneo.getNumTurni();
         nomeTorneo=torneo.getNome();
+        smazzate=torneo.getSmazzate();
     }
     
     
@@ -59,10 +60,10 @@ public class MainClass  implements Runnable{
     public void saveCouplesPreTournament(String filename){
         
         if(alone){
-            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone);
+            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone,smazzate);
             write.run();
         }else{
-            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone);
+            XmlWriter write=new XmlWriter(filename,coppie,singles,torneo.getNome(),torneo.getNumTurni(),alone,smazzate);
             write.run();
         }
         
@@ -73,12 +74,12 @@ public class MainClass  implements Runnable{
         if(alone){
             boolean temp=false;
             if(loaded) temp=true; 
-            torneo=new Torneo(singles,numTurni,temp,nomeTorneo);
+            torneo=new Torneo(singles,numTurni,temp,nomeTorneo,smazzate);
            
         }else{
             boolean temp=false;
             if(loaded) temp=true; 
-            torneo=new Torneo(coppie,singles,numTurni,temp,nomeTorneo);
+            torneo=new Torneo(coppie,singles,numTurni,temp,nomeTorneo,smazzate);
         }
     }
     
@@ -177,6 +178,15 @@ public class MainClass  implements Runnable{
         this.smazzate=smazzate;
         this.nomeTorneo=nome;
     }
+
+    public int getSmazzate() {
+        return smazzate;
+    }
+
+    public void setSmazzate(int smazzate) {
+        this.smazzate = smazzate;
+    }
+    
     
     
     

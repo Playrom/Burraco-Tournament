@@ -18,15 +18,15 @@ public class CreationTablesSingle extends CreationTables {
     private Urna fisse,mobili;
     private ArrayList singles;
     
-    public CreationTablesSingle(ArrayList singles,int numTurni){
-        super(numTurni);
+    public CreationTablesSingle(ArrayList singles,int numTurni,int smazzate){
+        super(numTurni,smazzate);
         this.singles=singles;
     }
     
     @Override
     public void run(){
-        turni.add(new Turno(singles,0,true));
-        for(int i=1;i<numTurni;i++) turni.add(new Turno(singles , singleTurno(i),i,true));
+        turni.add(new Turno(singles,0,true,smazzate));
+        for(int i=1;i<numTurni;i++) turni.add(new Turno(singles , singleTurno(i),i,true,smazzate));
         
     }
     
@@ -45,7 +45,7 @@ public class CreationTablesSingle extends CreationTables {
                     TavoloSingoli prec3=(TavoloSingoli)turnoPrec.getTavolo((tavArr.length-3)%tavArr.length);
 
                     
-                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,singles);
+                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,smazzate,singles);
                     
                 }else if(k==1){
                     
@@ -54,7 +54,7 @@ public class CreationTablesSingle extends CreationTables {
                     TavoloSingoli prec3=(TavoloSingoli)turnoPrec.getTavolo((tavArr.length-2)%tavArr.length);
 
 
-                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,singles);
+                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,smazzate,singles);
 
                 }else if(k==2){
 
@@ -63,7 +63,7 @@ public class CreationTablesSingle extends CreationTables {
                     TavoloSingoli prec3=(TavoloSingoli)turnoPrec.getTavolo((tavArr.length-1)%tavArr.length);
 
 
-                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,singles);
+                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,smazzate,singles);
 
                 
                  
@@ -74,7 +74,7 @@ public class CreationTablesSingle extends CreationTables {
                     TavoloSingoli prec3=(TavoloSingoli)turnoPrec.getTavolo((k-3)%tavArr.length);
 
                     
-                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,singles);
+                    tavArr[k]=new TavoloSingoli(tempTav.getPla1(),prec1.getPla2(), prec2.getPla3() , prec3.getPla4(),k,smazzate,singles);
                 }
             }
             
@@ -111,10 +111,10 @@ public class CreationTablesSingle extends CreationTables {
                         checkSingle(toad[k]);
                     }
 
-                    Tavolo tavTemp=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i ,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
+                    Tavolo tavTemp=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i , smazzate,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
                     
                     if(!turnoPrec.getTavolo(i).equals(tavTemp)){
-                       tavoli[i]=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i ,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
+                       tavoli[i]=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i ,smazzate,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
                        break;
                     }
                 }catch (ErroreNonSingle e){

@@ -20,8 +20,8 @@ import net.miginfocom.swing.MigLayout;
  */
 public class NotStartedPanel extends JPanel {
     JDialog addCoupleDialog,listCoppie;
-    JButton addCoppieButton,showCoppie,editNomeTorneo,editTurni,avviaTorneo;
-    JLabel cop,fisse,mobili,turni,nomeTorneo;
+    JButton addCoppieButton,showCoppie,editNomeTorneo,editTurni,avviaTorneo,editSmazzate;
+    JLabel cop,fisse,mobili,turni,nomeTorneo,smazzate;
     InfoDialogEdit editInfo;
     ArrayList coppie,singles;
     MainClass main;
@@ -46,9 +46,11 @@ public class NotStartedPanel extends JPanel {
         else cop=new JLabel("Giocatori: " + String.valueOf(singles.size()));
         
         turni=new JLabel("Turni: " + String.valueOf(main.getNumTurni()));
+        smazzate=new JLabel("Smazzate: " + String.valueOf(main.getSmazzate()));
         nomeTorneo=new JLabel(main.getNomeTorneo());
         
         editTurni=new JButton("Modifica");
+        editSmazzate=new JButton("Modifica");
         
         
         this.add(nomeTorneo,"align center");
@@ -61,6 +63,9 @@ public class NotStartedPanel extends JPanel {
         
         this.add(turni);
         this.add(editTurni,"wrap");
+        
+        this.add(smazzate);
+        this.add(editSmazzate,"wrap");
         
         this.add(avviaTorneo);
         
@@ -87,6 +92,12 @@ public class NotStartedPanel extends JPanel {
         editTurni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editTurniActionPerformed(evt);
+            }
+        });
+        
+        editSmazzate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editSmazzateActionPerformed(evt);
             }
         });
         
@@ -121,8 +132,13 @@ public class NotStartedPanel extends JPanel {
         editInfo.addWindowListener(listener());
     }
     
-     private void editTurniActionPerformed(java.awt.event.ActionEvent evt) {
-        editInfo=new InfoDialogEdit(main,0);
+    private void editTurniActionPerformed(java.awt.event.ActionEvent evt) {
+       editInfo=new InfoDialogEdit(main,0);
+       editInfo.addWindowListener(listener());
+    }
+    
+    private void editSmazzateActionPerformed(java.awt.event.ActionEvent evt) {
+        editInfo=new InfoDialogEdit(main,2);
         editInfo.addWindowListener(listener());
     }
      
@@ -137,6 +153,7 @@ public class NotStartedPanel extends JPanel {
     public void reload(){
         nomeTorneo.setText(main.getNomeTorneo());
         turni.setText("Turni: " + String.valueOf(main.getNumTurni()));
+        smazzate.setText("Smazzate: " + String.valueOf(main.getSmazzate()));
         if(main.getTorneo().isAlone()) cop.setText("Giocatori: " + String.valueOf(singles.size()));
         else cop.setText("Coppie: " + String.valueOf(coppie.size()));
     }
@@ -146,7 +163,7 @@ public class NotStartedPanel extends JPanel {
             WindowListener temp=new WindowListener(){
             @Override
             public void windowOpened(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
 
             @Override
@@ -161,22 +178,22 @@ public class NotStartedPanel extends JPanel {
 
             @Override
             public void windowIconified(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
 
             @Override
             public void windowDeiconified(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
 
             @Override
             public void windowActivated(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
 
             @Override
             public void windowDeactivated(WindowEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
             
             };

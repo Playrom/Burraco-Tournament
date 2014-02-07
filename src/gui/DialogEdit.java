@@ -31,6 +31,8 @@ public class DialogEdit extends JDialog implements WindowListener {
     public DialogEdit(SingleList singles,int id){
         this.singles=singles;
         
+        this.setName("Modifica Partecipante");
+        
         this.addWindowListener(this);
         
         this.id=id;

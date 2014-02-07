@@ -39,4 +39,10 @@ public class SingleList extends ArrayList{
         
         return null;
     }
+    
+    @Override
+    public Single get(int i){
+        Single ret=(Single) super.get(i);
+        return ret;
+    }
 }

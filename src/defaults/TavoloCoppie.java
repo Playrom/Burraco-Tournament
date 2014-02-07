@@ -19,8 +19,8 @@ public class TavoloCoppie extends Tavolo{
     private int cop1,cop2; //coppie a questo tavolo
     private ArrayList coppie,singles;
     
-    public TavoloCoppie(int uno, int due , int id,int pun1,int pun2 , ArrayList coppie, ArrayList singles ){
-        super(id,pun1,pun2);
+    public TavoloCoppie(int uno, int due , int id,int pun1,int pun2 ,int smazzate, ArrayList coppie, ArrayList singles ){
+        super(id,pun1,pun2,smazzate);
         cop1=uno;
         cop2=due;
         this.coppie=coppie;
@@ -28,8 +28,8 @@ public class TavoloCoppie extends Tavolo{
         
     }
     
-    public TavoloCoppie(int uno, int due , int id , ArrayList coppie, ArrayList singles){
-        super(id);
+    public TavoloCoppie(int uno, int due , int id , int smazzate,ArrayList coppie, ArrayList singles){
+        super(id,smazzate);
         cop1=uno;
         cop2=due;
         this.coppie=coppie;
@@ -64,7 +64,7 @@ public class TavoloCoppie extends Tavolo{
         this.setPun1(pun1);
         this.setPun2(pun2);
         
-        int max=Tavolo.differenza(pun1, pun2); //calcolo massimo differenza
+        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
             findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+max);//coppia 1 prende max victory points
             findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+20-max); //coppia 2 prende 20-max victory points
@@ -100,7 +100,7 @@ public class TavoloCoppie extends Tavolo{
     
     @Override
     public void annullaPunteggi(){
-        int max=Tavolo.differenza(pun1, pun2); //calcolo massimo differenza
+        int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
             findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-max);//coppia 1 prende max victory points

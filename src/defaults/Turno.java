@@ -25,9 +25,9 @@ public class Turno {
     ArrayList copfisse,copmobili,all,tutte[],singles;//elenco tutte le coppie fisse e mobili.
     Urna fisse,mobili;
     boolean calcolato,tipo;
-    int id,numTavoli;
+    int id,numTavoli,smazzate;
     
-    public Turno(ArrayList data ,int id, boolean tipo,ArrayList singles){
+    public Turno(ArrayList data ,int id, boolean tipo,ArrayList singles,int smazzate){
         
         this.calcolato=false;
         this.id=id;
@@ -35,6 +35,7 @@ public class Turno {
         this.tipo=tipo;
         
         this.singles=singles;
+        this.smazzate=smazzate;
        
         
         coppieTurno();
@@ -42,7 +43,7 @@ public class Turno {
         
     }
     
-    public Turno(ArrayList singles ,int id, boolean tipo){
+    public Turno(ArrayList singles ,int id, boolean tipo,int smazzate){
         
         this.calcolato=false;
         this.id=id;
@@ -50,6 +51,7 @@ public class Turno {
         this.tipo=tipo;
         
         this.singles=singles;
+        this.smazzate=smazzate;
        
         
         singleTurno();
@@ -61,7 +63,7 @@ public class Turno {
     
     
     
-    public Turno(ArrayList data , Tavolo[] tavoli,int id,boolean tipo){//Creo un turno avendo tavoli e coppie
+    public Turno(ArrayList data , Tavolo[] tavoli,int id,boolean tipo,int smazzate){//Creo un turno avendo tavoli e coppie
         
                 
         copfisse=new ArrayList(data.size()/2); //meta coppie sono fisse 
@@ -72,18 +74,19 @@ public class Turno {
         all=data;
         this.numTavoli=tavoli.length;
         this.tipo=tipo;
+        this.smazzate=smazzate;
         
         
         
     }
     
-    public Turno(ArrayList data,ArrayList singles, Tavolo[] tavoli,int id, boolean tipo){
-        this(data,tavoli,id,tipo);
+    public Turno(ArrayList data,ArrayList singles, Tavolo[] tavoli,int id, boolean tipo,int smazzate){
+        this(data,tavoli,id,tipo,smazzate);
         this.singles=singles;
     }
     
-    public Turno(ArrayList data , ArrayList singles,Tavolo[] tavoli,int id,boolean calcolato,boolean tipo){
-        this(data,singles,tavoli,id,tipo);
+    public Turno(ArrayList data , ArrayList singles,Tavolo[] tavoli,int id,boolean calcolato,boolean tipo,int smazzate){
+        this(data,singles,tavoli,id,tipo,smazzate);
         this.calcolato=calcolato;
     }
     
@@ -203,7 +206,7 @@ public class Turno {
                 Coppia tempmobili=(Coppia) copmobili.get(mobili.movingNext());//ugualmente per l'urna mobile
                 if(checkCoppia(tempfisse));
                 if(checkCoppia(tempmobili));
-                tavoli[i]=new TavoloCoppie(tempfisse.getId() , tempmobili.getId() , i ,all,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
+                tavoli[i]=new TavoloCoppie(tempfisse.getId() , tempmobili.getId() , i ,smazzate,all,singles);
             }catch (ErroreNonCoppia e){
                 System.out.println("Errore Non Coppia");
             }
@@ -234,7 +237,7 @@ public class Turno {
                      checkSingle(toad[k]);
                  }
                  
-                 tavoli[i]=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i ,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
+                 tavoli[i]=new TavoloSingoli(toad[0].getId(), toad[1].getId(), toad[2].getId(), toad[3].getId() , i ,smazzate,singles);// costruisco tavolo cercando la coppia fissa e mobile per ogni tavolo, e assegno l'id al tavolo
              }catch (ErroreNonSingle e){
                  System.out.println("Errore Non Coppia");
              }
