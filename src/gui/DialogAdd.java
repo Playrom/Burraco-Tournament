@@ -148,25 +148,20 @@ public class DialogAdd extends JDialog {
         SingleList singoli=database.dumpSingoli();
         
         if(position==1){
-            for(Object temp2:singoli){
+            
                 System.out.println("iterazione");
-                Single singolo=(Single) temp2;
-                if(singolo.getId_database()==value){
-                    System.out.println("trovato");
-                    namePlayer.setText(singolo.getName());
-                    data1=singolo.getId_database();
-                }
-            }
+                Single singolo=singoli.get(value-1);
+                System.out.println("trovato");
+                namePlayer.setText(singolo.getName());
+                data1=singolo.getId_database();
+                
+            
         }else{
-            for(Object temp2:singoli){
-                System.out.println("iterazione");
-                Single singolo=(Single) temp2;
-                if(singolo.getId_database()==value){
-                    System.out.println("trovato");
-                    namePlayer2.setText(singolo.getName());
-                    data2=singolo.getId_database();
-                }
-            }
+            System.out.println("iterazione");
+            Single singolo=singoli.get(value-1);
+            System.out.println("trovato");
+            namePlayer2.setText(singolo.getName());
+            data2=singolo.getId_database();
         }
     }
     
