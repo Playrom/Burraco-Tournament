@@ -10,6 +10,8 @@ import defaults.MainClass;
 import defaults.SingleList;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileFilter;
 import javax.swing.*;
@@ -261,7 +263,7 @@ public class MainGui extends javax.swing.JFrame {
     }                              
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
-            final JFileChooser fc = new JFileChooser("src");            // TODO add your handling code here:
+            final JFileChooser fc = new JFileChooser("..");            // TODO add your handling code here:
             fc.showSaveDialog(panelNotStarted);
             
             
@@ -278,7 +280,7 @@ public class MainGui extends javax.swing.JFrame {
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
             
-            final JFileChooser fc = new JFileChooser("src");            // TODO add your handling code here:
+            final JFileChooser fc = new JFileChooser("..");            // TODO add your handling code here:
             fc.showDialog(panelNotStarted, null);
             File file=fc.getSelectedFile();
             filenameOpen=file.getAbsolutePath();
@@ -407,6 +409,12 @@ public class MainGui extends javax.swing.JFrame {
         panelStarted.setVisible(false);
         panelNotStarted.setVisible(false);
 
+        panelStarted.addPropertyChangeListener("termina", new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    
+                }
+            });
         
         if(main.isStarted()){
             repaint();
