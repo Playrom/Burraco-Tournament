@@ -58,6 +58,7 @@ public class StartedPanel extends JPanel{
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConnectDatabase database=new ConnectDatabase("all","aicon07");
                 database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
+                System.exit(0);
                 
             }
         });
