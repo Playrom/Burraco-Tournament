@@ -114,6 +114,7 @@ public class XmlWriter implements Runnable {
                 }
                 
                 
+                if(!aloneVar){
                 
                 
                 ArrayList tempElementCoppie=new ArrayList();
@@ -154,6 +155,8 @@ public class XmlWriter implements Runnable {
                     coppia.appendChild(victory);
                     
 
+                }
+                
                 }
                 
                 

@@ -8,6 +8,7 @@ package defaults;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,23 +18,54 @@ import java.util.logging.Logger;
  */
 public class ConnectDatabase {
     
-    Connection database;
-    String user,pass;
+    private Connection database;
+    private static String user,pass,ip;
+    private static int port;
     private String jdbc;
-    Statement statement;
-    ResultSet result;
-    SingleList singles;
+    private Statement statement;
+    private ResultSet result;
+    private SingleList singles;
+    private static boolean load_info=false;
     
-    public ConnectDatabase(String username,String password)  {
+    public ConnectDatabase(){
+         try{
+            
+            if(!load_info) throw new Exception("Info Non Inizializzate in modo statico con il costruttore String,String,String,int") ;
+            
+            System.out.println("invio richiesta");
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            database=DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/burraco?database?connectTimeout=60000&socketTimeout=60000&" + "user="+user+"&password="+pass);
+
+            System.out.println("loggato");
+
+            statement = database.createStatement();
+
+        } catch(SQLException e){
+            
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     public ConnectDatabase(String username,String password,String ip,int port)  {
         user=username;
         pass=password;
+        this.ip=ip;
+        this.port=port;
+        load_info=true;
         
         try{
             
             System.out.println("invio richiesta");
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            database=DriverManager.getConnection("jdbc:mysql://193.183.99.188:3306/burraco?database?connectTimeout=60000&socketTimeout=60000&" + "user="+user+"&password="+pass);
+            database=DriverManager.getConnection("jdbc:mysql://"+ip+":"+port+"/burraco?database?connectTimeout=60000&socketTimeout=60000&" + "user="+user+"&password="+pass);
 
             System.out.println("loggato");
 
@@ -50,7 +82,6 @@ public class ConnectDatabase {
         }
         
     }
-    
     public SingleList dumpSingoli(){
         SingleList singoli=new SingleList();
         try {
@@ -100,6 +131,26 @@ public class ConnectDatabase {
         System.out.println("Updated");
     }
        
+    
+    public ArrayList<TorneoDatabase> dumpTornei(){
+        ArrayList<TorneoDatabase> tornei=new ArrayList();
+        try {
+            String tempQuery;
+
+            result = statement.executeQuery("select * from tornei");
+            while(result.next()){
+                String nome=result.getString("nome");
+                int id_database=Integer.valueOf(result.getString("id"));
+                String name_file=result.getString("name_file");
+                tornei.add(new TorneoDatabase(id_database,nome,name_file));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return tornei;
+    }
+    
     
     
     /*public static void main (String Args[]) 

@@ -56,7 +56,7 @@ public class StartedPanel extends JPanel{
         
         termina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConnectDatabase database=new ConnectDatabase("all","aicon07");
+                ConnectDatabase database=new ConnectDatabase();
                 database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
                 System.exit(0);
                 

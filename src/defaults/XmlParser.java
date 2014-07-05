@@ -34,59 +34,7 @@ public class XmlParser implements Runnable{
     }
   
 
- public void readXML() {  
-  try {  
-  
-   File xmlFile = new File(this.filename);  
-   DocumentBuilderFactory documentFactory = DocumentBuilderFactory  
-     .newInstance();  
-   DocumentBuilder documentBuilder = documentFactory  
-     .newDocumentBuilder();  
-   Document doc = documentBuilder.parse(xmlFile);  
-  
-   doc.getDocumentElement().normalize();  
-   NodeList nodeList = doc.getElementsByTagName("Coppia");  
-  
-   System.out.println("Root element :"  
-     + doc.getDocumentElement().getNodeName());  
-  
-   for (int temp = 0; temp < nodeList.getLength(); temp++) {  
-    Node node = nodeList.item(temp);  
-  
-    System.out.println("\nElement type :" + node.getNodeName());  
-  
-    if (node.getNodeType() == Node.ELEMENT_NODE) {  
-  
-     Element elemento = (Element) node;  
-  
-     System.out.println("ID : "  
-       + elemento.getElementsByTagName("id").item(0)  
-         .getTextContent());  
-     System.out.println("Nome 1 : "  
-       + elemento.getElementsByTagName("nome1").item(0)  
-         .getTextContent());  
-     System.out.println("Nome 2 : "  
-       + elemento.getElementsByTagName("nome2").item(0)  
-         .getTextContent());  
-     System.out.println("Tipo : "  
-       + elemento.getElementsByTagName("tipo").item(0)  
-         .getTextContent());  
-     System.out.println("Master : "  
-       + elemento.getElementsByTagName("master").item(0)  
-         .getTextContent());  
-     
-     System.out.println("Victory : "  
-       + elemento.getElementsByTagName("victory").item(0)  
-         .getTextContent());  
-  
-    }  
-   }  
-  } catch (Exception e) {  
-   e.printStackTrace();  
-  }  
- } 
- 
- 
+
  
  
  public Object[] load() {  
@@ -262,7 +210,6 @@ public class XmlParser implements Runnable{
                     DocumentBuilder builder = dbf.newDocumentBuilder();
                     File xmlFile = new File(filename);
                     Document document = builder.parse(xmlFile);
-                    this.readXML();
              } catch (SAXException sxe) {
                     Exception  x = sxe;
                     if (sxe.getException() != null)  x = sxe.getException();

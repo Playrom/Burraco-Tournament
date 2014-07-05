@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <Tournament>
+        <id>1</id>
+        <name>Prova Torneo</name>
+        <name_file>provatorneo.xml</name_file>
+    </Tournament>
+</root>

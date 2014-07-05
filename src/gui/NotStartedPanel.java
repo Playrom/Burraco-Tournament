@@ -38,7 +38,12 @@ public class NotStartedPanel extends JPanel {
         if(main.getTorneo().isAlone()) addCoppieButton=new JButton("Aggiungi Giocatori");
         else addCoppieButton=new JButton("Aggiungi Coppie");
             
-        showCoppie=new JButton("List Coppie");
+        if(main.isAlone()) {
+            showCoppie=new JButton("Elenco Iscritti");
+        }else{
+            showCoppie=new JButton("Elenco Coppie Iscritte");
+        }
+        
         editNomeTorneo=new JButton("Modifica Nome");
         avviaTorneo=new JButton("Avvia Torneo");
        
