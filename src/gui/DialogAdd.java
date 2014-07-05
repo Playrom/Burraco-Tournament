@@ -121,7 +121,7 @@ public class DialogAdd extends JDialog {
     
     private void oneButtActionPerformed(java.awt.event.ActionEvent evt){
         DialogFromDatabase temp=new DialogFromDatabase();
-        temp.addPropertyChangeListener("toADD", new PropertyChangeListener() {
+        temp.addPropertyChangeListener("selectTournament", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     int value=(Integer) evt.getNewValue();
@@ -143,7 +143,7 @@ public class DialogAdd extends JDialog {
     
     private void updateFromLoad(int value,int position){//reload di tutti i campi con nuovo valore, position=1 se cambio dati primo giocatore,senno per secondo giocatore
         
-        ConnectDatabase database=new ConnectDatabase("all","aicon07");
+        ConnectDatabase database=new ConnectDatabase();
         
         SingleList singoli=database.dumpSingoli();
         

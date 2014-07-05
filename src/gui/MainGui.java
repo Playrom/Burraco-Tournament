@@ -6,14 +6,22 @@
 
 package gui;
 
+import defaults.*;
+import defaults.ConnectDatabase;
 import defaults.MainClass;
 import defaults.SingleList;
+import defaults.TorneoDatabase;
+import defaults.XmlConnectionToServer;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
@@ -31,7 +39,8 @@ public class MainGui extends javax.swing.JFrame {
     MainClass main;
     
     
-    JMenuItem aboutMenuItem, contentsMenuItem, copyMenuItem, cutMenuItem, deleteMenuItem,exitMenuItem,openMenuItem,pasteMenuItem,saveAsMenuItem,saveMenuItem;
+    JMenuItem aboutMenuItem, contentsMenuItem, copyMenuItem, cutMenuItem, deleteMenuItem,exitMenuItem,
+            openMenuItem,pasteMenuItem,saveAsMenuItem,saveMenuItem,connectServer,saveToServer;
     JMenu editMenu,fileMenu,helpMenu;
     JMenuBar menuBar;
     
@@ -42,10 +51,14 @@ public class MainGui extends javax.swing.JFrame {
     
     String filenameSave,filenameOpen;
     
+    ArrayList<TorneoDatabase> tornei_from_database;
+    
     
     
     public MainGui(){
         main=new MainClass();
+        ConnectDatabase database=new ConnectDatabase("all","aicon07","193.183.99.188",3306);
+
         
         this.setLayout(new MigLayout());
         
@@ -153,6 +166,8 @@ public class MainGui extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
+        connectServer = new javax.swing.JMenuItem();
+        saveToServer = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -185,6 +200,8 @@ public class MainGui extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveMenuItem);
+        
+       
 
         saveAsMenuItem.setMnemonic('a');
         saveAsMenuItem.setText("Save As ...");
@@ -195,6 +212,25 @@ public class MainGui extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveAsMenuItem);
+        
+        
+        connectServer.setMnemonic('c');
+        connectServer.setText("Open from Server ...");
+        connectServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectServerActionPerformed(evt);
+            }
+        });
+        fileMenu.add(connectServer);
+        
+        saveToServer.setMnemonic('h');
+        saveToServer.setText("Save to Server ...");
+        saveToServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveToServerActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveToServer);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -207,27 +243,7 @@ public class MainGui extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
-
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
-        editMenu.add(cutMenuItem);
-
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
-
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
-
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
-
-        menuBar.add(editMenu);
-
+        
         helpMenu.setMnemonic('h');
         helpMenu.setText("Help");
 
@@ -262,6 +278,59 @@ public class MainGui extends javax.swing.JFrame {
         }
     }                              
 
+    private void connectServerActionPerformed(java.awt.event.ActionEvent evt) {                                             
+            
+         ClientMode socket=new ClientMode("127.0.0.1",8777);
+         tornei_from_database=socket.firstConnect("temp-list-tornei.xml");
+         System.out.println("client created");
+         DialogListTournamentFromDatabase temp=new DialogListTournamentFromDatabase(tornei_from_database);
+         temp.addPropertyChangeListener("selectTournament", new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    int value=(Integer) evt.getNewValue();
+                    
+                    sendRequestToServer(value);
+                }
+            });
+    }
+    
+    private void sendRequestToServer(int id){
+        String path=new String();
+        for(TorneoDatabase torneo:tornei_from_database){
+            if(torneo.getId()==id) path=torneo.getName_file();
+        }
+        File requestXml=XmlConnectionToServer.sendSelection(path);
+        ClientToSendRequest socket=new ClientToSendRequest("127.0.0.1",8778);
+        File tournamentFile=socket.send(requestXml);
+        filenameOpen=tournamentFile.getAbsolutePath();
+        main.loadXml(filenameOpen);
+            
+        load();
+        
+    }
+    
+    private void saveToServerActionPerformed(java.awt.event.ActionEvent evt){
+        if(filenameSave==null){
+            saveAsMenuItemActionPerformed(evt);
+        } else {
+            if(main.isStarted()){
+                main.writeXml(filenameSave);
+            } else {
+                main.saveCouplesPreTournament(filenameSave);
+            }
+        }
+        File file=new File(filenameSave);
+        SaveToServerMode socket=new SaveToServerMode("127.0.0.1",8780);
+        socket.save(file);
+    }
+            /*if(main.isStarted()){
+                main.writeXml(filenameSave);
+            } else {
+                main.saveCouplesPreTournament(filenameSave);
+            }*/
+            
+     
+    
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
             final JFileChooser fc = new JFileChooser("..");            // TODO add your handling code here:
             fc.showSaveDialog(panelNotStarted);
@@ -277,6 +346,7 @@ public class MainGui extends javax.swing.JFrame {
             }
             
     }                                            
+
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                             
             
