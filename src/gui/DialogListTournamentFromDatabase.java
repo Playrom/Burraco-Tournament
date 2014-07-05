@@ -37,7 +37,7 @@ public class DialogListTournamentFromDatabase extends JDialog{
         
         
         String[] colonne = {"ID","Nome"};
-        Object[][] data=new Object[tornei.size()][2];
+        final Object[][] data=new Object[tornei.size()][2];
         int k=0;
         for(TorneoDatabase torneo:tornei){
             
@@ -58,7 +58,7 @@ public class DialogListTournamentFromDatabase extends JDialog{
                   JTable target = (JTable)e.getSource();
                   int row = target.getSelectedRow();
                   // do some action
-                  clicked(row+1);
+                  clicked((int) data[row][0]);
                   }
             }
          });

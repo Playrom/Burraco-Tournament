@@ -35,7 +35,7 @@ public class DialogFromDatabase extends JDialog{
         SingleList singoli=database.dumpSingoli();
         
         String[] colonne = {"ID","Nome","Punteggio Medio"};
-        Object[][] data=new Object[singoli.size()][3];
+        final Object[][] data=new Object[singoli.size()][3];
         for(int i=0;i<singoli.size();i++){
             Single temp=singoli.get(i);
             data[i][0]=temp.getId_database();
@@ -55,7 +55,7 @@ public class DialogFromDatabase extends JDialog{
                   JTable target = (JTable)e.getSource();
                   int row = target.getSelectedRow();
                   // do some action
-                  clicked(row+1);
+                  clicked((int)data[row][0]);
                   }
             }
          });

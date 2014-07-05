@@ -22,6 +22,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
@@ -53,11 +54,19 @@ public class MainGui extends javax.swing.JFrame {
     
     ArrayList<TorneoDatabase> tornei_from_database;
     
-    
+    String ip,user,pass;
+    int port_database,port_connection;
+    HashMap<String,String> preference;
     
     public MainGui(){
         main=new MainClass();
-        ConnectDatabase database=new ConnectDatabase("all","aicon07","193.183.99.188",3306);
+        preference=(HashMap) LoadPreference.load(new File("preferences.xml"));
+        ip=preference.get("ip");
+        user=preference.get("username");
+        pass=preference.get("password");
+        port_database=Integer.valueOf(preference.get("port_database"));
+        port_connection=Integer.valueOf(preference.get("port_connection"));
+        ConnectDatabase database=new ConnectDatabase(user,pass,ip,port_database);
 
         
         this.setLayout(new MigLayout());
@@ -280,7 +289,7 @@ public class MainGui extends javax.swing.JFrame {
 
     private void connectServerActionPerformed(java.awt.event.ActionEvent evt) {                                             
             
-         ClientMode socket=new ClientMode("127.0.0.1",8777);
+         ClientMode socket=new ClientMode(ip,port_connection);
          tornei_from_database=socket.firstConnect("temp-list-tornei.xml");
          System.out.println("client created");
          DialogListTournamentFromDatabase temp=new DialogListTournamentFromDatabase(tornei_from_database);
@@ -300,7 +309,7 @@ public class MainGui extends javax.swing.JFrame {
             if(torneo.getId()==id) path=torneo.getName_file();
         }
         File requestXml=XmlConnectionToServer.sendSelection(path);
-        ClientToSendRequest socket=new ClientToSendRequest("127.0.0.1",8778);
+        ClientToSendRequest socket=new ClientToSendRequest(ip,port_connection+1);
         File tournamentFile=socket.send(requestXml);
         filenameOpen=tournamentFile.getAbsolutePath();
         main.loadXml(filenameOpen);
@@ -320,7 +329,7 @@ public class MainGui extends javax.swing.JFrame {
             }
         }
         File file=new File(filenameSave);
-        SaveToServerMode socket=new SaveToServerMode("127.0.0.1",8780);
+        SaveToServerMode socket=new SaveToServerMode(ip,port_connection+3);
         socket.save(file);
     }
             /*if(main.isStarted()){
