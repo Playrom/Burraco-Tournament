@@ -86,7 +86,7 @@ public class ConnectDatabase {
                 id=Integer.valueOf(result.getString("id"));
             }
             
-            if(id==-1) statement.executeUpdate("insert into `tornei` (`nome`,`name_file`) values (\""+name+"\",\""+name_file+".xml\")");
+            if(id==-1) statement.executeUpdate("insert into `tornei` (`nome`,`name_file`) values (\""+name+"\",\""+name_file+"\")");
         } catch (SQLException ex) {
             Logger.getLogger(ConnectDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
