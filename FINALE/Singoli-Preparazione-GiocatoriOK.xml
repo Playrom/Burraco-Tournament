@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <Single>
+        <nome>Pino Tino</nome>
+        <id>0</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Giuseppino</nome>
+        <id>1</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Mamma</nome>
+        <id>2</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Giorgio</nome>
+        <id>3</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Veronica</nome>
+        <id>4</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Michele</nome>
+        <id>5</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Anastasia</nome>
+        <id>6</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Single>
+        <nome>Giovanni Merlo</nome>
+        <id>7</id>
+        <alone>true</alone>
+        <master>0</master>
+        <victory>0</victory>
+        <id_database>0</id_database>
+    </Single>
+    <Torneo>
+        <nome>il Torneo Di Test</nome>
+        <alone>true</alone>
+        <started>false</started>
+        <numturni>2</numturni>
+        <smazzate>3</smazzate>
+    </Torneo>
+</root>

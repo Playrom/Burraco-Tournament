@@ -30,7 +30,7 @@ public class DialogFromDatabase extends JDialog{
         
         this.setLayout(new MigLayout());
         
-        ConnectDatabase database=new ConnectDatabase(ConnectDatabase.user,ConnectDatabase.pass,ConnectDatabase.ip,ConnectDatabase.port);
+        ConnectDatabase database=new ConnectDatabase();
         
         SingleList singoli=database.dumpSingoli();
         

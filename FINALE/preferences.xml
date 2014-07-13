@@ -1,6 +1,5 @@
 <preferences>
-<ip_server>127.0.0.1</ip_server>
-<ip_database>193.183.99.188</ip_database>
+<ip_server>193.183.99.188</ip_server>
 <port_database>3306</port_database>
 <username>all</username>
 <password>aicon07</password>

@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 public class ConnectDatabase {
     
     private Connection database;
-    public static String user,pass,ip;
-    public static int port;
+    private static String user,pass,ip;
+    private static int port;
     private String jdbc;
     private Statement statement;
     private ResultSet result;
@@ -84,7 +84,6 @@ public class ConnectDatabase {
     }
     public SingleList dumpSingoli(){
         SingleList singoli=new SingleList();
-        
         try {
             String tempQuery;
 
@@ -104,7 +103,7 @@ public class ConnectDatabase {
     
     public void updateSingoli(SingleList singoli,String nometorneo){
         try{
-            
+            statement.executeUpdate("INSERT INTO tornei(`nome`) VALUES('" + nometorneo +"');");
             result = statement.executeQuery("SELECT * FROM tornei WHERE nome='" + nometorneo +"';");
             int id_torneo=-1;
             while(result.next()) { id_torneo=Integer.valueOf(result.getString("id")); }
@@ -151,8 +150,6 @@ public class ConnectDatabase {
         
         return tornei;
     }
-    
-    
     
     
     

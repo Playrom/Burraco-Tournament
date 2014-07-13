@@ -56,8 +56,7 @@ public class StartedPanel extends JPanel{
         
         termina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firePropertyChange("saving",0,1);
-                ConnectDatabase database=new ConnectDatabase(ConnectDatabase.user,ConnectDatabase.pass,ConnectDatabase.ip,ConnectDatabase.port);
+                ConnectDatabase database=new ConnectDatabase();
                 database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
                 System.exit(0);
                 

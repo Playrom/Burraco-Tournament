@@ -55,9 +55,6 @@ public class LoadPreference {
                     String ip=elemento.getElementsByTagName("ip_server").item(0).getTextContent();  
                     preference.put("ip_server", ip);
                     
-                    String ip_data=elemento.getElementsByTagName("ip_database").item(0).getTextContent();  
-                    preference.put("ip_database", ip_data);
-                    
                     String port_database=elemento.getElementsByTagName("port_database").item(0).getTextContent(); 
                     preference.put("port_database", port_database);
                     
@@ -79,8 +76,7 @@ public class LoadPreference {
             
         }catch (Exception e) {  
 
-            preference.put("ip_server", "127.0.0.1");
-            preference.put("ip_database", "193.183.99.188");
+            preference.put("ip_server", "193.183.99.188");
             preference.put("port_database", "3306");
             preference.put("username", "all");
             preference.put("password", "aicon07");
@@ -106,10 +102,6 @@ public class LoadPreference {
             Element element = doc.createElement("ip_server");
             element.appendChild(doc.createTextNode(String.valueOf(preference.get("ip_server"))));
             rootElement.appendChild(element);
-            
-            Element element_data = doc.createElement("ip_database");
-            element_data.appendChild(doc.createTextNode(String.valueOf(preference.get("ip_database"))));
-            rootElement.appendChild(element_data);
             
             Element element_port_data = doc.createElement("port_database");
             element_port_data.appendChild(doc.createTextNode(String.valueOf(preference.get("port_database"))));

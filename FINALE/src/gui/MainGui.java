@@ -12,7 +12,6 @@ import defaults.MainClass;
 import defaults.SingleList;
 import defaults.TorneoDatabase;
 import defaults.XmlConnectionToServer;
-import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
@@ -55,20 +54,19 @@ public class MainGui extends javax.swing.JFrame {
     
     ArrayList<TorneoDatabase> tornei_from_database;
     
-    String ip_server,user,pass,ip_database;
+    String ip,user,pass;
     int port_database,port_connection;
     HashMap<String,String> preference;
     
     public MainGui(){
         main=new MainClass();
         preference=(HashMap) LoadPreference.load(new File("preferences.xml"));
-        ip_server=preference.get("ip_server");
-        ip_database=preference.get("ip_database");
+        ip=preference.get("ip");
         user=preference.get("username");
         pass=preference.get("password");
         port_database=Integer.valueOf(preference.get("port_database"));
         port_connection=Integer.valueOf(preference.get("port_connection"));
-        ConnectDatabase database=new ConnectDatabase(user,pass,ip_database,port_database);
+        ConnectDatabase database=new ConnectDatabase(user,pass,ip,port_database);
 
         
         this.setLayout(new MigLayout());
@@ -291,7 +289,7 @@ public class MainGui extends javax.swing.JFrame {
 
     private void connectServerActionPerformed(java.awt.event.ActionEvent evt) {                                             
             
-         ClientMode socket=new ClientMode(ip_server,port_connection);
+         ClientMode socket=new ClientMode(ip,port_connection);
          tornei_from_database=socket.firstConnect("temp-list-tornei.xml");
          System.out.println("client created");
          DialogListTournamentFromDatabase temp=new DialogListTournamentFromDatabase(tornei_from_database);
@@ -311,7 +309,7 @@ public class MainGui extends javax.swing.JFrame {
             if(torneo.getId()==id) path=torneo.getName_file();
         }
         File requestXml=XmlConnectionToServer.sendSelection(path);
-        ClientToSendRequest socket=new ClientToSendRequest(ip_server,port_connection+1);
+        ClientToSendRequest socket=new ClientToSendRequest(ip,port_connection+1);
         File tournamentFile=socket.send(requestXml);
         filenameOpen=tournamentFile.getAbsolutePath();
         main.loadXml(filenameOpen);
@@ -331,7 +329,7 @@ public class MainGui extends javax.swing.JFrame {
             }
         }
         File file=new File(filenameSave);
-        SaveToServerMode socket=new SaveToServerMode(ip_server,port_connection+3);
+        SaveToServerMode socket=new SaveToServerMode(ip,port_connection+3);
         socket.save(file);
     }
             /*if(main.isStarted()){
@@ -480,36 +478,6 @@ public class MainGui extends javax.swing.JFrame {
         repaint();
         this.add(panelStarted);
         panelStarted.setVisible(true);
-        panelStarted.addPropertyChangeListener("saving", new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if(filenameSave==null){
-                    
-                        final JFileChooser fc = new JFileChooser("..");            // TODO add your handling code here:
-                        fc.showSaveDialog(panelNotStarted);
-
-
-                        File file=fc.getSelectedFile();
-                        filenameSave=file.getAbsolutePath();   
-
-                        if(main.isStarted()){
-                            main.writeXml(filenameSave);
-                        } else {
-                            main.saveCouplesPreTournament(filenameSave);
-                        }
-                        
-                    } else {
-                        if(main.isStarted()){
-                            main.writeXml(filenameSave);
-                        } else {
-                            main.saveCouplesPreTournament(filenameSave);
-                        }
-                    }
-                    File file=new File(filenameSave);
-                    SaveToServerMode socket=new SaveToServerMode(ip_server,port_connection+3);
-                    socket.save(file);
-                }
-            });
         this.pack();
     }
     
@@ -520,34 +488,10 @@ public class MainGui extends javax.swing.JFrame {
         panelStarted.setVisible(false);
         panelNotStarted.setVisible(false);
 
-        panelStarted.addPropertyChangeListener("saving", new PropertyChangeListener() {
+        panelStarted.addPropertyChangeListener("termina", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    if(filenameSave==null){
                     
-                        final JFileChooser fc = new JFileChooser("..");            // TODO add your handling code here:
-                        fc.showSaveDialog(panelNotStarted);
-
-
-                        File file=fc.getSelectedFile();
-                        filenameSave=file.getAbsolutePath();   
-
-                        if(main.isStarted()){
-                            main.writeXml(filenameSave);
-                        } else {
-                            main.saveCouplesPreTournament(filenameSave);
-                        }
-                        
-                    } else {
-                        if(main.isStarted()){
-                            main.writeXml(filenameSave);
-                        } else {
-                            main.saveCouplesPreTournament(filenameSave);
-                        }
-                    }
-                    File file=new File(filenameSave);
-                    SaveToServerMode socket=new SaveToServerMode(ip_server,port_connection+3);
-                    socket.save(file);
                 }
             });
         
