@@ -6,6 +6,10 @@ Versione 1.1.1
 
 Changelog
 ====
+Versione 1.2:
+
+- NEW: L'approccio client server lavora anche attraverso internet, modificato comportamento socket in modo che il client sia sempre client
+
 Versione 1.1.1:
 
 - BUGFIX: Errato id prelevato dalla tabella contestuale di interfaccia con il database dei tornei e dei giocatori
@@ -30,4 +34,4 @@ TODO
 
 BUG CONOSCIUTI
 =========
-- nessuno
+- ogni tanto il server ha problemi con il parsing dei file temporanei

@@ -86,7 +86,8 @@ public class SearchDatabase extends Thread{
    
    
    
-            String path = doc.getElementsByTagName("select_tournament").item(0).getTextContent();  
+            String path = doc.getElementsByTagName("select_tournament").item(0).getTextContent(); 
+            System.out.println("Server File scelto: "+path);
             toRet=new File(path);
             
    
