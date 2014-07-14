@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <Torneo>
+        <nome>il Torneo Di Test</nome>
+        <alone>true</alone>
+        <started>false</started>
+        <numturni>2</numturni>
+        <smazzate>3</smazzate>
+    </Torneo>
+</root>
