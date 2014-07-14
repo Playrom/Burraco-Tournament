@@ -25,4 +25,14 @@
         <name>il Torneo Di Test</name>
         <name_file>il-Torneo-Di-Test.xml</name_file>
     </Tournament>
+    <Tournament>
+        <id>20</id>
+        <name>Prova ok</name>
+        <name_file>Prova-ok.xml</name_file>
+    </Tournament>
+    <Tournament>
+        <id>21</id>
+        <name>nuovissimissimo</name>
+        <name_file>nuovissimissimo.xml</name_file>
+    </Tournament>
 </root>

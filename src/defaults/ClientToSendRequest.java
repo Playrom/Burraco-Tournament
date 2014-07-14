@@ -36,53 +36,57 @@ public class ClientToSendRequest {
             
             OutputStream os = socket.getOutputStream();
 
-                System.out.println("Client:Sending Files..."); 
-
-                byte [] bytearray = new byte [(int)fileToSend.length()];
-                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(fileToSend));
-                bis.read(bytearray, 0, bytearray.length);
-
-                os.write(bytearray,0,bytearray.length);
-                os.flush();
-                System.out.println("Client:File Sent!"); 
+            System.out.println("Client:Sending Files...");
+           
+            DataOutputStream dataOut=new DataOutputStream(os);
+            
+            FileInputStream fileOut=new FileInputStream(fileToSend);
+            
+            int leng=fileOut.available();
+            
+            byte [] bytearray = new byte [leng];
+            fileOut.read(bytearray, 0, leng);
+            dataOut.write(bytearray, 0, leng);
+            
+            dataOut.flush();
+            os.flush();
+            
+            
+            System.out.println("Client:File Sent!"); 
+            
+            
+            // INPUT
+            
+            InputStream is=socket.getInputStream();
+                System.out.println("Client:ricevo file");
+                DataInputStream dataIn=new DataInputStream(is);
+                FileOutputStream fileIn=new FileOutputStream("temp.xml");
+                
+                leng=dataIn.available();
+                byte[] aByte = new byte[leng];
+                int n;
+                while ((n=dataIn.read())!=-1){
+                    System.out.println(n);
+                    fileIn.write(n);
+                }
+                System.out.println(dataIn.read());
+                
+                //dataIn.read(aByte, 0, leng);
+                //fileIn.write(aByte, 0, leng);
+                fileIn.close();
+            
+            System.out.println("Client:File Received!"); 
+            
             
             socket.close();
             
-            ServerSocket server=new ServerSocket(port+1);
-            
-            Socket newSocket=server.accept();
-            
-            InputStream is=newSocket.getInputStream();
-            
-            byte[] aByte = new byte[1];
-            int bytesRead;
-
-            FileOutputStream fos = null;
-            BufferedOutputStream bos = null;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            fos = new FileOutputStream( "temp-recieve.xml" );
-            bos = new BufferedOutputStream(fos);
-            bytesRead = is.read(aByte, 0, aByte.length);
-
-            do {
-                    baos.write(aByte);
-                    bytesRead = is.read(aByte);
-            } while (bytesRead != -1);
-
-            bos.write(baos.toByteArray());
-            bos.flush();
-            bos.close();
-
-                
-             newSocket.close();
              
                 
         }catch (IOException ex) {
             Logger.getLogger(MainGui.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
              
-            return new File("temp-recieve.xml");
+            return new File("temp.xml");
 
              
         }
