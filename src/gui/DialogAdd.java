@@ -26,10 +26,12 @@ public class DialogAdd extends JDialog {
     protected ArrayList singles;
     
     protected int data1,data2;
+    ConnectDatabase database;
     
     
-    public DialogAdd(ArrayList singles){
+    public DialogAdd(ArrayList singles,ConnectDatabase database){
         this.singles=singles;
+        this.database=database;
         
         this.setName("Aggiungi Partecipante");
         
@@ -120,7 +122,7 @@ public class DialogAdd extends JDialog {
     }  
     
     private void oneButtActionPerformed(java.awt.event.ActionEvent evt){
-        DialogFromDatabase temp=new DialogFromDatabase();
+        DialogFromDatabase temp=new DialogFromDatabase(database);
         temp.addPropertyChangeListener("toADD", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
@@ -131,7 +133,7 @@ public class DialogAdd extends JDialog {
     }
      
     private void twoButtActionPerformed(java.awt.event.ActionEvent evt){
-        DialogFromDatabase temp=new DialogFromDatabase();
+        DialogFromDatabase temp=new DialogFromDatabase(database);
         temp.addPropertyChangeListener("toADD", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
@@ -143,7 +145,6 @@ public class DialogAdd extends JDialog {
     
     private void updateFromLoad(int value,int position){//reload di tutti i campi con nuovo valore, position=1 se cambio dati primo giocatore,senno per secondo giocatore
         
-        ConnectDatabase database=new ConnectDatabase();
         
         SingleList singoli=database.dumpSingoli();
         

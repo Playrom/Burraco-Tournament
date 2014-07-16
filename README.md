@@ -6,7 +6,7 @@ Versione 1.1.1
 
 Changelog
 ====
-Versione 1.2:
+Versione 1.2.1:
 
 - NEW: L'approccio client server lavora anche attraverso internet, modificato comportamento socket in modo che il client sia sempre client
 

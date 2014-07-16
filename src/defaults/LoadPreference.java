@@ -71,6 +71,12 @@ public class LoadPreference {
                     String port_connection=elemento.getElementsByTagName("port_connection").item(0).getTextContent(); 
                     preference.put("port_connection", port_connection);
                     
+                    String port_save=elemento.getElementsByTagName("port_save").item(0).getTextContent(); 
+                    preference.put("port_save", port_save);
+                    
+                    String database_name=elemento.getElementsByTagName("database_name").item(0).getTextContent(); 
+                    preference.put("database_name", database_name);
+                    
 
                     
                 }
@@ -82,11 +88,13 @@ public class LoadPreference {
 
             preference.put("ip_server", "127.0.0.1");
             preference.put("port_database", "3306");
-            preference.put("username", "all");
+            preference.put("port_database", "3306");
+            preference.put("port_save", "8780");
             preference.put("password", "aicon07");
             preference.put("port_connection", "8777");
             preference.put("ip_database", "193.183.99.188");
-            
+            preference.put("database_name", "burraco");
+            preference.put("username", "all");
             
             
             return preference;
@@ -123,6 +131,10 @@ public class LoadPreference {
             Element element_connection = doc.createElement("port_connection");
             element_connection.appendChild(doc.createTextNode(String.valueOf(preference.get("port_connection"))));
             rootElement.appendChild(element_connection);
+            
+            Element element_data = doc.createElement("database_name");
+            element_data.appendChild(doc.createTextNode(String.valueOf(preference.get("database_name"))));
+            rootElement.appendChild(element_data);
             
             // write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

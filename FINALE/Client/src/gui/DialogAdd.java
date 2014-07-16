@@ -121,7 +121,7 @@ public class DialogAdd extends JDialog {
     
     private void oneButtActionPerformed(java.awt.event.ActionEvent evt){
         DialogFromDatabase temp=new DialogFromDatabase();
-        temp.addPropertyChangeListener("selectTournament", new PropertyChangeListener() {
+        temp.addPropertyChangeListener("toADD", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
                     int value=(Integer) evt.getNewValue();
@@ -148,17 +148,25 @@ public class DialogAdd extends JDialog {
         SingleList singoli=database.dumpSingoli();
         
         if(position==1){
-            
+                Single singolo=null;
                 System.out.println("iterazione");
-                Single singolo=singoli.get(value-1);
+                for (int i=0;i<singoli.size();i++){
+                    singolo=singoli.get(i);
+                    if(singolo.getId_database()==(value)) break;
+                }
                 System.out.println("trovato");
                 namePlayer.setText(singolo.getName());
                 data1=singolo.getId_database();
                 
             
         }else{
+           Single singolo=null;
             System.out.println("iterazione");
-            Single singolo=singoli.get(value-1);
+            for (int i=0;i<singoli.size();i++){
+                singolo=singoli.get(i);
+                if(singolo.getId_database()==(value)) break;
+                else singolo=null;
+            }
             System.out.println("trovato");
             namePlayer2.setText(singolo.getName());
             data2=singolo.getId_database();

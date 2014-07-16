@@ -6,6 +6,7 @@
 
 package gui;
 
+import defaults.ConnectDatabase;
 import defaults.Coppia;
 import defaults.Single;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import javax.swing.*;
  */
 public class SingleDialogAdd extends DialogAdd{
     
-   public SingleDialogAdd(ArrayList singles){
-        super(singles);
+   public SingleDialogAdd(ArrayList singles,ConnectDatabase database){
+        super(singles,database);
         
         id.setText("Inserimento Giocatore " + String.valueOf(singles.size() + 1) );
         

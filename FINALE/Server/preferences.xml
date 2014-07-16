@@ -1,0 +1,10 @@
+<preferences>
+<port1>8777</port1>
+<port2>8778</port2>
+<port_save>8780</port_save>
+<database_name>burraco</database_name>
+<ip_database>193.183.99.188</ip_database>
+<port_database>3306</port_database>
+<username>all</username>
+<password>aicon07</password>
+</preferences>

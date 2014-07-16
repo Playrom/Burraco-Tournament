@@ -54,9 +54,10 @@ public class MainGui extends javax.swing.JFrame {
     
     ArrayList<TorneoDatabase> tornei_from_database;
     
-    String ip_server,ip_database,user,pass;
-    int port_database,port_connection;
+    String ip_server,ip_database,user,pass,database_name;
+    int port_database,port_connection,port_save;
     HashMap<String,String> preference;
+    ConnectDatabase database;
     
     public MainGui(){
         main=new MainClass();
@@ -67,7 +68,10 @@ public class MainGui extends javax.swing.JFrame {
         pass=preference.get("password");
         port_database=Integer.valueOf(preference.get("port_database"));
         port_connection=Integer.valueOf(preference.get("port_connection"));
-        ConnectDatabase database=new ConnectDatabase(user,pass,ip_database,port_database);
+        port_save=Integer.valueOf(preference.get("port_save"));
+        database_name=preference.get("database_name");
+
+        database=new ConnectDatabase(user,pass,ip_database,port_database,database_name);
 
         
         this.setLayout(new MigLayout());
@@ -330,7 +334,7 @@ public class MainGui extends javax.swing.JFrame {
             }
         }
         File file=new File(filenameSave);
-        SaveToServerMode socket=new SaveToServerMode(ip_server,port_connection+3);
+        SaveToServerMode socket=new SaveToServerMode(ip_server,port_save);
         socket.save(file);
     }
             /*if(main.isStarted()){
@@ -484,15 +488,22 @@ public class MainGui extends javax.swing.JFrame {
     
     public void load(){
         repaint();
-        panelStarted=new StartedPanel(main);
-        panelNotStarted=new NotStartedPanel(main);
+        panelStarted=new StartedPanel(main,database);
+        
+
+        
+        panelNotStarted=new NotStartedPanel(main,database);
         panelStarted.setVisible(false);
         panelNotStarted.setVisible(false);
 
-        panelStarted.addPropertyChangeListener("termina", new PropertyChangeListener() {
+        panelStarted.addPropertyChangeListener("savetodatabase", new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
-                    
+                    main.writeXml((String)evt.getNewValue());
+                    File file=new File((String)evt.getNewValue());
+                    SaveToServerMode socket=new SaveToServerMode(ip_server,port_save);
+                    socket.save(file);
+                    JOptionPane tempd=new JOptionPane("Grazie Torneo Salvato!");
                 }
             });
         

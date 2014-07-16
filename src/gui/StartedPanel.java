@@ -18,9 +18,11 @@ import net.miginfocom.swing.MigLayout;
 public class StartedPanel extends JPanel{
     JButton turni,classifica,termina;
     MainClass main;
-    
-    public StartedPanel(MainClass main2){
+    ConnectDatabase database;
+    String path;
+    public StartedPanel(MainClass main2,final ConnectDatabase database){
         this.main=main2;
+        this.database=database;
         
         setLayout(new MigLayout("fillx"));
         
@@ -56,9 +58,10 @@ public class StartedPanel extends JPanel{
         
         termina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConnectDatabase database=new ConnectDatabase();
-                database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
-                System.exit(0);
+                
+                path=database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
+                firePropertyChange("savetodatabase",-1,path);
+
                 
             }
         });

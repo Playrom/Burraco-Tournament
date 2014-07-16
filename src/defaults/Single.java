@@ -115,7 +115,20 @@ public class Single implements Comparable {
         this.media = media;
     }
     
+    private boolean equals(Single altro){
+        if(altro.getId()==this.getId() && altro.getName().equals(this.getName())) return true;
+        return false;
+    }
     
+    @Override
+    public boolean equals(Object altro){
+        if (altro instanceof Single){
+            return this.equals((Single) altro);
+        }else{
+            return false;
+        }
+        
+    }
     
     
     

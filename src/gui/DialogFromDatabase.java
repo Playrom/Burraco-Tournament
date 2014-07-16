@@ -24,15 +24,15 @@ import net.miginfocom.swing.MigLayout;
 public class DialogFromDatabase extends JDialog{
     
     JTable table;
-    
-    public DialogFromDatabase(){
+    ConnectDatabase database;
+    public DialogFromDatabase(ConnectDatabase database){
         super();
+        this.database=database;
         
         this.setLayout(new MigLayout());
         
-        ConnectDatabase database=new ConnectDatabase();
         
-        SingleList singoli=database.dumpSingoli();
+        SingleList singoli=this.database.dumpSingoli();
         
         String[] colonne = {"ID","Nome","Punteggio Medio"};
         final Object[][] data=new Object[singoli.size()][3];
@@ -87,11 +87,7 @@ public class DialogFromDatabase extends JDialog{
         this.setResizable(false);
     }
     
-    public static void main (String Args[]) 
-    {
-        DialogFromDatabase q=new DialogFromDatabase();
-        
-    }
+    
     
     private void clicked(int var){
         firePropertyChange("toADD",-1,var);

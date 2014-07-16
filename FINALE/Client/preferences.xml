@@ -1,8 +1,10 @@
 <preferences>
-<ip_server>193.183.99.188</ip_server>
+<ip_server>127.0.0.1</ip_server>
 <ip_database>193.183.99.188</ip_database>
 <port_database>3306</port_database>
 <username>all</username>
 <password>aicon07</password>
 <port_connection>8777</port_connection>
+<port_save>8780</port_save>
+<database_name>burraco</database_name>
 </preferences>

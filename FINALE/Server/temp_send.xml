@@ -30,4 +30,9 @@
         <name>Prova ok</name>
         <name_file>Prova-ok.xml</name_file>
     </Tournament>
+    <Tournament>
+        <id>21</id>
+        <name>nuovissimissimo</name>
+        <name_file>nuovissimissimo.xml</name_file>
+    </Tournament>
 </root>

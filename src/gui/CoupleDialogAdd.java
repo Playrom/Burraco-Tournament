@@ -20,8 +20,8 @@ public class CoupleDialogAdd extends DialogAdd {
     protected ArrayList coppie;
     
     
-    public CoupleDialogAdd(ArrayList singles,ArrayList coppie){
-        super(singles);
+    public CoupleDialogAdd(ArrayList singles,ArrayList coppie,ConnectDatabase database){
+        super(singles,database);
         this.coppie=coppie;
         
         id.setText("Inserimento Coppia " + String.valueOf(coppie.size() + 1) );

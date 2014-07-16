@@ -26,9 +26,11 @@ public class NotStartedPanel extends JPanel {
     ArrayList coppie,singles;
     MainClass main;
     boolean editing=false;
+    ConnectDatabase database;
     
-    public NotStartedPanel(MainClass main){
+    public NotStartedPanel(MainClass main,ConnectDatabase database){
         this.main=main;
+        this.database=database;
         coppie=main.getCoppie();
         singles=main.getSingles();
         
@@ -117,8 +119,8 @@ public class NotStartedPanel extends JPanel {
     }
     
     private void addCoppieButtonActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        if(main.getTorneo().isAlone()) addCoupleDialog=new SingleDialogAdd(main.getSingles());
-        else addCoupleDialog=new CoupleDialogAdd(main.getSingles(),main.getCoppie());
+        if(main.getTorneo().isAlone()) addCoupleDialog=new SingleDialogAdd(main.getSingles(),this.database);
+        else addCoupleDialog=new CoupleDialogAdd(main.getSingles(),main.getCoppie(),this.database);
         
         addCoupleDialog.setVisible(true);
         addCoupleDialog.addWindowListener(listener());
