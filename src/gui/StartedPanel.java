@@ -59,7 +59,7 @@ public class StartedPanel extends JPanel{
         termina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
-                path=database.updateSingoli((SingleList) main.getSingles(), main.getTorneo().getNome());
+                path=database.updateSingoli( main.getSingles(), main.getTorneo().getNome());
                 firePropertyChange("savetodatabase",-1,path);
 
                 

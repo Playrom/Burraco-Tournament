@@ -18,7 +18,7 @@ import java.awt.event.WindowListener;
 public class SingleDialogEdit extends DialogEdit {
     
     
-    public SingleDialogEdit(SingleList singles,int id){
+    public SingleDialogEdit(ArrayList<Single> singles,int id){
         super(singles,id);
         
         this.addWindowListener(this);

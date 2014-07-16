@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Coppia implements Comparable{
     
-    private int uno; //Nome primo giocatore
-    private int due; //Nome secondo giocatore
+    private Single uno; //Nome primo giocatore
+    private Single due; //Nome secondo giocatore
     private int id; //ID della coppia
     private boolean mobile; //0 Coppia Fissa - 1 Coppia Mobile
 
@@ -27,7 +27,6 @@ public class Coppia implements Comparable{
      *
      */
     protected int master; //Somma dei punti delle partite totali
-    SingleList singles;
     
     /**
      * Questo costruttore serve per inizializzare la coppia , da usare se la coppia viene creata al momento
@@ -37,12 +36,11 @@ public class Coppia implements Comparable{
      * @param tipo Tipologia della coppia, false - COPPIA FISSA , true - COPPIA MOBILE
      * @param singles SingleList contenente tutti i giocatori del torneo
      */
-    public Coppia(int uno, int due , int id , boolean tipo , ArrayList singles  ){
+    public Coppia(Single uno, Single due , int id , boolean tipo   ){
         this.uno=uno;
         this.due=due;
         this.id=id;
         this.mobile=tipo;
-        this.singles=(SingleList) singles;
         victory=0;
         master=0;
     }
@@ -59,8 +57,8 @@ public class Coppia implements Comparable{
      * @param master Numero intero per indicare il numero di master point totali della coppia
      * @param victory Numero intero per indicare il numero di victory point totali della coppia
      */
-    public Coppia(int uno, int due , int id , boolean tipo , int master,int victory,ArrayList singles){
-        this(uno,due,id,tipo,singles);
+    public Coppia(Single uno, Single due , int id , boolean tipo , int master,int victory){
+        this(uno,due,id,tipo);
         this.master=master;
         this.victory=victory;
     }
@@ -69,17 +67,18 @@ public class Coppia implements Comparable{
      *
      * @return
      */
-    public String getName1 (){
-        return singles.findSingle(uno).getName();
+    public Single getUno (){
+        return uno;
     }
    
     /**
      *
      * @return
      */
-    public String getName2 (){
-        return singles.findSingle(due).getName();
+    public Single getDue (){
+        return due;
     }
+    
 
     /**
      *
@@ -113,17 +112,7 @@ public class Coppia implements Comparable{
      *
      * @param name
      */
-    public void setName1(String name ){
-        singles.findSingle(uno).setName(name);
-    }
     
-    /**
-     *
-     * @param name
-     */
-    public void setName2(String name ){
-        singles.findSingle(due).setName(name);
-    }
     
     /**
      *
@@ -161,33 +150,7 @@ public class Coppia implements Comparable{
      *
      * @return
      */
-    public int getUno() {
-        return uno;
-    }
-
-    /**
-     *
-     * @param uno
-     */
-    public void setUno(int uno) {
-        this.uno = uno;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getDue() {
-        return due;
-    }
-
-    /**
-     *
-     * @param due
-     */
-    public void setDue(int due) {
-        this.due = due;
-    }
+    
 
     /**
      *
@@ -199,7 +162,7 @@ public class Coppia implements Comparable{
 
     @Override
     public String toString() {
-        return   singles.findSingle(uno).getName() + " - " + singles.findSingle(due).getName();
+        return   uno.getName() + " - " + due.getName();
     }
     
     /**
@@ -207,7 +170,7 @@ public class Coppia implements Comparable{
      * @return
      */
     public String toAllString(){
-        return "|\t" + singles.findSingle(uno).getName()  + "\t\t\t" + singles.findSingle(due).getName()  +"\t\t\t"+victory+"\t\t\t" + master;
+        return "|\t" + uno.getName()  + "\t\t\t" + due.getName()  +"\t\t\t"+victory+"\t\t\t" + master;
     }
 
     /**

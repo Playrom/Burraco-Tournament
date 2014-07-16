@@ -8,7 +8,6 @@ package gui;
 import defaults.ConnectDatabase;
 import defaults.Coppia;
 import defaults.Single;
-import defaults.SingleList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class DialogFromDatabase extends JDialog{
         this.setLayout(new MigLayout());
         
         
-        SingleList singoli=this.database.dumpSingoli();
+        ArrayList<Single> singoli=this.database.dumpSingoli();
         
         String[] colonne = {"ID","Nome","Punteggio Medio"};
         final Object[][] data=new Object[singoli.size()][3];

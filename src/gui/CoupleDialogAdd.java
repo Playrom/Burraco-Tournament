@@ -17,10 +17,10 @@ import java.awt.Dimension;
  * @author playrom
  */
 public class CoupleDialogAdd extends DialogAdd {
-    protected ArrayList coppie;
+    protected ArrayList<Coppia> coppie;
     
     
-    public CoupleDialogAdd(ArrayList singles,ArrayList coppie,ConnectDatabase database){
+    public CoupleDialogAdd(ArrayList<Single> singles,ArrayList<Coppia> coppie,ConnectDatabase database){
         super(singles,database);
         this.coppie=coppie;
         
@@ -59,15 +59,13 @@ public class CoupleDialogAdd extends DialogAdd {
         if(singles.isEmpty()) ids=0;
         
         Single tempUno=new Single(singles.size(),data1,namePlayer.getText(),false);
-        int idUno=tempUno.getId();
         singles.add(tempUno);
         
         Single tempDue=new Single(singles.size(),data2,namePlayer2.getText(),false);
-        int idDue=tempDue.getId();
         singles.add(tempDue);
         
 
-        Coppia tempCoppia=new Coppia(idUno,idDue, coppie.size(), tipo,singles);
+        Coppia tempCoppia=new Coppia(tempUno,tempDue, coppie.size(), tipo);
         coppie.add(tempCoppia); // TODO add your handling code here:
         
         int t=0;

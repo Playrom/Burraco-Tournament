@@ -9,7 +9,6 @@ package gui;
 import defaults.*;
 import defaults.ConnectDatabase;
 import defaults.MainClass;
-import defaults.SingleList;
 import defaults.TorneoDatabase;
 import defaults.XmlConnectionToServer;
 import java.awt.event.ComponentAdapter;
@@ -70,6 +69,7 @@ public class MainGui extends javax.swing.JFrame {
         port_connection=Integer.valueOf(preference.get("port_connection"));
         port_save=Integer.valueOf(preference.get("port_save"));
         database_name=preference.get("database_name");
+        this.setName("Burraco Tournament");
 
         database=new ConnectDatabase(user,pass,ip_database,port_database,database_name);
 
@@ -503,7 +503,8 @@ public class MainGui extends javax.swing.JFrame {
                     File file=new File((String)evt.getNewValue());
                     SaveToServerMode socket=new SaveToServerMode(ip_server,port_save);
                     socket.save(file);
-                    JOptionPane tempd=new JOptionPane("Grazie Torneo Salvato!");
+                    JOptionPane.showMessageDialog(panelStarted, "Torneo Concluso e salvato sul server, grazie!");
+                    System.exit(0);
                 }
             });
         

@@ -237,7 +237,7 @@ public class CoupleDialogList extends JDialog {
     }
     
     public void closeAndReloadSingle(int id){
-        editDialog=new SingleDialogEdit((SingleList) data,id);
+        editDialog=new SingleDialogEdit(data,id);
         editDialog.setVisible(true);
 
         editDialog.addPropertyChangeListener("modificato", new PropertyChangeListener() {
@@ -252,7 +252,7 @@ public class CoupleDialogList extends JDialog {
     
     
     public void closeAndReloadCoppie(int id){
-        editDialog=new CoupleDialogEdit((SingleList) singles,data,id);
+        editDialog=new CoupleDialogEdit(singles,data,id);
         editDialog.setVisible(true);
 
         editDialog.addPropertyChangeListener("modificato", new PropertyChangeListener() {

@@ -122,7 +122,7 @@ public class Torneo {
         if(alone){
             th2=new CreationTablesSingle(singles,numTurni,smazzate);
         } else {
-            th2=new CreationTablesCoppie(coppie,numTurni,singles,smazzate);
+            th2=new CreationTablesCoppie(coppie,numTurni,smazzate);
         }
         th2.run();
         
@@ -184,13 +184,6 @@ public class Torneo {
        
     }*/
     
-    public static boolean checkCoppia (Object e) throws ErroreNonCoppia{//check se l'elemento è una coppia
-        if((e instanceof Coppia)){
-            return true;
-        } else { throw new ErroreNonCoppia();
-    }
-    
-    }
 
     public boolean isAlone() {
         return alone;

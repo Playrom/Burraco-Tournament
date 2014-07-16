@@ -23,13 +23,13 @@ public class DialogAdd extends JDialog {
     protected JLabel id,oneLabel,twoLabel;
     JComboBox mobile;
     protected JButton addButton,stopAdd,oneButt,twoButt;
-    protected ArrayList singles;
+    protected ArrayList<Single> singles;
     
     protected int data1,data2;
     ConnectDatabase database;
     
     
-    public DialogAdd(ArrayList singles,ConnectDatabase database){
+    public DialogAdd(ArrayList<Single> singles,ConnectDatabase database){
         this.singles=singles;
         this.database=database;
         
@@ -146,7 +146,7 @@ public class DialogAdd extends JDialog {
     private void updateFromLoad(int value,int position){//reload di tutti i campi con nuovo valore, position=1 se cambio dati primo giocatore,senno per secondo giocatore
         
         
-        SingleList singoli=database.dumpSingoli();
+        ArrayList<Single> singoli=database.dumpSingoli();
         
         if(position==1){
                 Single singolo=null;

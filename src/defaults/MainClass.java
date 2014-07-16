@@ -20,8 +20,9 @@ public class MainClass  implements Runnable{
     
     private Torneo torneo;
     Scanner in = new Scanner(System.in); //Inizializzo lettore di linea
-    private ArrayList coppie,turni=null;
-    private SingleList singles;
+    private ArrayList<Coppia> coppie;
+    private ArrayList<Turno> turni=null;
+    private ArrayList<Single>singles;
     private Object[] all;
     private int numTurni=0,smazzate=0;
     private String nomeTorneo;
@@ -39,9 +40,9 @@ public class MainClass  implements Runnable{
         XmlParser parser=new XmlParser(filename);
         parser.run();
         all=parser.load();
-        coppie=(ArrayList) all[0];
+        coppie=(ArrayList<Coppia>) all[0];
         torneo=(Torneo) all[1];
-        singles=(SingleList) (ArrayList) all[2];
+        singles=(ArrayList<Single>) all[2];
         loaded=true;
         alone=torneo.isAlone();
         started=torneo.isStarted();
@@ -92,14 +93,16 @@ public class MainClass  implements Runnable{
     }
     
     public void addCoppia(String uno,String due,boolean tipo){
-        singles.add(new Single(singles.size(),uno,torneo.isAlone()));
-        singles.add(new Single(singles.size(),due,torneo.isAlone()));
+        Single primo,secondo;
+        singles.add(primo=new Single(singles.size(),uno,torneo.isAlone()));
+        singles.add(secondo=new Single(singles.size(),due,torneo.isAlone()));
         
-        coppie.add(new Coppia( singles.size()-1,singles.size(),coppie.size(),tipo,singles));
+        
+        coppie.add(new Coppia( primo,secondo,coppie.size(),tipo));
         
     }
     
-    public ArrayList getCoppie(){
+    public ArrayList<Coppia> getCoppie(){
         return coppie;
     }
     
@@ -147,20 +150,20 @@ public class MainClass  implements Runnable{
         this.torneo.setNumTurni(t);
     }
 
-    public ArrayList getSingles() {
+    public ArrayList<Single> getSingles() {
         return singles;
     }
 
-    public void setSingles(SingleList singles) {
+    public void setSingles(ArrayList<Single> singles) {
         this.singles = singles;
     }
     
     public void initSingles(){
-        singles=new SingleList();
+        singles=new ArrayList<Single>();
     }
      
     public void initCoppie(){
-        coppie=new ArrayList();
+        coppie=new ArrayList<>();
     }
 
     public boolean isAlone() {

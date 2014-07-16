@@ -17,9 +17,9 @@ import java.awt.event.WindowListener;
  */
 public class CoupleDialogEdit extends DialogEdit  {
     
-    ArrayList coppie;
+    ArrayList<Coppia> coppie;
     
-    public CoupleDialogEdit(SingleList singles,ArrayList coppie,int id){
+    public CoupleDialogEdit(ArrayList<Single> singles,ArrayList<Coppia> coppie,int id){
         super(singles,id);
         this.coppie=coppie;
         
@@ -35,8 +35,8 @@ public class CoupleDialogEdit extends DialogEdit  {
         oneLabel.setText("Giocatore 1");
         twoLabel.setText("Giocatore 2");
         
-        namePlayer1.setText(temp.getName1());
-        namePlayer2.setText(temp.getName2());
+        namePlayer1.setText(temp.getUno().getName());
+        namePlayer2.setText(temp.getDue().getName());
         
        
         boolean tipo=temp.getType();
@@ -66,10 +66,10 @@ public class CoupleDialogEdit extends DialogEdit  {
         String temp=mobile.getSelectedItem().toString();
         if(temp.equals("Fissa")) tipo=false;
         
-        Coppia toModify=(Coppia) coppie.get(id);
+        Coppia toModify=coppie.get(id);
         
-        toModify.setName1(namePlayer1.getText());
-        toModify.setName2(namePlayer2.getText());
+        toModify.getUno().setName(namePlayer1.getText());
+        toModify.getDue().setName(namePlayer2.getText());
         toModify.setType(tipo);
         
         int t=0;

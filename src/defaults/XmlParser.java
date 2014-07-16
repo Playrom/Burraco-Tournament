@@ -27,6 +27,8 @@ public class XmlParser implements Runnable{
     Object passing[];
     String filename;
     int smazzate;
+    ArrayList<Single> singles;
+    ArrayList<Coppia> coppie;
     
     XmlParser(String name){
         passing=new Object[3];
@@ -53,8 +55,8 @@ public class XmlParser implements Runnable{
    
    NodeList nodeSingle = doc.getElementsByTagName("Single");  
    
-   passing[2]=new SingleList(nodeSingle.getLength());
-   SingleList singles=(SingleList) passing[2];
+   passing[2]=new ArrayList<Single>(nodeSingle.getLength());
+   singles=(ArrayList<Single>) passing[2];
   
   
    for (int temp = 0; temp < nodeSingle.getLength(); temp++) {  
@@ -96,7 +98,7 @@ public class XmlParser implements Runnable{
    NodeList nodeList = doc.getElementsByTagName("Coppia");  
    
    passing[0]=new ArrayList(nodeList.getLength());
-   ArrayList coppie=(ArrayList) passing[0];
+   coppie=(ArrayList) passing[0];
   
   
    for (int temp = 0; temp < nodeList.getLength(); temp++) {  
@@ -131,8 +133,18 @@ public class XmlParser implements Runnable{
         id_database=-1;
      }
      
+     Single one=null,two=null;
      
-     coppie.add(new Coppia(nome1,nome2,id,tipo,master,victory,singles));
+     for(Single tempSing:singles){
+         if(tempSing.getId()==nome1) {
+             one=tempSing;
+         }
+         if(tempSing.getId()==nome2) {
+             two=tempSing;
+         }
+     }
+     
+     coppie.add(new Coppia(one,two,id,tipo,master,victory));
   
     }  
    }
@@ -174,9 +186,12 @@ public class XmlParser implements Runnable{
          getTavoliCoppie(tav,tavoli);
      }
      
+     ArrayList templist=null;
+     if(alone) templist=singles;
+     else templist=coppie;
      
   
-     turni.add(new Turno(coppie,singles,tavoli,idTurno,calcolato,alone,smazzate));
+     turni.add(new Turno(templist,tavoli,idTurno,calcolato,alone,smazzate));
      
 
     }
@@ -264,8 +279,17 @@ public class XmlParser implements Runnable{
                     }catch(java.lang.NumberFormatException e){
                        pun2=0;
                     }
+                    Coppia one=null,two=null;
+                    for(Coppia tempCo:coppie){
+                        if(tempCo.getId()==id_uno) {
+                            one=tempCo;
+                        }
+                        if(tempCo.getId()==id_due) {
+                            two=tempCo;
+                        }
+                    }
 
-                    tavoli[temp2]=new TavoloCoppie(id_uno,id_due,id,pun1,pun2,smazzate, (ArrayList) passing[0], (ArrayList) passing[2]);
+                    tavoli[temp2]=new TavoloCoppie(one,two,id,pun1,pun2,smazzate);
 
                     System.out.println("test");
                 }
@@ -327,8 +351,24 @@ public class XmlParser implements Runnable{
                     }catch(java.lang.NumberFormatException e){
                        pun2=0;
                     }
+                    
+                    Single one=null,two=null,three=null,four=null;
+                    for(Single tempSing:singles){
+                        if(tempSing.getId()==id_uno) {
+                            one=tempSing;
+                        }
+                        if(tempSing.getId()==id_due) {
+                            two=tempSing;
+                        }
+                        if(tempSing.getId()==id_tre) {
+                            three=tempSing;
+                        }
+                        if(tempSing.getId()==id_quattro) {
+                            four=tempSing;
+                        }
+                    }
 
-                    tavoli[temp2]=new TavoloSingoli(id_uno,id_due,id_tre,id_quattro,id,pun1,pun2,smazzate, (ArrayList) passing[2]);
+                    tavoli[temp2]=new TavoloSingoli(one,two,three,four,id,pun1,pun2,smazzate);
 
                     System.out.println("test");
                 }

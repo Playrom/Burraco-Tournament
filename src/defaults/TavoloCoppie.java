@@ -2,7 +2,6 @@ package defaults;
 
 import exception.ErroreNonCoppia;
 import exception.ErroreNonSingle;
-import static defaults.TavoloSingoli.checkSingle;
 import java.util.ArrayList;
 
 /*
@@ -16,45 +15,21 @@ import java.util.ArrayList;
  */
 public class TavoloCoppie extends Tavolo{
     
-    private int cop1,cop2; //coppie a questo tavolo
-    private ArrayList coppie,singles;
+    private Coppia cop1,cop2; //coppie a questo tavolo
     
-    public TavoloCoppie(int uno, int due , int id,int pun1,int pun2 ,int smazzate, ArrayList coppie, ArrayList singles ){
+    public TavoloCoppie(Coppia uno, Coppia due , int id,int pun1,int pun2 ,int smazzate ){
         super(id,pun1,pun2,smazzate);
         cop1=uno;
         cop2=due;
-        this.coppie=coppie;
-        this.singles=singles;
         
     }
     
-    public TavoloCoppie(int uno, int due , int id , int smazzate,ArrayList coppie, ArrayList singles){
+    public TavoloCoppie(Coppia uno, Coppia due , int id , int smazzate){
         super(id,smazzate);
         cop1=uno;
         cop2=due;
-        this.coppie=coppie;
-        this.singles=singles;
         
     }
-    
-    public Coppia findCoppia(int id){
-        for(int i=0;i<coppie.size();i++){
-            Coppia temp=(Coppia) coppie.get(i);
-            try{
-                checkCoppia(temp);
-                if(temp.getId()==id){
-                    return temp;
-                }
-            }catch(ErroreNonCoppia e){
-                System.out.println("Errore non coppia");
-            }
-        }
-        
-        return null;
-    }
-
-    
-    
     
     
     
@@ -66,34 +41,34 @@ public class TavoloCoppie extends Tavolo{
         
         int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+max);//coppia 1 prende max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+20-max); //coppia 2 prende 20-max victory points
+            cop1.setVictPoints(cop1.getVictPoints()+max);//coppia 1 prende max victory points
+            cop2.setVictPoints(cop2.getVictPoints()+20-max); //coppia 2 prende 20-max victory points
             
-            findSingle(findCoppia(cop1).getUno()).setVictory(findSingle(findCoppia(cop1).getUno()).getVictory()+max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop1).getDue()).setVictory(findSingle(findCoppia(cop1).getDue()).getVictory()+max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getUno()).setVictory(findSingle(findCoppia(cop2).getUno()).getVictory()+20-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getDue()).setVictory(findSingle(findCoppia(cop2).getDue()).getVictory()+20-max);//coppia 1 prende max victory points
+            cop1.getUno().setVictory(cop1.getUno().getVictory()+max);//coppia 1 prende max victory points
+            cop1.getDue().setVictory(cop1.getDue().getVictory()+max);//coppia 1 prende max victory points
+            cop2.getUno().setVictory(cop2.getUno().getVictory()+20-max);//coppia 1 prende max victory points
+            cop2.getDue().setVictory(cop2.getDue().getVictory()+20-max);//coppia 1 prende max victory points
             
         }
         
         if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()+20-max);//coppia 1 prende 20-max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()+max);//coppia 2 prende max victory points
+            cop1.setVictPoints(cop1.getVictPoints()+20-max);//coppia 1 prende 20-max victory points
+            cop2.setVictPoints(cop2.getVictPoints()+max);//coppia 2 prende max victory points
             
-            findSingle(findCoppia(cop1).getUno()).setVictory(findSingle(findCoppia(cop1).getUno()).getVictory()+20-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop1).getDue()).setVictory(findSingle(findCoppia(cop1).getDue()).getVictory()+20-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getUno()).setVictory(findSingle(findCoppia(cop2).getUno()).getVictory()+max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getDue()).setVictory(findSingle(findCoppia(cop2).getDue()).getVictory()+max);//coppia 1 prende max victory points
+            cop1.getUno().setVictory(cop1.getUno().getVictory()+20-max);//coppia 1 prende max victory points
+            cop1.getDue().setVictory(cop1.getDue().getVictory()+20-max);//coppia 1 prende max victory points
+            cop2.getUno().setVictory(cop2.getUno().getVictory()+max);//coppia 1 prende max victory points
+            cop2.getDue().setVictory(cop2.getDue().getVictory()+max);//coppia 1 prende max victory points
             
         }
         
-        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()+pun1); //assegno mastpoints1
-        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()+pun2); //assegno mastpoints2
+        cop1.setMastPoints(cop1.getMastPoints()+pun1); //assegno mastpoints1
+        cop2.setMastPoints(cop2.getMastPoints()+pun2); //assegno mastpoints2
         
-        findSingle(findCoppia(cop1).getUno()).setMaster(findSingle(findCoppia(cop1).getUno()).getMaster()+pun1);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop1).getDue()).setMaster(findSingle(findCoppia(cop1).getDue()).getMaster()+pun1);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop2).getUno()).setMaster(findSingle(findCoppia(cop2).getUno()).getMaster()+pun2);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop2).getDue()).setMaster(findSingle(findCoppia(cop2).getDue()).getMaster()+pun2);//coppia 1 prende max victory points
+        cop1.getUno().setMaster(cop1.getUno().getMaster()+pun1);//coppia 1 prende max victory points
+        cop1.getDue().setMaster(cop1.getDue().getMaster()+pun1);//coppia 1 prende max victory points
+        cop2.getUno().setMaster(cop2.getUno().getMaster()+pun2);//coppia 1 prende max victory points
+        cop2.getDue().setMaster(cop2.getDue().getMaster()+pun2);//coppia 1 prende max victory points
 
         
     }
@@ -103,56 +78,58 @@ public class TavoloCoppie extends Tavolo{
         int max=this.differenza(pun1, pun2); //calcolo massimo differenza
         
         if(pun1>=pun2){//se coppia 1 ha piu punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-max);//coppia 1 prende max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-(20-max)); //coppia 2 prende 20-max victory points
+            cop1.setVictPoints(cop1.getVictPoints()-max);//coppia 1 prende max victory points
+            cop2.setVictPoints(cop2.getVictPoints()-(20-max)); //coppia 2 prende 20-max victory points
             
-            findSingle(findCoppia(cop1).getUno()).setVictory(findSingle(findCoppia(cop1).getUno()).getVictory()-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop1).getDue()).setVictory(findSingle(findCoppia(cop1).getDue()).getVictory()-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getUno()).setVictory(findSingle(findCoppia(cop2).getUno()).getVictory()-(20-max));//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getDue()).setVictory(findSingle(findCoppia(cop2).getDue()).getVictory()-(20-max));//coppia 1 prende max victory points
+            cop1.getUno().setVictory(cop1.getUno().getVictory()-max);//coppia 1 prende max victory points
+            cop1.getDue().setVictory(cop1.getDue().getVictory()-max);//coppia 1 prende max victory points
+            cop2.getUno().setVictory(cop2.getUno().getVictory()-(20-max));//coppia 1 prende max victory points
+            cop2.getDue().setVictory(cop2.getDue().getVictory()-(20-max));//coppia 1 prende max victory points
             
         }
         
         if(pun1<pun2){//se coppia 1 ha meno punti di coppia 2
-            findCoppia(cop1).setVictPoints(findCoppia(cop1).getVictPoints()-(20-max));//coppia 1 prende 20-max victory points
-            findCoppia(cop2).setVictPoints(findCoppia(cop2).getVictPoints()-max);//coppia 2 prende max victory points
+            cop1.setVictPoints(cop1.getVictPoints()-(20-max));//coppia 1 prende 20-max victory points
+            cop2.setVictPoints(cop2.getVictPoints()-max);//coppia 2 prende max victory points
             
-            findSingle(findCoppia(cop1).getUno()).setVictory(findSingle(findCoppia(cop1).getUno()).getVictory()-(20-max));//coppia 1 prende max victory points
-            findSingle(findCoppia(cop1).getDue()).setVictory(findSingle(findCoppia(cop1).getDue()).getVictory()-(20-max));//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getUno()).setVictory(findSingle(findCoppia(cop2).getUno()).getVictory()-max);//coppia 1 prende max victory points
-            findSingle(findCoppia(cop2).getDue()).setVictory(findSingle(findCoppia(cop2).getDue()).getVictory()-max);//coppia 1 prende max victory points
+            cop1.getUno().setVictory(cop1.getUno().getVictory()-(20-max));//coppia 1 prende max victory points
+            cop1.getDue().setVictory(cop1.getDue().getVictory()-(20-max));//coppia 1 prende max victory points
+            cop2.getUno().setVictory(cop2.getUno().getVictory()-max);//coppia 1 prende max victory points
+            cop2.getDue().setVictory(cop2.getDue().getVictory()-max);//coppia 1 prende max victory points
             
         }
         
-        findCoppia(cop1).setMastPoints(findCoppia(cop1).getMastPoints()-pun1); //assegno mastpoints1
-        findCoppia(cop2).setMastPoints(findCoppia(cop2).getMastPoints()-pun2); //assegno mastpoints2
+        cop1.setMastPoints(cop1.getMastPoints()-pun1); //assegno mastpoints1
+        cop2.setMastPoints(cop2.getMastPoints()-pun2); //assegno mastpoints2
         
-        findSingle(findCoppia(cop1).getUno()).setMaster(findSingle(findCoppia(cop1).getUno()).getMaster()-pun1);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop1).getDue()).setMaster(findSingle(findCoppia(cop1).getDue()).getMaster()-pun1);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop2).getUno()).setMaster(findSingle(findCoppia(cop2).getUno()).getMaster()-pun2);//coppia 1 prende max victory points
-        findSingle(findCoppia(cop2).getDue()).setMaster(findSingle(findCoppia(cop2).getDue()).getMaster()-pun2);//coppia 1 prende max victory points
+        cop1.getUno().setMaster(cop1.getUno().getMaster()-pun1);//coppia 1 prende max victory points
+        cop1.getDue().setMaster(cop1.getDue().getMaster()-pun1);//coppia 1 prende max victory points
+        cop2.getUno().setMaster(cop2.getUno().getMaster()-pun2);//coppia 1 prende max victory points
+        cop2.getDue().setMaster(cop2.getDue().getMaster()-pun2);//coppia 1 prende max victory points
 
         
         this.setPun1(0);
         this.setPun2(0);
     }
-    
 
-    public int getCop1() {
+    public Coppia getCop1() {
         return cop1;
     }
 
-    public void setCop1(int cop1) {
+    public void setCop1(Coppia cop1) {
         this.cop1 = cop1;
     }
 
-    public int getCop2() {
+    public Coppia getCop2() {
         return cop2;
     }
 
-    public void setCop2(int cop2) {
+    public void setCop2(Coppia cop2) {
         this.cop2 = cop2;
     }
+    
+
+    
     
     public static boolean checkCoppia (Object e) throws ErroreNonCoppia{ 
         if((e instanceof Coppia)){
@@ -163,39 +140,25 @@ public class TavoloCoppie extends Tavolo{
     
     @Override
     public String toString(){
-            return    "Coppia 1: " + this.findCoppia(this.getCop1()).getName1()
-                    + " - " + this.findCoppia(this.getCop1()).getName2()
+            return    "Coppia 1: " + cop1.getUno().getName()
+                    + " - " + cop1.getDue().getName()
                     + " --> " + this.getPun1()
-                    + "\nCoppia 2: " + this.findCoppia(this.getCop2()).getName1()
-                    + " - " + this.findCoppia(this.getCop2()).getName2()
+                    + "\nCoppia 2: " + cop2.getUno().getName()
+                    + " - " + cop2.getDue().getName()
                     + " --> " + this.getPun2()
                     + "\n------------";
     }
     
-    public Single findSingle(int id){
-        for(int i=0;i<singles.size();i++){
-            Single temp=(Single) singles.get(i);
-            try{
-                checkSingle(temp);
-                if(temp.getId()==id){
-                    return temp;
-                }
-            }catch(ErroreNonSingle e){
-                System.out.println("Errore non single");
-            }
-        }
-        
-        return null;
-    }
+   
 
     @Override
     public String toStringCop1() {
-        return findCoppia(cop1).toString();
+        return cop1.toString();
     }
 
     @Override
     public String toStringCop2() {
-        return findCoppia(cop2).toString();
+        return cop2.toString();
     }
     
 }

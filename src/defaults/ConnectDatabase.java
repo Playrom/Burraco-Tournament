@@ -25,7 +25,7 @@ public class ConnectDatabase {
     private String jdbc;
     private Statement statement;
     private ResultSet result;
-    private SingleList singles;
+    private ArrayList<Single> singles;
     
     
     
@@ -52,8 +52,8 @@ public class ConnectDatabase {
         }
         
     }
-    public SingleList dumpSingoli(){
-        SingleList singoli=new SingleList();
+    public ArrayList<Single> dumpSingoli(){
+        ArrayList<Single> singoli=new ArrayList<>();
         try {
             String tempQuery;
 
@@ -71,7 +71,7 @@ public class ConnectDatabase {
         return singoli;
     }
     
-    public String updateSingoli(SingleList singoli,String nometorneo){
+    public String updateSingoli(ArrayList<Single> singoli,String nometorneo){
         String path=null;
         try{
             path=nometorneo.replaceAll(" ", "-").concat(".xml");
@@ -95,6 +95,7 @@ public class ConnectDatabase {
             for(Object temp:singoli){
                 Single singolo=(Single) temp;
                 if(singolo.getId_database()==-1){
+
                     statement.executeUpdate("INSERT INTO giocatori(nome) VALUES('"+singolo.getName()+"');");
                     ResultSet result2 = statement.executeQuery("SELECT * FROM giocatori WHERE nome='" + singolo.getName() +"';");
                     int id_giocatore=-1;

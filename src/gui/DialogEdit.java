@@ -25,10 +25,10 @@ public class DialogEdit extends JDialog implements WindowListener {
     JComboBox mobile;
     JButton editCouple,stopEdit;
     ArrayList coppie;
-    SingleList singles;
+    ArrayList<Single> singles;
     int id;
     
-    public DialogEdit(SingleList singles,int id){
+    public DialogEdit(ArrayList<Single> singles,int id){
         this.singles=singles;
         
         this.setName("Modifica Partecipante");

@@ -6,6 +6,11 @@ Versione 1.1.1
 
 Changelog
 ====
+Versione 1.3:
+
+- CHANGE: Ora tutti gli oggetti interni sono rappresentati con una referenza tramite handle, non piu id
+- BUGFIX: errore nell'update dei singoli nel database, ora impossibili utenti ricorrenti
+
 Versione 1.2.1:
 
 - NEW: L'approccio client server lavora anche attraverso internet, modificato comportamento socket in modo che il client sia sempre client

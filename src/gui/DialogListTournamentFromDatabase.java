@@ -9,7 +9,6 @@ package gui;
 import defaults.ClientMode;
 import defaults.ConnectDatabase;
 import defaults.Single;
-import defaults.SingleList;
 import defaults.TorneoDatabase;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
